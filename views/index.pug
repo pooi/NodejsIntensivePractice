@@ -1,0 +1,54 @@
+extends layout
+block content
+
+    #myCarousel.carousel.slide(data-ride='carousel' style="background-color: #2d2d30;")
+        ol.carousel-indicators
+            li.active(data-target='#myCarousel', data-slide-to='0')
+            li(data-target='#myCarousel', data-slide-to='1')
+            li(data-target='#myCarousel', data-slide-to='2')
+
+        .carousel-inner(role='listbox')
+            .item.active
+                img(src='http://www.occupyingspace.com/wp-content/uploads/2010/01/lostandfound.png', alt='New York', width='100%')
+                //- .carousel-caption
+                //-     h3 New York
+                //-     p The atmosphere in New York is lorem ipsum.
+            .item
+                img(src='http://www.occupyingspace.com/wp-content/uploads/2010/01/lostandfound.png', alt='Chicago', width='100%')
+                //- .carousel-caption
+                //-     h3 Chicago
+                //-     p Thank you, Chicago - A night we won't forget.
+            .item
+                img(src='http://www.occupyingspace.com/wp-content/uploads/2010/01/lostandfound.png', alt='Los Angeles', width='100%')
+                //- .carousel-caption
+                //-     h3 LA
+                //-     p
+                //-         | Even though the traffic was a mess, we had the best time playing at Venice Beach!
+
+        a.left.carousel-control(href='#myCarousel', role='button', data-slide='prev')
+            span.glyphicon.glyphicon-chevron-left(aria-hidden='true')
+            span.sr-only Previous
+        a.right.carousel-control(href='#myCarousel', role='button', data-slide='next')
+            span.glyphicon.glyphicon-chevron-right(aria-hidden='true')
+            span.sr-only Next
+
+    section#find(style='background-color: #1a6434;')
+        .container
+            .col-lg-12
+                h2(style='color: white;') Find Your Item
+                h3(style='color: #dbdbdb;')
+                    | Your support is important to us. Your donation will be eligible for tax deductible and help improve the health of developing countries through our technologies.
+                br
+                a.btn(style='font-size:1.5em; background-color:white; color:black;' href="/find") Find
+    section#register(style='background-color: #641a1a;')
+        .container
+            .col-lg-12(style='text-align: right;')
+                h2(style='color: white;') Register Lost Item
+                h3(style='color: #dbdbdb;')
+                    | Your support is important to us. Your donation will be eligible for tax deductible and help improve the health of developing countries through our technologies.
+                br
+                a.btn(style='font-size:1.5em; background-color:white; color:black;' href="/lost") Register
+
+
+
+

@@ -1,0 +1,77 @@
+extends layout
+block content
+
+    .container
+        h2 Register Lost Item
+
+        if image == null
+            hr
+            form.form-horizontal(action='/lost' method='post' enctype="multipart/form-data")
+                .imageupload.panel.panel-default
+                    .panel-heading.clearfix
+                        h3.panel-title.pull-left Upload Image
+                        .btn-group.pull-right
+                            button.btn.btn-default.active(type='button') File
+                            //button.btn.btn-default(type='button') URL
+                    .file-tab.panel-body
+                        label.btn.btn-default.btn-file
+                            span Browse
+                            // The file is stored here.
+                            input(type='file', name='image-file')
+                        button.btn.btn-default(type='button') Remove
+                    //.url-tab.panel-body
+                    //    .input-group
+                    //        input.form-control.hasclear(type='text', placeholder='Image URL')
+                    //        .input-group-btn
+                    //            button.btn.btn-default(type='button') Submit
+                    //    button.btn.btn-default(type='button') Remove
+                    //    // The URL is stored here.
+                    //    input(type='hidden', name='image-url')
+
+                div(align='center')
+                    button.btn.btn-primary(type='submit') Submit
+        else
+            hr
+
+            img(src= image width="100%")
+            br
+            br
+
+            form.form-horizontal(action='/lost')
+                .form-group
+                    label.control-label.col-sm-2(for='email') Email:
+                    .col-sm-10
+                        input#email.form-control(type='email', placeholder='Enter email', name='email')
+                .form-group
+                    label.control-label.col-sm-2(for='pwd') Password:
+                    .col-sm-10
+                        input#pwd.form-control(type='password', placeholder='Enter password', name='pwd')
+                .form-group
+                    .col-sm-offset-2.col-sm-10
+                        .checkbox
+                            label
+                                input(type='checkbox', name='remember')
+                                |  Remember me
+                .form-group
+                    .col-sm-offset-2.col-sm-10
+                        button.btn.btn-primary(type='submit') Submit
+
+
+
+
+
+    script.
+        var $imageupload = $('.imageupload');
+        $imageupload.imageupload();
+        $('#imageupload-disable').on('click', function () {
+            $imageupload.imageupload('disable');
+            $(this).blur();
+        })
+        $('#imageupload-enable').on('click', function () {
+            $imageupload.imageupload('enable');
+            $(this).blur();
+        })
+        $('#imageupload-reset').on('click', function () {
+            $imageupload.imageupload('reset');
+            $(this).blur();
+        });
