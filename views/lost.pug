@@ -46,14 +46,23 @@ block content
                     label.control-label.col-sm-2(for='pwd') Password:
                     .col-sm-10
                         input#pwd.form-control(type='password', placeholder='Enter password', name='pwd')
+                if labels
+                    .form-group
+                        label.control-label.col-sm-2 Labels:
+                        .col-sm-10
+                            ul.tags
+                                each label in labels
+                                    li.tag= label
+                if texts
+                    .form-group
+                        label.control-label.col-sm-2 Texts:
+                        .col-sm-10
+                            ul.tags
+                                each txt in texts
+                                    li.tag= txt
                 .form-group
                     .col-sm-offset-2.col-sm-10
-                        .checkbox
-                            label
-                                input(type='checkbox', name='remember')
-                                |  Remember me
-                .form-group
-                    .col-sm-offset-2.col-sm-10
+                        button.btn.btn-danger(type='button', onclick="window.location.href='/lost'" style="margin-right: 5px;") Back
                         button.btn.btn-primary(type='submit') Submit
 
 

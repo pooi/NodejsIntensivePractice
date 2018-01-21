@@ -72,3 +72,4 @@ config.json
 package-lock.json
 
 uploads/*
+config/*.json
