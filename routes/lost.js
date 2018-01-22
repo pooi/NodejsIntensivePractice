@@ -24,6 +24,12 @@ var jsonfile = __dirname + '/../config/NodePractice-2f88e00ddb65.json';
 //Initialize the api
 vision.init(jsonfile);
 
+// // Imports the Google Cloud client library
+// const vision = require('@google-cloud/vision');
+//
+// // Creates a client
+// const client = new vision.ImageAnnotatorClient();
+
 
 /* GET lost listing. */
 router.get('/', function (req, res) {
@@ -35,8 +41,10 @@ router.post('/', upload.single('image-file'), function (req, res) {
 
     var d = requtil.createRequests().addRequest(
         requtil.createRequest(__dirname + '/../uploads/' + req.file.filename)
-            .withFeature('LABEL_DETECTION', 3)
+            .withFeature('LABEL_DETECTION', 4)
             .withFeature('TEXT_DETECTION', 4)
+            .withFeature('LOGO_DETECTION', 20)
+            .withFeature('IMAGE_PROPERTIES', 4)
             .build());
 
 
@@ -51,26 +59,57 @@ router.post('/', upload.single('image-file'), function (req, res) {
         var obj_response = obj.responses[0];
         var labelAnnotations = obj_response.labelAnnotations;
         var textAnnotations = obj_response.textAnnotations;
+        var logoAnnotations = obj_response.logoAnnotations;
+        var dominantColors = obj_response.imagePropertiesAnnotation.dominantColors.colors;
 
         var labels = [];
         var texts = [];
+        var logos = [];
+        var colors = [];
 
-        for(var i=0; i<labelAnnotations.length; i++){
-            labels[i] = labelAnnotations[i].description;
+        if(labelAnnotations != null){
+            for(var i=0; i<labelAnnotations.length; i++){
+                labels[i] = labelAnnotations[i].description;
+            }
         }
 
-        var index = 0;
-        for(var i=1; i<textAnnotations.length; i++){
-            var t = textAnnotations[i].description;
-            if(t === "." || t === "!" || t === "," || t === "?" || t === " " || t === "/" || t === ":" || t === "-" || t === "·" || t === '"' || t === "'")
-                continue
-            texts[index] = textAnnotations[i].description;
-            index ++;
+        if(textAnnotations != null){
+            var index = 0;
+            for(var i=1; i<textAnnotations.length; i++){
+                var t = textAnnotations[i].description;
+                if(t === "." || t === "!" || t === "," || t === "?" || t === " " || t === "/" || t === ":" || t === "-" || t === "·" || t === '"' || t === "'")
+                    continue
+                texts[index] = textAnnotations[i].description;
+                index ++;
+            }
         }
 
-        res.render('lost', {image: req.file.filename, labels: labels, texts: texts});
+        if(logoAnnotations != null){
+            for(var i=0; i<logoAnnotations.length; i++){
+                logos[i] = logoAnnotations[i].description;
+            }
+        }
+
+        if(dominantColors != null){
+            for(var i=0; i<dominantColors.length; i++){
+                colors[i] = dominantColors[i].color;
+            }
+        }
+
+        res.render('lost', {image: req.file.filename, labels: labels, texts: texts, logos: logos, colors: colors});
 
     });
+
+    // // Performs label detection on the image file
+    // client.labelDetection(__dirname + '/../uploads/' + req.file.filename)
+    //     .then(function (results) {
+    //         var labels = results[0].labelAnnotations;
+    //         console.log('Labels:');
+    //         console.log(labels);
+    //     })
+    //     .catch(function (err) {
+    //         console.log('ERROR:', err);
+    //     });
 
 });
 

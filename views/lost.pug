@@ -33,11 +33,15 @@ block content
         else
             hr
 
-            img(src= image width="100%")
-            br
-            br
+
 
             form.form-horizontal(action='/lost')
+                .form-group
+                    label.control-label.col-sm-2 Image:
+                    .col-sm-10
+                        img(src= image width="50%")
+                        br
+                        br
                 .form-group
                     label.control-label.col-sm-2(for='email') Email:
                     .col-sm-10
@@ -46,20 +50,42 @@ block content
                     label.control-label.col-sm-2(for='pwd') Password:
                     .col-sm-10
                         input#pwd.form-control(type='password', placeholder='Enter password', name='pwd')
-                if labels
+                if labels.length > 0
                     .form-group
                         label.control-label.col-sm-2 Labels:
                         .col-sm-10
                             ul.tags
                                 each label in labels
                                     li.tag= label
-                if texts
+                if texts.length > 0
                     .form-group
                         label.control-label.col-sm-2 Texts:
                         .col-sm-10
                             ul.tags
                                 each txt in texts
                                     li.tag= txt
+                if logos.length > 0
+                    .form-group
+                        label.control-label.col-sm-2 Logos:
+                        .col-sm-10
+                            ul.tags
+                                each logo in logos
+                                    li.tag= logo
+                if colors.length > 0
+                    .form-group
+                        label.control-label.col-sm-2 Colors:
+                        .col-sm-10
+                            ul.tags(style="overflow:visible;")
+                                each color in colors
+                                    li
+                                        .card
+                                            .card-top(style="background-color: rgb(" + color.red + "," + color.green + "," + color.blue + ");")
+                                            .card-bottom
+                                                = color.red + ", " + color.green + ", " + color.blue
+                                //span(style="padding: 5px; margin-right: 5px; background-color: rgb(" + color.red + "," + color.green + "," + color.blue + ");")= color.red + ", " + color.green + ", " + color.blue
+                            //ul.tags
+                            //    each color in colors
+                            //        li.tag(style="background-color: rgb(" + color.red + "," + color.green + "," + color.blue + ");")= color.red + ", " + color.green + ", " + color.blue
                 .form-group
                     .col-sm-offset-2.col-sm-10
                         button.btn.btn-danger(type='button', onclick="window.location.href='/lost'" style="margin-right: 5px;") Back
