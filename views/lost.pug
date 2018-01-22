@@ -1,8 +1,10 @@
 extends layout
 block content
 
+    - function func(){ return "Register Lost Item"};
+
     .container
-        h2 Register Lost Item
+        h2= func()
 
         if image == null
             hr

@@ -1,0 +1,31 @@
+extends layout
+block content
+
+    link(rel='stylesheet', href='/stylesheets/error-page.css')
+
+    #main-404-content.main-content-static
+        .content-wrap
+            .shadow-overlay
+            .main-content
+                div
+                    .col-md-12
+                        center
+                            h1.kern-this 404 Error.
+                            p
+                                = "Oooooops! Looks like nothing was found at " + url + "."
+                                //| Oooooops! Looks like nothing was found at this location.
+                                | Maybe try on of the links below.
+
+                            a(href='/' style="margin-right: 10px;") Homepage
+                            a(href='mailto:ldaytw@gmail.com') Report Error
+                    // /twelve
+                // /row
+            // /main-content
+            footer(style='background-color: transparent')
+                div
+                    .col-five.tab-full.bottom-links
+                        center
+                            .credits
+                                p
+                                    | Design by
+                                    a(href='http://www.styleshout.com/', title='styleshout') &nbsp;styleshout
