@@ -58,39 +58,42 @@ block content
                     .form-group
                         label.control-label.col-sm-2 Labels:
                         .col-sm-10
-                            ul.tags
+                            ul.tags(id='ul-labels')
                                 - var count = 0;
                                 each label in labels
                                     li.tag
                                         input.reset-this(type='button' id= "labels_" + count value=label onclick="changeInputText(this)")
                                         input(type='hidden' class= "labels_" + count name= "labels" value=label)
                                     -count+=1;
+                            button.btn.btn-success.btn-slim(id= count onclick='addInputText(this, "labels")' type="button")= '추가'
 
                 //input(type='hidden' name='text_count' value=texts.length)
                 if texts.length > 0
                     .form-group
                         label.control-label.col-sm-2 Texts:
                         .col-sm-10
-                            ul.tags
+                            ul.tags(id='ul-texts')
                                 - var count = 0;
                                 each txt in texts
                                     li.tag
                                         input.reset-this(type='button' id= "texts_" + count value=txt onclick="changeInputText(this)")
                                         input(type='hidden' class= "texts_" + count name= "texts" value=txt)
                                     -count+=1;
+                            button.btn.btn-success.btn-slim(id= count onclick='addInputText(this, "texts")' type="button")= '추가'
 
                 //input(type='hidden' name='logo_count' value=logos.length)
                 if logos.length > 0
                     .form-group
                         label.control-label.col-sm-2 Logos:
                         .col-sm-10
-                            ul.tags
+                            ul.tags(id='ul-logos')
                                 - var count = 0;
                                 each logo in logos
                                     li.tag
                                         input.reset-this(type='button' id= "logos_" + count value=logo onclick="changeInputText(this)")
                                         input(type='hidden' class= "logos_" + count name= "logos" value=logo)
                                     -count+=1;
+                            button.btn.btn-success.btn-slim(id= count onclick='addInputText(this, "logos")' type="button")= '추가'
 
                 //input(type='text' name='color_count' value=colors.length)
                 if colors.length > 0
@@ -161,3 +164,46 @@ block content
             el_hidden.value = el.value;
         }
 
+        function addInputText(btn, type) {
+
+            var id = btn.id;
+
+            var changeText;
+            var popup = prompt("Please enter text:", "");
+            if (popup == null || popup == "") {
+                return;
+            } else {
+                changedText = popup;
+            }
+
+            var ul_texts = document.getElementById('ul-' + type);
+
+            // li.tag
+            var li = document.createElement('li');
+            li.className = 'tag';
+
+            // input.reset-this(type='button' id= "texts_" + count value=txt onclick="changeInputText(this)")
+            var inputButton = document.createElement('input');
+            inputButton.className = 'reset-this';
+            inputButton.onclick = function () {
+                changeInputText(this);
+            };
+            inputButton.type = 'button';
+            inputButton.value = changedText;
+            inputButton.id = type + '_' + id;
+
+            // input(type='hidden' class= "texts_" + count name= "texts" value=txt)
+            var inputHidden = document.createElement('input');
+            inputHidden.type = 'hidden';
+            inputHidden.value = changedText;
+            inputHidden.name = type;
+            inputHidden.className = type + '_' + id;
+
+            btn.id = parseInt(id) + 1 + "";
+
+            li.appendChild(inputButton);
+            li.appendChild(inputHidden);
+
+            ul_texts.appendChild(li);
+
+        }
