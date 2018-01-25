@@ -111,13 +111,33 @@ block content
                                     - count+=1;
 
                 .form-group
+                    label.control-label.col-sm-2(for='date') 습득일:
+                    .col-sm-4
+                        .input-group.date
+                            input.form-control(id='datepicker' type='text' name='date')
+                            .input-group-addon
+                                span.glyphicon.glyphicon-th
+
+                .form-group
                     .col-sm-offset-2.col-sm-10
                         button.btn.btn-danger(type='button', onclick="window.location.href='/lost'" style="margin-right: 5px;") Back
                         button.btn.btn-primary(type='submit') Submit
 
 
+    link(href='/stylesheets/bootstrap-datepicker3.css', rel='stylesheet')
+    script(src='/javascripts/bootstrap-datepicker.js')
+    script(src='/javascripts/bootstrap-datepicker.ko.min.js', charset='UTF-8')
 
-
+    script(type='text/javascript').
+        $('#datepicker').datepicker({
+            autoclose: true,
+            format: "yyyy-mm-dd",
+            language: 'ko',
+            clearBtn: true,
+            todayHighlight: true,
+            immediateUpdates: true,
+            disableTouchKeyboard: true
+        });
 
     script.
         var $imageupload = $('.imageupload');
