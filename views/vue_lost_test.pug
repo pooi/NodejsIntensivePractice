@@ -2,13 +2,10 @@ extends layout
 block content
 
     script(src='/scripts/vue.js')
-    //script(src='/scripts/vuetify.js')
-    //link(href='/scripts/vuetify.css', rel='stylesheet')
     link(href='/stylesheets/vuetify-v1.0.0-beta.5.min.css', rel='stylesheet')
     script(src='/javascripts/vuetify-v1.0.0-beta.5.min.js')
     script(src='/scripts/axios.js')
     link(href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons', rel='stylesheet')
-    //meta(name='viewport', content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui')
 
 
 
@@ -25,7 +22,7 @@ block content
                         | Hello
                     else
                         hr
-                        v-form.form-horizontal(ref="form")
+                        v-form.form-horizontal(ref="form" action='/lost/test2' method='POST')
                             .form-group
                                 label.control-label.col-sm-2 Image:
                                 .col-sm-10
@@ -140,31 +137,90 @@ block content
                 },
                 submit() {
                     console.log('submit')
-                    // Native form submission is not yet supported
-                    axios.post('/lost/test', {
+                    var data = {
                         name: this.name,
                         email: this.email,
                         labels: this.labels,
                         texts: this.texts,
                         logos: this.logos,
                         date: this.date
-                    });
+                    }
+
+                    var form = document.createElement("form");
+                    form.setAttribute("charset", "UTF-8");
+                    form.setAttribute("method", "post"); // Get 또는 Post 입력
+                    form.setAttribute("action", "/lost/test");
+                    form.setAttribute("enctype", "application/json");
+
+                    var hiddenField = document.createElement("input");
+                    hiddenField.setAttribute("type", "hidden");
+                    hiddenField.setAttribute("name", "name");
+                    hiddenField.setAttribute("value", this.name);
+                    form.appendChild(hiddenField);
+
+                    hiddenField = document.createElement("input");
+                    hiddenField.setAttribute("type", "hidden");
+                    hiddenField.setAttribute("name", "email");
+                    hiddenField.setAttribute("value", this.email);
+                    form.appendChild(hiddenField);
+
+                    hiddenField = document.createElement("input");
+                    hiddenField.setAttribute("type", "hidden");
+                    hiddenField.setAttribute("name", "date");
+                    hiddenField.setAttribute("value", this.date);
+                    form.appendChild(hiddenField);
+
+                    for(i=0; i<this.labels.length; i++){
+                        hiddenField = document.createElement("input");
+                        hiddenField.setAttribute("type", "hidden");
+                        hiddenField.setAttribute("name", "labels");
+                        hiddenField.setAttribute("value", this.labels[i]);
+                        form.appendChild(hiddenField);
+                    }
+                    for (i = 0; i < this.texts.length; i++) {
+                        hiddenField = document.createElement("input");
+                        hiddenField.setAttribute("type", "hidden");
+                        hiddenField.setAttribute("name", "texts");
+                        hiddenField.setAttribute("value", this.texts[i]);
+                        form.appendChild(hiddenField);
+                    }
+                    for (i = 0; i < this.logos.length; i++) {
+                        hiddenField = document.createElement("input");
+                        hiddenField.setAttribute("type", "hidden");
+                        hiddenField.setAttribute("name", "logos");
+                        hiddenField.setAttribute("value", this.logos[i]);
+                        form.appendChild(hiddenField);
+                    }
+
+                    document.body.appendChild(form);
+
+
+                    form.submit();
                 }
             },
             mounted: [
                 function () {
                     var text = '#{labels}'
                     var list = text.split(',')
+                    if (list.length > 0 && (list[0] === '' || list[0] === ' ')) {
+                        list.pop()
+                    }
                     this.labels = list
                 },
                 function () {
                     var text = '#{texts}'
                     var list = text.split(',')
+                    if (list.length > 0 && (list[0] === '' || list[0] === ' ')) {
+                        list.pop()
+                    }
                     this.texts = list
                 },
                 function () {
                     var text = '#{logos}'
                     var list = text.split(',')
+                    if (list.length > 0 && (list[0] === '' || list[0] === ' ')) {
+                        list.pop()
+                    }
                     this.logos = list
                 }
             ]

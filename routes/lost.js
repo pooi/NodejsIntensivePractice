@@ -211,6 +211,7 @@ router.get('/vue/test', function (req, res){
 });
 router.post('/test', function (req, res) {
     console.log(req.body);
+    console.log("HI");
     res.send(req.body);
 });
 
