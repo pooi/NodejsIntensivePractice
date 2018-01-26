@@ -1,16 +1,180 @@
 extends layout
 block content
 
+    script(src='/scripts/vue.js')
+    //script(src='/scripts/vuetify.js')
+    //link(href='/scripts/vuetify.css', rel='stylesheet')
+    link(href='/stylesheets/vuetify-v1.0.0-beta.5.min.css', rel='stylesheet')
+    script(src='/javascripts/vuetify-v1.0.0-beta.5.min.js')
+    script(src='/scripts/axios.js')
+    link(href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons', rel='stylesheet')
+    //meta(name='viewport', content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui')
+
+
+
     - function func(){ return "Register Lost Item"};
 
-    .container(ng-app="app")
+    div(id="app" style="margin-top: 50px;")
+        v-app
+            v-content
+                v-container
+                    h2= func()
+
+                    if image == null
+                        hr
+                        | Hello
+                    else
+                        hr
+                        v-form.form-horizontal(ref="form")
+                            .form-group
+                                label.control-label.col-sm-2 Image:
+                                .col-sm-10
+                                    v-card(width='60%')
+                                        img(src= image width="100%")
+                            .form-group
+                                label.control-label.col-sm-2 Name:
+                                .col-sm-10
+                                    v-text-field(label='Name', v-model='name', :rules="nameRules", :counter='10', name='name')
+
+                            .form-group
+                                label.control-label.col-sm-2 E-mail:
+                                .col-sm-10
+                                    v-text-field(label='E-mail', v-model='email', :rules="emailRules", name='email')
+
+                            if labels.length > 0
+                                .form-group
+                                    label.control-label.col-sm-2 Labels:
+                                    .col-sm-10
+                                        v-select(label='Input labels', chips='', tags='', solo='', append-icon='', clearable='', v-model='labels' )
+                                            template(slot='selection', slot-scope='data')
+                                                v-chip(close='', @input='removeLabel(data.item)', :selected='data.selected')
+                                                    strong {{ data.item }}
+
+                            if texts.length > 0
+                                .form-group
+                                    label.control-label.col-sm-2 Texts:
+                                    .col-sm-10
+                                        v-select(label='Input some text', chips='', tags='', solo='', append-icon='', clearable='', v-model='texts')
+                                            template(slot='selection', slot-scope='data')
+                                                v-chip( close='', @input='removeText(data.item)', :selected='data.selected')
+                                                    strong {{ data.item }}
+                            if logos.length > 0
+                                .form-group
+                                    label.control-label.col-sm-2 Logos:
+                                    .col-sm-10
+                                        v-select(label='Input brand name', chips='', tags='', solo='', append-icon='', clearable='', v-model='logos')
+                                            template(slot='selection', slot-scope='data')
+                                                v-chip( close='', @input='removeLogo(data.item)', :selected='data.selected')
+                                                    strong {{ data.item }}
+
+                            .form-group
+                                label.control-label.col-sm-2(for='date') 습득일:
+                                .col-sm-10
+                                    //v-date-picker.mt-3(full-width landscape v-model='picker', color="green lighten-1")
+                                    v-dialog(ref='dialog', persistent, v-model='modal', lazy, full-width, width='330px', :return-value.sync='date')
+                                        v-text-field(slot='activator', label='습득일', v-model='date', readonly)
+                                        v-date-picker(v-model='date', scrollable color="green lighten-1", name='date')
+                                            v-spacer
+                                            v-btn(flat='', color='primary', @click='modal = false') Cancel
+                                            v-btn(flat='', color='primary', @click='$refs.dialog.save(date)') OK
+
+
+                            br
+                            hr
+                            p(class='right')
+                                v-btn(color='error', type='button', onclick="window.location.href='/lost'") Back
+                                v-btn(color='info', @click="submit") Submit
+
+                            //.form-group
+                            //    .col-sm-offset-2.col-sm-10
+                            //        v-btn(color='error', type='button', onclick="window.location.href='/lost'") Back
+                            //        v-btn(color='info', type='submit') Submit
+
+
+
+    script.
+        // import axios from 'axios'
+
+        new Vue({
+            el: '#app',
+            data: {
+                valid: false,
+                name: '',
+                nameRules: [
+                    function (v) {
+                        return !!v || 'Name is required'
+                    },
+                    function (v) {
+                        return v.length <= 10 || 'Name must be less than 10 characters'
+                    },
+                ],
+                email: '',
+                emailRules: [
+                    function (v) {
+                        return !!v || 'E-mail is required'
+                    },
+                    function (v) {
+                        return /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'
+                    },
+                ],
+                labels: [],
+                texts: [],
+                logos: [],
+                picker: null,
+                date: null,
+                menu: false,
+                modal: false
+            },
+            methods: {
+                removeLabel(item) {
+                    this.labels.splice(this.labels.indexOf(item), 1)
+                    this.labels = [this.labels]
+                },
+                removeText(item) {
+                    this.texts.splice(this.texts.indexOf(item), 1)
+                    this.texts = [this.texts]
+                },
+                removeLogo(item) {
+                    this.logos.splice(this.logos.indexOf(item), 1)
+                    this.logos = [this.logos]
+                },
+                submit() {
+                    console.log('submit')
+                    // Native form submission is not yet supported
+                    axios.post('/lost/test', {
+                        name: this.name,
+                        email: this.email,
+                        labels: this.labels,
+                        texts: this.texts,
+                        logos: this.logos,
+                        date: this.date
+                    });
+                }
+            },
+            mounted: [
+                function () {
+                    var text = '#{labels}'
+                    var list = text.split(',')
+                    this.labels = list
+                },
+                function () {
+                    var text = '#{texts}'
+                    var list = text.split(',')
+                    this.texts = list
+                },
+                function () {
+                    var text = '#{logos}'
+                    var list = text.split(',')
+                    this.logos = list
+                }
+            ]
+        });
+
+
+    .container(style="display: none")
         h2= func()
 
-        div(ng-app='')
-            p
-                | Name :
-                input(type='text', ng-model='name')
-            h1 Hello {{name}}
+
 
         if image == null
             hr
@@ -110,7 +274,7 @@ block content
                                 - var count = 0;
                                 each color in colors
                                     li
-                                        .card(id= "color_"+count)
+                                        .card(id= "color_" + count)
                                             .card-top(style="background-color: rgb(" + color.red + "," + color.green + "," + color.blue + ");")
                                             .card-bottom
                                                 = color.red + ", " + color.green + ", " + color.blue
@@ -124,20 +288,20 @@ block content
                             .input-group-addon
                                 span.glyphicon.glyphicon-th
 
-                link(href='/angularjs-datepicker/dist/angular-datepicker.min.css', rel='stylesheet', type='text/css')
-                script(src='/angularjs-datepicker/dist/angular-datepicker.min.js')
-                script.
-                    angular.module('app', [
-                        '720kb.datepicker'
-                    ]);
-                .form-group
-                    label.control-label.col-sm-2(for='date') 습득일2:
-                    .col-sm-4
-                        datepicker(date-format='yyyy-MM-dd', selector='form-control' datepicker-mobile="true")
-                            .input-group
-                                input.form-control(placeholder='Choose a date' name='date2')
-                                span.input-group-addon(style='cursor: pointer')
-                                    span.glyphicon.glyphicon-th
+                //link(href='/angularjs-datepicker/dist/angular-datepicker.min.css', rel='stylesheet', type='text/css')
+                //script(src='/angularjs-datepicker/dist/angular-datepicker.min.js')
+                //script.
+                //    angular.module('app', [
+                //        '720kb.datepicker'
+                //    ]);
+                //.form-group
+                //    label.control-label.col-sm-2(for='date') 습득일2:
+                //    .col-sm-4
+                //        datepicker(date-format='yyyy-MM-dd', selector='form-control' datepicker-mobile="true")
+                //            .input-group
+                //                input.form-control(placeholder='Choose a date' name='date2')
+                //                span.input-group-addon(style='cursor: pointer')
+                //                    span.glyphicon.glyphicon-th
 
 
                         //datepicker.input-group.date(date-format="yyyy-MM-dd" datepicker-mobile="true")
@@ -153,31 +317,6 @@ block content
                         button.btn.btn-primary(type='submit') Submit
 
 
-
-
-    //script(type='text/javascript', src='/jquery/jquery.min.js')
-    //script(type='text/javascript', src='/bootstrap/dist/js/bootstrap.min.js')
-    //link(rel='stylesheet', href='/bootstrap/dist/css/bootstrap.min.css')
-    //script(type='text/javascript', src='/moment/min/moment.min.js')
-    //script(type='text/javascript', src='/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js')
-    //link(rel='stylesheet', href='/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css')
-
-    link(href='/stylesheets/bootstrap-datepicker3.css', rel='stylesheet')
-    script(src='/javascripts/bootstrap-datepicker.js')
-    script(src='/javascripts/bootstrap-datepicker.ko.min.js', charset='UTF-8')
-
-
-
-    script(type='text/javascript').
-        $('#datepicker').datepicker({
-            autoclose: true,
-            format: "yyyy-mm-dd",
-            language: 'ko',
-            clearBtn: true,
-            todayHighlight: true,
-            immediateUpdates: true,
-            disableTouchKeyboard: true
-        });
 
     script.
         var $imageupload = $('.imageupload');
@@ -205,7 +344,7 @@ block content
             } else {
                 changedText = popup;
             }
-            document.getElementById(id).innerHTML= changedText;
+            document.getElementById(id).innerHTML = changedText;
         }
 
         function changeInputText(el) {

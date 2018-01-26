@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Theme Made By www.w3schools.com - No Copyright -->
+    <title>Bootstrap Theme The Band</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+
+    <style>
+        .container {
+            padding-top: 80px;
+            padding-bottom: 80px;
+        }
+
+        .navbar {
+            font-family: Montserrat, sans-serif;
+            margin-bottom: 0;
+            background-color: #2d2d30;
+            border: 0;
+            font-size: 11px !important;
+            letter-spacing: 4px;
+            opacity: 0.9;
+        }
+
+        .navbar li a,
+        .navbar .navbar-brand {
+            color: #d5d5d5 !important;
+        }
+
+        .navbar-nav li a:hover {
+            color: #fff !important;
+        }
+
+        .navbar-nav li.active a {
+            color: #fff !important;
+            background-color: #29292c !important;
+        }
+
+        .navbar-default .navbar-toggle {
+            border-color: transparent;
+        }
+
+        .open .dropdown-toggle {
+            color: #fff;
+            background-color: #555 !important;
+        }
+
+        .dropdown-menu li a {
+            color: #000 !important;
+        }
+
+        .dropdown-menu li a:hover {
+            background-color: #2d2d30 !important;
+        }
+
+        footer {
+            background-color: #2d2d30;
+            color: #f5f5f5;
+            padding: 32px;
+        }
+
+        footer a {
+            color: #f5f5f5;
+        }
+
+        footer a:hover {
+            color: #777;
+            text-decoration: none;
+        }
+
+        .tags {
+            list-style: none;
+            margin: 0;
+            overflow: hidden;
+            padding: 0;
+        }
+
+        .tags li {
+            float: left;
+        }
+
+        .tag {
+            background: #eee;
+            border-radius: 3px 0 0 3px;
+            color: #999;
+            display: inline-block;
+            height: 26px;
+            line-height: 26px;
+            padding: 0 20px 0 23px;
+            position: relative;
+            margin: 0 10px 10px 0;
+            text-decoration: none;
+            -webkit-transition: color 0.2s;
+        }
+
+        .tag::before {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: inset 0 1px rgba(0, 0, 0, 0.25);
+            content: '';
+            height: 6px;
+            left: 10px;
+            position: absolute;
+            width: 6px;
+            top: 10px;
+        }
+
+        .tag::after {
+            background: #fff;
+            border-bottom: 13px solid transparent;
+            border-left: 10px solid #eee;
+            border-top: 13px solid transparent;
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
+
+        .tag:hover {
+            background-color: crimson;
+            color: white;
+        }
+
+        .tag:hover::after {
+            border-left-color: crimson;
+        }
+
+        .card {
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+            transition: 0.3s;
+            width: fit-content;
+            border-radius: 10px;
+        }
+
+        .card-top{
+            height: 40px;
+            border-radius: 10px 10px 0px 0px;
+        }
+
+        .card-bottom{
+            padding: 5px 10px;
+            color: #555555;
+        }
+
+        .card:hover {
+            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+        }
+
+    </style>
+</head>
+
+<body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="50">
+
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#myPage">Logo</a>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#myPage">HOME</a></li>
+                <li><a href="#band">BAND</a></li>
+                <li><a href="#tour">TOUR</a></li>
+                <li><a href="#contact">CONTACT</a></li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">MORE
+                        <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Merchandise</a></li>
+                        <li><a href="#">Extras</a></li>
+                        <li><a href="#">Media</a></li>
+                    </ul>
+                </li>
+                <li><a href="#"><span class="glyphicon glyphicon-search"></span></a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container" style="background-color:white;">
+    <h2>Register Lost Item</h2>
+    <hr>
+    <form class="form-horizontal" action="/">
+
+        <div class="imageupload panel panel-default">
+            <div class="panel-heading clearfix">
+                <h3 class="panel-title pull-left">Upload Image</h3>
+                <div class="btn-group pull-right">
+                    <button type="button" class="btn btn-default active">File</button>
+                    <button type="button" class="btn btn-default">URL</button>
+                </div>
+            </div>
+            <div class="file-tab panel-body">
+                <label class="btn btn-default btn-file">
+                    <span>Browse</span>
+                    <!-- The file is stored here. -->
+                    <input type="file" name="image-file">
+                </label>
+                <button type="button" class="btn btn-default">Remove</button>
+            </div>
+            <div class="url-tab panel-body">
+                <div class="input-group">
+                    <input type="text" class="form-control hasclear" placeholder="Image URL">
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-default">Submit</button>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-default">Remove</button>
+                <!-- The URL is stored here. -->
+                <input type="hidden" name="image-url">
+            </div>
+        </div>
+    </form>
+
+    <hr>
+
+    <form class="form-horizontal" action="/">
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="email">Email:</label>
+            <div class="col-sm-10">
+                <input type="email" class="form-control" id="email" placeholder="Enter email" name="email">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="pwd">Password:</label>
+            <div class="col-sm-10">
+                <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pwd">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-2">Labels:</label>
+            <div class="col-sm-10">
+
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-2">Texts:</label>
+            <div class="col-sm-10">
+
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-2">Colors:</label>
+            <div class="col-sm-10">
+                <div style="width: 20px; height: 20px; background-color: #00B7FF; vertical-align: middle"></div>
+                <div class="card">
+                    <div class="card-top" style="background-color: #641a1a;"></div>
+                    <div class="card-bottom">
+                        233, 244, 142
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <div class="checkbox">
+                    <label><input type="checkbox" name="remember"> Remember me</label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="button" class="btn btn-danger" onclick="window.location.href='/lost'">Back</button>
+                <button type="submit" class="btn btn-default">Submit</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<link href="css/bootstrap-imageupload.css" rel="stylesheet">
+<script src="js/bootstrap-imageupload.js"></script>
+
+<script>
+    var $imageupload = $('.imageupload');
+    $imageupload.imageupload();
+
+    $('#imageupload-disable').on('click', function () {
+        $imageupload.imageupload('disable');
+        $(this).blur();
+    })
+
+    $('#imageupload-enable').on('click', function () {
+        $imageupload.imageupload('enable');
+        $(this).blur();
+    })
+
+    $('#imageupload-reset').on('click', function () {
+        $imageupload.imageupload('reset');
+        $(this).blur();
+    });
+</script>
+
+</body>
+
+</html>
