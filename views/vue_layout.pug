@@ -1,0 +1,60 @@
+doctype html
+html(lang='en')
+    head
+        // Theme Made By www.w3schools.com - No Copyright
+        title Discovery and Lost
+        meta(charset='utf-8')
+        meta(name='viewport', content='width=device-width, initial-scale=1')
+        link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css')
+        link(href='https://fonts.googleapis.com/css?family=Lato', rel='stylesheet', type='text/css')
+        link(href='https://fonts.googleapis.com/css?family=Montserrat', rel='stylesheet', type='text/css')
+        script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js')
+        script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js')
+        link(href='/stylesheets/bootstrap-imageupload.css', rel='stylesheet')
+        link(href='/stylesheets/style.css', rel='stylesheet')
+        script(src='/javascripts/bootstrap-imageupload.js')
+
+        script(src='/scripts/vue.js')
+        link(href='/stylesheets/vuetify-v1.0.0-beta.5.min.css', rel='stylesheet')
+        script(src='/javascripts/vuetify-v1.0.0-beta.5.min.js')
+        script(src='/scripts/axios.js')
+        link(href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons', rel='stylesheet')
+
+
+    body
+        #app
+
+            v-app(light='')
+                //v-toolbar(fixed, dark, flat)
+                //    v-toolbar-side-icon
+                //    v-toolbar-title(v-text='title')
+                //    v-spacer
+                //    v-toolbar-items
+                //        v-btn(icon='').hidden-sm-and-down
+                //            v-icon home
+                //        v-btn(icon='').hidden-sm-and-down
+                //            v-icon search
+                //        v-btn(icon='').hidden-sm-and-down
+                //            v-icon refresh
+                //        v-btn(icon='').hidden-md-and-up
+                //            v-icon more_vert
+                include vue_toolbar
+
+                block content
+
+                //v-footer.blue.darken-2
+                //    v-layout(row='', wrap='', align-center='')
+                //        v-flex(xs12='')
+                //            .white--text.ml-3
+                //                | Made with
+                //                v-icon.red--text favorite
+                //                |               by
+                //                a.white--text(href='https://vuetifyjs.com', target='_blank') {{ title }}
+
+                //script.
+                //    var vm = new Vue({
+                //        el: '#app',
+                //        data: {
+                //            title: 'Discovery and Lost'
+                //        }
+                //    })

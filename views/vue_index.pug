@@ -1,0 +1,121 @@
+extends vue_layout
+block content
+
+    section
+        v-parallax(src='images/hero.jpeg', height='600')
+            v-layout.white--text(column='', align-center='', justify-center='')
+                img(src='images/vuetify.png', alt='Vuetify.js', height='200')
+                h1.white--text.mb-2.display-1.text-xs-center {{ title }}
+                .subheading.mb-3.text-xs-center Powered by team nearby
+                v-btn.blue.lighten-2.mt-5(round, dark='', large='', href='#fetures')
+                    | Get Started
+
+    section#fetures
+        v-layout.my-5(column='', wrap='', align-center='')
+            v-flex.my-3(xs12='', sm4='')
+                .text-xs-center
+                    h2.headline The best way to manage lost item
+                    span.subheading
+                        | Cras facilisis mi vitae nunc
+            v-flex(xs12='')
+                v-container(grid-list-xl='')
+                    v-layout(row='', wrap='', align-center='')
+                        v-flex(xs12='', md4='')
+                            v-card.elevation-0.transparent
+                                v-card-text.text-xs-center
+                                    v-icon.blue--text.text--lighten-2(x-large='') color_lens
+                                v-card-title.layout.justify-center(primary-title='')
+                                    .headline.text-xs-center Find Your Item
+                                v-card-text
+                                    | Cras facilisis mi vitae nunc lobortis pharetra. Nulla volutpat tincidunt ornare.
+                                    | Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
+                                    | Nullam in aliquet odio. Aliquam eu est vitae tellus bibendum tincidunt. Suspendisse potenti.
+                                v-card-title.layout.justify-center(primary-title='')
+                                    v-btn(round, large, color="info", href='/find') More
+
+                        v-flex(xs12='', md4='')
+                            v-card.elevation-0.transparent
+                                v-card-text.text-xs-center
+                                    v-icon.blue--text.text--lighten-2(x-large='') flash_on
+                                v-card-title.layout.justify-center(primary-title='')
+                                    .headline Register Lost Item
+                                v-card-text
+                                    | Cras facilisis mi vitae nunc lobortis pharetra. Nulla volutpat tincidunt ornare.
+                                    | Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
+                                    | Nullam in aliquet odio. Aliquam eu est vitae tellus bibendum tincidunt. Suspendisse potenti.
+                                v-card-title.layout.justify-center(primary-title='')
+                                    v-btn(round, large, color='info', href='/lost') More
+                        v-flex(xs12='', md4='')
+                            v-card.elevation-0.transparent
+                                v-card-text.text-xs-center
+                                    v-icon.blue--text.text--lighten-2(x-large='') build
+                                v-card-title.layout.justify-center(primary-title='')
+                                    .headline.text-xs-center Manage Lost Item
+                                v-card-text
+                                    | Cras facilisis mi vitae nunc lobortis pharetra. Nulla volutpat tincidunt ornare.
+                                    | Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
+                                    | Nullam in aliquet odio. Aliquam eu est vitae tellus bibendum tincidunt. Suspendisse potenti.
+                                v-card-title.layout.justify-center(primary-title='')
+                                    v-btn(round, large, color='info') More
+    section
+        v-parallax(src='images/section.jpg', height='380')
+            v-layout(column='', align-center='', justify-center='')
+                .headline.white--text.mb-3.text-xs-center Web development has never been easier
+                em Kick-start your application today
+                //v-btn.blue.lighten-2.mt-5(dark='', large='', href='/pre-made-themes')
+                //    | Get Started
+    section
+        v-container(grid-list-xl='')
+            v-layout.my-5(row='', wrap='', justify-center='')
+                v-flex(xs12='', sm4='')
+                    v-card.elevation-0.transparent
+                        v-card-title.layout.justify-center(primary-title='')
+                            .headline Company info
+                        v-card-text
+                            | Cras facilisis mi vitae nunc lobortis pharetra. Nulla volutpat tincidunt ornare.
+                            | Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
+                            | Nullam in aliquet odio. Aliquam eu est vitae tellus bibendum tincidunt. Suspendisse potenti.
+                v-flex(xs12='', sm4='', offset-sm1='')
+                    v-card.elevation-0.transparent
+                        v-card-title.layout.justify-center(primary-title='')
+                            .headline Contact us
+                        v-card-text
+                            | Cras facilisis mi vitae nunc lobortis pharetra. Nulla volutpat tincidunt ornare.
+                        v-list.transparent
+                            v-list-tile
+                                v-list-tile-action
+                                    v-icon.blue--text.text--lighten-2 phone
+                                v-list-tile-content
+                                    v-list-tile-title 777-867-5309
+                            v-list-tile
+                                v-list-tile-action
+                                    v-icon.blue--text.text--lighten-2 place
+                                v-list-tile-content
+                                    v-list-tile-title Chicago, US
+                            v-list-tile
+                                v-list-tile-action
+                                    v-icon.blue--text.text--lighten-2 email
+                                v-list-tile-content
+                                    v-list-tile-title ldaytw@gmail.com
+
+    include vue_footer
+    //v-footer.blue.darken-2
+    //    v-layout(row='', wrap='', align-center='')
+    //        v-flex(xs12='')
+    //            .white--text.ml-3
+    //                | Made with
+    //                v-icon.red--text favorite
+    //                |               by
+    //                a.white--text(href='https://vuetifyjs.com', target='_blank') {{ title }}
+
+    script.
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                title: 'Discovery and Lost',
+                icons: ['fa-facebook', 'fa-twitter', 'fa-google-plus', 'fa-linkedin', 'fa-instagram']
+            }
+        })
+
+
+
