@@ -1,6 +1,8 @@
 extends vue_layout
 block content
 
+    div(style='margin-top:50px')
+
     section
         v-parallax(src='images/hero.jpeg', height='600')
             v-layout.white--text(column='', align-center='', justify-center='')
@@ -112,8 +114,7 @@ block content
         var vm = new Vue({
             el: '#app',
             data: {
-                title: 'Discovery and Lost',
-                icons: ['fa-facebook', 'fa-twitter', 'fa-google-plus', 'fa-linkedin', 'fa-instagram']
+                title: 'Discovery and Lost'
             }
         })
 

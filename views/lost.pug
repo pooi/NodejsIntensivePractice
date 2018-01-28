@@ -1,115 +1,176 @@
-extends layout
+extends vue_layout
 block content
 
     - function func(){ return "Register Lost Item"};
 
-        div(id="app" style="margin-top: 50px;")
-            v-app
-                v-content
-                    v-container
-                        h2= func()
+    div(style="margin-top: 50px;")
+        v-app
+            v-content
+                v-container
+                    h2= func()
 
-                        if image == null
+                    if image == null
+                        hr
+
+                        form(action='/lost' method='post' enctype="multipart/form-data", id='image-form')
+                            input(id='file', type='file', name='file', v-on:change='imageChange', accept="image/*" style='display: none;')
+                            v-layout(xs12, align-center)
+                                v-card(width='100%')
+                                    v-card-title(style='background-color: #f5f5f5;')
+                                        div
+                                            h2.headline.my-0.py-0 Upload Image
+                                    hr.my-0
+                                    v-progress-linear.my-0(:indeterminate="true", height="2", color='info', v-if='isProgress')
+                                    //v-btn.text-xs-center( color='info', v-on:click='browseClick', flat, large) Test
+                                    //    input(id='file', type='file', name='file', v-on:change='imageChange', accept="image/*" style='display: none;')
+                                    v-flex(xs12, text-xs-center)
+                                        img.pa-2(:src='imgSrc', id='uploaded-img', width='50%', v-if='isFile')
+                                    v-flex.py-5(xs12, text-xs-center, v-if='!isFile')
+                                        v-btn( color='info', v-on:click='browseClick', flat, large) Browse
+
+                                    //v-card-title.center-block
+                                    //    v-btn( color='info', v-on:click='browseClick', flat, large, v-if='!isFile') Browse
+                                    //        input(id='file', type='file', name='file', v-on:change='imageChange', accept="image/*" style='display: none;')
+                                    v-card-actions.right(v-if='isFile')
+                                        v-btn(flat, small, color='red', v-on:click='removeFile') Remove
+                                        v-btn(flat, small, color='orange', v-on:click='browseClick') Change
+                                        v-btn(flat, small, color='info', v-on:click='uploadImage') Submit
+                                    //label.btn.btn-default
+                                    //    span Browse
+                                    //    input(id='file', type='file', name='file', v-on:change='imageChange', accept="image/*" style='display: none;')
+                            //label.btn.btn-default.btn-file
+                            //    span Browse
+                            //    input(id='file', type='file', name='file', v-on:change='imageChange', accept="image/*" style='display: none;')
+                            //br
+                            //img(:src='imgSrc', id='uploaded-img')
+                            //v-btn(color='info', type='submit') Submit
+
+                        //br
+                        //
+                        //form.form-horizontal(action='/lost' method='post' enctype="multipart/form-data")
+                        //    .imageupload.panel.panel-default
+                        //        .panel-heading.clearfix
+                        //            h3.panel-title.pull-left Upload Image
+                        //            .btn-group.pull-right
+                        //                button.btn.btn-default.active(type='button') File
+                        //                //v-btn(flat small type='button') Image
+                        //                //button.btn.btn-default(type='button') URL
+                        //        .file-tab.panel-body
+                        //            label.btn.btn-default.btn-file
+                        //                span Browse
+                        //                // The file is stored here.
+                        //                input(type='file', name='image-file')
+                        //            button.btn.btn-danger(type='button') Remove
+                        //            //v-btn(color='error', type='button') Remove
+                        //        //.url-tab.panel-body
+                        //        //    .input-group
+                        //        //        input.form-control.hasclear(type='text', placeholder='Image URL')
+                        //        //        .input-group-btn
+                        //        //            button.btn.btn-default(type='button') Submit
+                        //        //    button.btn.btn-default(type='button') Remove
+                        //        //    // The URL is stored here.
+                        //        //    input(type='hidden', name='image-url')
+                        //
+                        //    div(align='center')
+                        //        //button.btn.btn-primary(type='submit') Submit
+                        //        v-btn(color='info', type='submit') Submit
+                    else
+                        hr
+                        v-form.form-horizontal(ref="form" action='/lost/test2' method='POST')
+                            .form-group
+                                label.control-label.col-sm-2 Image:
+                                .col-sm-10
+                                    v-card(width='60%')
+                                        img(src= image width="100%")
+                            .form-group
+                                label.control-label.col-sm-2 Name:
+                                .col-sm-10
+                                    v-text-field(label='Name', v-model='name', :rules="nameRules", :counter='10', name='name')
+
+                            .form-group
+                                label.control-label.col-sm-2 E-mail:
+                                .col-sm-10
+                                    v-text-field(label='E-mail', v-model='email', :rules="emailRules", name='email')
+
+                            .form-group
+                                label.control-label.col-sm-2 Labels:
+                                .col-sm-10
+                                    v-select(label='Input labels', chips='', tags='', solo='', append-icon='', clearable='', v-model='labels' )
+                                        template(slot='selection', slot-scope='data')
+                                            v-chip(close='', @input='removeLabel(data.item)', :selected='data.selected')
+                                                strong {{ data.item }}
+
+                            .form-group
+                                label.control-label.col-sm-2 Texts:
+                                .col-sm-10
+                                    v-select(label='Input some text', chips='', tags='', solo='', append-icon='', clearable='', v-model='texts')
+                                        template(slot='selection', slot-scope='data')
+                                            v-chip( close='', @input='removeText(data.item)', :selected='data.selected')
+                                                strong {{ data.item }}
+
+                            .form-group
+                                label.control-label.col-sm-2 Logos:
+                                .col-sm-10
+                                    v-select(label='Input brand name', chips='', tags='', solo='', append-icon='', clearable='', v-model='logos')
+                                        template(slot='selection', slot-scope='data')
+                                            v-chip( close='', @input='removeLogo(data.item)', :selected='data.selected')
+                                                strong {{ data.item }}
+
+                            .form-group
+                                label.control-label.col-sm-2(for='date') 습득일:
+                                .col-sm-10
+                                    //v-date-picker.mt-3(full-width landscape v-model='picker', color="green lighten-1")
+                                    v-dialog(ref='dialog', persistent, v-model='modal', lazy, full-width, width='330px', :return-value.sync='date')
+                                        v-text-field(slot='activator', label='습득일', v-model='date', readonly)
+                                        v-date-picker(v-model='date', scrollable color="green lighten-1", name='date')
+                                            v-spacer
+                                            v-btn(flat='', color='primary', @click='modal = false') Cancel
+                                            v-btn(flat='', color='primary', @click='$refs.dialog.save(date)') OK
+
+
+                            br
                             hr
-                            form.form-horizontal(action='/lost' method='post' enctype="multipart/form-data")
-                                .imageupload.panel.panel-default
-                                    .panel-heading.clearfix
-                                        h3.panel-title.pull-left Upload Image
-                                        .btn-group.pull-right
-                                            //button.btn.btn-default.active(type='button') File
-                                            v-btn(flat small type='button') Image
-                                            //button.btn.btn-default(type='button') URL
-                                    .file-tab.panel-body
-                                        label.btn.btn-default.btn-file
-                                            span Browse
-                                            // The file is stored here.
-                                            input(type='file', name='image-file')
-                                        //button.btn.btn-danger(type='button') Remove
-                                        v-btn(color='error', type='button') Remove
-                                    //.url-tab.panel-body
-                                    //    .input-group
-                                    //        input.form-control.hasclear(type='text', placeholder='Image URL')
-                                    //        .input-group-btn
-                                    //            button.btn.btn-default(type='button') Submit
-                                    //    button.btn.btn-default(type='button') Remove
-                                    //    // The URL is stored here.
-                                    //    input(type='hidden', name='image-url')
+                            p(class='right')
+                                v-btn(color='error', type='button', onclick="window.location.href='/lost'") Back
+                                v-btn(color='info', @click="submit") Submit
 
-                                div(align='center')
-                                    //button.btn.btn-primary(type='submit') Submit
-                                    v-btn(color='info', type='submit') Submit
-                        else
-                            hr
-                            v-form.form-horizontal(ref="form" action='/lost/test2' method='POST')
-                                .form-group
-                                    label.control-label.col-sm-2 Image:
-                                    .col-sm-10
-                                        v-card(width='60%')
-                                            img(src= image width="100%")
-                                .form-group
-                                    label.control-label.col-sm-2 Name:
-                                    .col-sm-10
-                                        v-text-field(label='Name', v-model='name', :rules="nameRules", :counter='10', name='name')
-
-                                .form-group
-                                    label.control-label.col-sm-2 E-mail:
-                                    .col-sm-10
-                                        v-text-field(label='E-mail', v-model='email', :rules="emailRules", name='email')
-
-                                .form-group
-                                    label.control-label.col-sm-2 Labels:
-                                    .col-sm-10
-                                        v-select(label='Input labels', chips='', tags='', solo='', append-icon='', clearable='', v-model='labels' )
-                                            template(slot='selection', slot-scope='data')
-                                                v-chip(close='', @input='removeLabel(data.item)', :selected='data.selected')
-                                                    strong {{ data.item }}
-
-                                .form-group
-                                    label.control-label.col-sm-2 Texts:
-                                    .col-sm-10
-                                        v-select(label='Input some text', chips='', tags='', solo='', append-icon='', clearable='', v-model='texts')
-                                            template(slot='selection', slot-scope='data')
-                                                v-chip( close='', @input='removeText(data.item)', :selected='data.selected')
-                                                    strong {{ data.item }}
-
-                                .form-group
-                                    label.control-label.col-sm-2 Logos:
-                                    .col-sm-10
-                                        v-select(label='Input brand name', chips='', tags='', solo='', append-icon='', clearable='', v-model='logos')
-                                            template(slot='selection', slot-scope='data')
-                                                v-chip( close='', @input='removeLogo(data.item)', :selected='data.selected')
-                                                    strong {{ data.item }}
-
-                                .form-group
-                                    label.control-label.col-sm-2(for='date') 습득일:
-                                    .col-sm-10
-                                        //v-date-picker.mt-3(full-width landscape v-model='picker', color="green lighten-1")
-                                        v-dialog(ref='dialog', persistent, v-model='modal', lazy, full-width, width='330px', :return-value.sync='date')
-                                            v-text-field(slot='activator', label='습득일', v-model='date', readonly)
-                                            v-date-picker(v-model='date', scrollable color="green lighten-1", name='date')
-                                                v-spacer
-                                                v-btn(flat='', color='primary', @click='modal = false') Cancel
-                                                v-btn(flat='', color='primary', @click='$refs.dialog.save(date)') OK
+    include vue_footer
 
 
-                                br
-                                hr
-                                p(class='right')
-                                    v-btn(color='error', type='button', onclick="window.location.href='/lost'") Back
-                                    v-btn(color='info', @click="submit") Submit
+    //script(src='/scripts/vue.js')
+    //link(href='/stylesheets/vuetify-v1.0.0-beta.5.min.css', rel='stylesheet')
+    //script(src='/javascripts/vuetify-v1.0.0-beta.5.min.js')
+    //link(href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons', rel='stylesheet')
 
-
-    script(src='/scripts/vue.js')
-    link(href='/stylesheets/vuetify-v1.0.0-beta.5.min.css', rel='stylesheet')
-    script(src='/javascripts/vuetify-v1.0.0-beta.5.min.js')
-    script(src='/scripts/axios.js')
-    link(href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons', rel='stylesheet')
+    //link(href='/stylesheets/bootstrap-imageupload.css', rel='stylesheet')
+    //script(src='/javascripts/bootstrap-imageupload.js')
+    //script.
+    //    var $imageupload = $('.imageupload');
+    //    $imageupload.imageupload();
+    //    $('#imageupload-disable').on('click', function () {
+    //        $imageupload.imageupload('disable');
+    //        $(this).blur();
+    //    })
+    //    $('#imageupload-enable').on('click', function () {
+    //        $imageupload.imageupload('enable');
+    //        $(this).blur();
+    //    })
+    //    $('#imageupload-reset').on('click', function () {
+    //        $imageupload.imageupload('reset');
+    //        $(this).blur();
+    //    });
 
     script.
 
-        new Vue({
+        var domEleArray = [$('#file').clone()];
+
+        const vue = new Vue({
             el: '#app',
             data: {
+                title: 'Discovery and Lost',
+                imgSrc: '',
+                isFile: false,
+                isProgress: false,
                 valid: false,
                 name: '',
                 nameRules: [
@@ -138,6 +199,36 @@ block content
                 modal: false
             },
             methods: {
+                browseClick: function(){
+                    var inputFile = document.getElementById('file')
+                    inputFile.click()
+                },
+                removeFile: function(){
+                    domEleArray[1] = domEleArray[0].clone(true); // 쌔거(0번) -> 복사(1번)
+                    $('#file').replaceWith(domEleArray[1]);
+                    this.isFile = false
+                    // var imageForm = document.getElementById('image-form')
+                    // var inputFile = document.getElementById('file')
+                },
+                imageChange: function(){
+                    var inputFile = document.getElementById('file')
+
+                    var reader = new FileReader();
+                    reader.onload = function () {
+                        // this.imgSrc = reader.result//inputFile.files[0]//'https://kr.vuejs.org/images/logo.png'
+                        // this.seen = true
+                        $('#uploaded-img').attr('src', reader.result);
+                        // alert(reader.result)
+                        // $('#blah').attr('src', e.target.result);
+                    }
+                    reader.readAsDataURL(inputFile.files[0]);
+                    this.isFile = true
+                },
+                uploadImage: function (e) {
+                    this.isProgress = true
+                    var form = document.getElementById('image-form')
+                    form.submit()
+                },
                 removeLabel(item) {
                     this.labels.splice(this.labels.indexOf(item), 1)
                     this.labels = [this.labels]
@@ -241,94 +332,95 @@ block content
             ]
         });
 
+        // var $imageupload = $('.imageupload');
+        // $imageupload.imageupload();
+        // $('#imageupload-disable').on('click', function () {
+        //     $imageupload.imageupload('disable');
+        //     $(this).blur();
+        // })
+        // $('#imageupload-enable').on('click', function () {
+        //     $imageupload.imageupload('enable');
+        //     $(this).blur();
+        // })
+        // $('#imageupload-reset').on('click', function () {
+        //     $imageupload.imageupload('reset');
+        //     $(this).blur();
+        // });
 
 
-    script.
-        var $imageupload = $('.imageupload');
-        $imageupload.imageupload();
-        $('#imageupload-disable').on('click', function () {
-            $imageupload.imageupload('disable');
-            $(this).blur();
-        })
-        $('#imageupload-enable').on('click', function () {
-            $imageupload.imageupload('enable');
-            $(this).blur();
-        })
-        $('#imageupload-reset').on('click', function () {
-            $imageupload.imageupload('reset');
-            $(this).blur();
-        });
 
-    script.
-        function changeText(id) {
-            var changedText;
-            var text = document.getElementById(id).innerHTML;
-            var popup = prompt("Please enter text:", text);
-            if (popup == null || popup == "") {
-                changedText = text;
-            } else {
-                changedText = popup;
-            }
-            document.getElementById(id).innerHTML = changedText;
-        }
 
-        function changeInputText(el) {
-            // alert(el.value);
-            var changedText;
-            var text = el.value;
-            var popup = prompt("Please enter text:", text);
-            if (popup == null || popup == "") {
-                changedText = text;
-            } else {
-                changedText = popup;
-            }
-            el.value = changedText;
-            var id = el.id;
-            el_hidden = document.getElementsByClassName(id)[0];
-            el_hidden.value = el.value;
-        }
-
-        function addInputText(btn, type) {
-
-            var id = btn.id;
-
-            var changeText;
-            var popup = prompt("Please enter text:", "");
-            if (popup == null || popup == "") {
-                return;
-            } else {
-                changedText = popup;
-            }
-
-            var ul_texts = document.getElementById('ul-' + type);
-
-            // li.tag
-            var li = document.createElement('li');
-            li.className = 'tag';
-
-            // input.reset-this(type='button' id= "texts_" + count value=txt onclick="changeInputText(this)")
-            var inputButton = document.createElement('input');
-            inputButton.className = 'reset-this';
-            inputButton.onclick = function () {
-                changeInputText(this);
-            };
-            inputButton.type = 'button';
-            inputButton.value = changedText;
-            inputButton.id = type + '_' + id;
-
-            // input(type='hidden' class= "texts_" + count name= "texts" value=txt)
-            var inputHidden = document.createElement('input');
-            inputHidden.type = 'hidden';
-            inputHidden.value = changedText;
-            inputHidden.name = type;
-            inputHidden.className = type + '_' + id;
-
-            btn.id = parseInt(id) + 1 + "";
-
-            li.appendChild(inputButton);
-            li.appendChild(inputHidden);
-
-            ul_texts.appendChild(li);
-
-        }
+    //
+    //script.
+    //    function changeText(id) {
+    //        var changedText;
+    //        var text = document.getElementById(id).innerHTML;
+    //        var popup = prompt("Please enter text:", text);
+    //        if (popup == null || popup == "") {
+    //            changedText = text;
+    //        } else {
+    //            changedText = popup;
+    //        }
+    //        document.getElementById(id).innerHTML = changedText;
+    //    }
+    //
+    //    function changeInputText(el) {
+    //        // alert(el.value);
+    //        var changedText;
+    //        var text = el.value;
+    //        var popup = prompt("Please enter text:", text);
+    //        if (popup == null || popup == "") {
+    //            changedText = text;
+    //        } else {
+    //            changedText = popup;
+    //        }
+    //        el.value = changedText;
+    //        var id = el.id;
+    //        el_hidden = document.getElementsByClassName(id)[0];
+    //        el_hidden.value = el.value;
+    //    }
+    //
+    //    function addInputText(btn, type) {
+    //
+    //        var id = btn.id;
+    //
+    //        var changeText;
+    //        var popup = prompt("Please enter text:", "");
+    //        if (popup == null || popup == "") {
+    //            return;
+    //        } else {
+    //            changedText = popup;
+    //        }
+    //
+    //        var ul_texts = document.getElementById('ul-' + type);
+    //
+    //        // li.tag
+    //        var li = document.createElement('li');
+    //        li.className = 'tag';
+    //
+    //        // input.reset-this(type='button' id= "texts_" + count value=txt onclick="changeInputText(this)")
+    //        var inputButton = document.createElement('input');
+    //        inputButton.className = 'reset-this';
+    //        inputButton.onclick = function () {
+    //            changeInputText(this);
+    //        };
+    //        inputButton.type = 'button';
+    //        inputButton.value = changedText;
+    //        inputButton.id = type + '_' + id;
+    //
+    //        // input(type='hidden' class= "texts_" + count name= "texts" value=txt)
+    //        var inputHidden = document.createElement('input');
+    //        inputHidden.type = 'hidden';
+    //        inputHidden.value = changedText;
+    //        inputHidden.name = type;
+    //        inputHidden.className = type + '_' + id;
+    //
+    //        btn.id = parseInt(id) + 1 + "";
+    //
+    //        li.appendChild(inputButton);
+    //        li.appendChild(inputHidden);
+    //
+    //        ul_texts.appendChild(li);
+    //
+    //    }
 

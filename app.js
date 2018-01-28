@@ -30,6 +30,9 @@ app.use(express.static(path.join(__dirname, 'bower_components')));
 app.use('/scripts', express.static(__dirname + '/node_modules/vue/dist'));
 app.use('/scripts', express.static(__dirname + '/node_modules/vuetify/dist'));
 app.use('/scripts', express.static(__dirname + '/node_modules/axios/dist'));
+app.use('/scripts', express.static(__dirname + '/node_modules/jquery/dist'));
+app.use('/scripts', express.static(__dirname + '/node_modules/bootstrap/dist/js'));
+app.use('/styles', express.static(__dirname + '/node_modules/bootstrap/dist/css'));
 
 app.use('/', index);
 app.use('/users', users);
