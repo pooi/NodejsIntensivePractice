@@ -26,7 +26,7 @@ block content
                                     v-flex(xs12, text-xs-center)
                                         img.pa-2(:src='imgSrc', id='uploaded-img', width='50%', v-if='isFile')
 
-                                    v-flex.py-5(xs12, text-xs-center, v-if='!isFile', v-on:click='browseClick')
+                                    v-flex.py-5(xs12, text-xs-center, v-if='!isFile')
                                         v-btn(width='100%', color='info', v-on:click='browseClick', flat, large) Browse
 
                                     v-card-actions.right(v-if='isFile')
@@ -96,7 +96,7 @@ block content
                                 v-btn(color='error', type='button', onclick="window.location.href='/lost'") Back
                                 v-btn(color='info', @click="submit") Submit
 
-    include vue_footer
+            include vue_footer
 
     script.
 
