@@ -1,9 +1,10 @@
-v-footer.grey.darken-3(dark)
+v-footer.grey.darken-3(dark, height='auto')
     div.white--text.md6.text-xs-center()
-        v-layout(row='', wrap='', justify-center='')
+        v-layout(wrap='', justify-center='')
             v-card(style='padding: 20px;')
-                v-card-text.white--text.md6.py-4
-                    | Phasellus feugiat arcu sapien, et iaculis ipsum elementum sit amet. Mauris cursus commodo interdum. Praesent ut risus eget metus luctus accumsan id ultrices nunc. Sed at orci sed massa consectetur dignissim a sit amet dui. Duis commodo vitae velit et faucibus. Morbi vehicula lacinia malesuada.
-                v-card-text.white--text
-                    | © 2018&nbsp;
-                    strong discovery.cf
+                v-flex(xs12='', md8='', offset-md2)
+                    v-card-text.white--text.py-4
+                        | Phasellus feugiat arcu sapien, et iaculis ipsum elementum sit amet. Mauris cursus commodo interdum. Praesent ut risus eget metus luctus accumsan id ultrices nunc. Sed at orci sed massa consectetur dignissim a sit amet dui.
+                    v-card-text.white--text
+                        | © 2018&nbsp;
+                        strong discoveryandlost.cf
