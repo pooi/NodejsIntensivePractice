@@ -19,61 +19,23 @@ block content
                                     v-card-title(style='background-color: #f5f5f5;')
                                         div
                                             h2.headline.my-0.py-0 Upload Image
+
                                     hr.my-0
                                     v-progress-linear.my-0(:indeterminate="true", height="2", color='info', v-if='isProgress')
-                                    //v-btn.text-xs-center( color='info', v-on:click='browseClick', flat, large) Test
-                                    //    input(id='file', type='file', name='file', v-on:change='imageChange', accept="image/*" style='display: none;')
+
                                     v-flex(xs12, text-xs-center)
                                         img.pa-2(:src='imgSrc', id='uploaded-img', width='50%', v-if='isFile')
-                                    v-flex.py-5(xs12, text-xs-center, v-if='!isFile')
-                                        v-btn( color='info', v-on:click='browseClick', flat, large) Browse
 
-                                    //v-card-title.center-block
-                                    //    v-btn( color='info', v-on:click='browseClick', flat, large, v-if='!isFile') Browse
-                                    //        input(id='file', type='file', name='file', v-on:change='imageChange', accept="image/*" style='display: none;')
+                                    v-flex.py-5(xs12, text-xs-center, v-if='!isFile', v-on:click='browseClick')
+                                        v-btn(width='100%', color='info', v-on:click='browseClick', flat, large) Browse
+
                                     v-card-actions.right(v-if='isFile')
                                         v-btn(flat, small, color='red', v-on:click='removeFile') Remove
                                         v-btn(flat, small, color='orange', v-on:click='browseClick') Change
                                         v-btn(flat, small, color='info', v-on:click='uploadImage') Submit
-                                    //label.btn.btn-default
-                                    //    span Browse
-                                    //    input(id='file', type='file', name='file', v-on:change='imageChange', accept="image/*" style='display: none;')
-                            //label.btn.btn-default.btn-file
-                            //    span Browse
-                            //    input(id='file', type='file', name='file', v-on:change='imageChange', accept="image/*" style='display: none;')
-                            //br
-                            //img(:src='imgSrc', id='uploaded-img')
-                            //v-btn(color='info', type='submit') Submit
 
-                        //br
-                        //
-                        //form.form-horizontal(action='/lost' method='post' enctype="multipart/form-data")
-                        //    .imageupload.panel.panel-default
-                        //        .panel-heading.clearfix
-                        //            h3.panel-title.pull-left Upload Image
-                        //            .btn-group.pull-right
-                        //                button.btn.btn-default.active(type='button') File
-                        //                //v-btn(flat small type='button') Image
-                        //                //button.btn.btn-default(type='button') URL
-                        //        .file-tab.panel-body
-                        //            label.btn.btn-default.btn-file
-                        //                span Browse
-                        //                // The file is stored here.
-                        //                input(type='file', name='image-file')
-                        //            button.btn.btn-danger(type='button') Remove
-                        //            //v-btn(color='error', type='button') Remove
-                        //        //.url-tab.panel-body
-                        //        //    .input-group
-                        //        //        input.form-control.hasclear(type='text', placeholder='Image URL')
-                        //        //        .input-group-btn
-                        //        //            button.btn.btn-default(type='button') Submit
-                        //        //    button.btn.btn-default(type='button') Remove
-                        //        //    // The URL is stored here.
-                        //        //    input(type='hidden', name='image-url')
-                        //
-                        //    div(align='center')
-                        //        //button.btn.btn-primary(type='submit') Submit
-                        //        v-btn(color='info', type='submit') Submit
+                        p.pt-2.right * JPG, PNG, GIF 파일만 업로드 가능합니다.
+
                     else
                         hr
                         v-form.form-horizontal(ref="form" action='/lost/test2' method='POST')
@@ -136,39 +98,14 @@ block content
 
     include vue_footer
 
-
-    //script(src='/scripts/vue.js')
-    //link(href='/stylesheets/vuetify-v1.0.0-beta.5.min.css', rel='stylesheet')
-    //script(src='/javascripts/vuetify-v1.0.0-beta.5.min.js')
-    //link(href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons', rel='stylesheet')
-
-    //link(href='/stylesheets/bootstrap-imageupload.css', rel='stylesheet')
-    //script(src='/javascripts/bootstrap-imageupload.js')
-    //script.
-    //    var $imageupload = $('.imageupload');
-    //    $imageupload.imageupload();
-    //    $('#imageupload-disable').on('click', function () {
-    //        $imageupload.imageupload('disable');
-    //        $(this).blur();
-    //    })
-    //    $('#imageupload-enable').on('click', function () {
-    //        $imageupload.imageupload('enable');
-    //        $(this).blur();
-    //    })
-    //    $('#imageupload-reset').on('click', function () {
-    //        $imageupload.imageupload('reset');
-    //        $(this).blur();
-    //    });
-
     script.
-
-        var domEleArray = [$('#file').clone()];
 
         const vue = new Vue({
             el: '#app',
             data: {
                 title: 'Discovery and Lost',
                 imgSrc: '',
+                domEleArray: null,
                 isFile: false,
                 isProgress: false,
                 valid: false,
@@ -204,22 +141,19 @@ block content
                     inputFile.click()
                 },
                 removeFile: function(){
-                    domEleArray[1] = domEleArray[0].clone(true); // 쌔거(0번) -> 복사(1번)
-                    $('#file').replaceWith(domEleArray[1]);
+                    this.domEleArray[1] = this.domEleArray[0].clone(true); // 쌔거(0번) -> 복사(1번)
+                    $('#file').replaceWith(this.domEleArray[1]);
+                    $("#file").change(function () {
+                        vue.imageChange()
+                    });
                     this.isFile = false
-                    // var imageForm = document.getElementById('image-form')
-                    // var inputFile = document.getElementById('file')
                 },
                 imageChange: function(){
                     var inputFile = document.getElementById('file')
 
                     var reader = new FileReader();
                     reader.onload = function () {
-                        // this.imgSrc = reader.result//inputFile.files[0]//'https://kr.vuejs.org/images/logo.png'
-                        // this.seen = true
                         $('#uploaded-img').attr('src', reader.result);
-                        // alert(reader.result)
-                        // $('#blah').attr('src', e.target.result);
                     }
                     reader.readAsDataURL(inputFile.files[0]);
                     this.isFile = true
@@ -328,6 +262,9 @@ block content
                         list.pop()
                     }
                     this.logos = list
+                },
+                function(){
+                    this.domEleArray = [$('#file').clone()];
                 }
             ]
         });

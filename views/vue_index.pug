@@ -102,21 +102,23 @@ block content
                                 v-list-tile-content
                                     v-list-tile-title ldaytw@gmail.com
 
+    //v-btn(fixed, dark, fab, bottom, right, color='green', small, v-on:click="gotoTop")
+    //    v-icon keyboard_arrow_up
+
     include vue_footer
-    //v-footer.blue.darken-2
-    //    v-layout(row='', wrap='', align-center='')
-    //        v-flex(xs12='')
-    //            .white--text.ml-3
-    //                | Made with
-    //                v-icon.red--text favorite
-    //                |               by
-    //                a.white--text(href='https://vuetifyjs.com', target='_blank') {{ title }}
 
     script.
         var vm = new Vue({
             el: '#app',
             data: {
                 title: 'Discovery and Lost'
+            },
+            method:{
+                // gotoTop: function(){
+                //     alert("click!")
+                //     document.body.scrollTop = 0; // For Safari
+                //     document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+                // }
             }
         })
 
