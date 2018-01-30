@@ -42,7 +42,7 @@ block content
                             .form-group
                                 label.control-label.col-sm-2 Image:
                                 .col-sm-10
-                                    v-card(width='60%')
+                                    v-card.elevation-10(width='60%')
                                         img(src= image width="100%")
                             .form-group
                                 label.control-label.col-sm-2 Name:
@@ -63,7 +63,7 @@ block content
                                                 strong {{ data.item }}
 
                             .form-group
-                                label.control-label.col-sm-2 Texts:
+                                label.control-label.col-sm-2 Description:
                                 .col-sm-10
                                     v-select(label='Input some text', chips='', tags='', solo='', append-icon='', clearable='', v-model='texts')
                                         template(slot='selection', slot-scope='data')
@@ -81,10 +81,11 @@ block content
                             .form-group
                                 label.control-label.col-sm-2(for='date') 습득일:
                                 .col-sm-10
+                                    v-date-picker.hidden-sm-and-down(v-model='date', :landscape='true', color="green lighten-1", name='date')
                                     //v-date-picker.mt-3(full-width landscape v-model='picker', color="green lighten-1")
-                                    v-dialog(ref='dialog', persistent, v-model='modal', lazy, full-width, width='330px', :return-value.sync='date')
+                                    v-dialog.hidden-md-and-up(ref='dialog', persistent, v-model='modal', lazy, full-width, width='330px', :return-value.sync='date')
                                         v-text-field(slot='activator', label='습득일', v-model='date', readonly)
-                                        v-date-picker(v-model='date', scrollable color="green lighten-1", name='date')
+                                        v-date-picker(v-model='date', scrollable, color="green lighten-1", name='date')
                                             v-spacer
                                             v-btn(flat='', color='primary', @click='modal = false') Cancel
                                             v-btn(flat='', color='primary', @click='$refs.dialog.save(date)') OK
@@ -93,10 +94,36 @@ block content
                             br
                             hr
                             p(class='right')
+                                v-btn(color='info', @click.native="responseDialog = true") Dialog(temp)
                                 v-btn(color='error', type='button', onclick="window.location.href='/lost'") Back
-                                v-btn(color='info', @click="submit") Submit
+                                v-btn(color='info', @click="submitWithAxios") Submit
+
 
             include vue_footer
+
+    v-dialog.md6(v-model='responseDialog', persistent, scrollable, max-width='500px')
+        //v-layout( wrap, align-center='')
+        //v-flex(xs12='', md6='')
+        v-card
+            v-card-title.headline Successfully Registered
+            hr.py-0.my-0
+            v-card-media(src= image, height='250px')
+            v-card-text(v-text='resSuccessMsg')
+                //| Let Google help apps determine location. This means sending anonymous location data to Google, even when no apps are running.
+            hr.py-0.my-0
+            v-card-actions
+                v-spacer
+                v-btn(color='green darken-1', flat='flat', href='/lost') Ok
+                //v-btn(color='success', flat, @click.native="responseDialog = false") Ok
+
+    v-dialog(v-model='responseErrorDialog', max-width='350', persistent)
+        v-card
+            v-card-title.headline Registration Failure
+            v-card-text
+                | If you continue to fail, contact the administrator.
+            v-card-actions
+                v-spacer
+                v-btn(color='green darken-1', flat='flat', @click.native="responseErrorDialog = false") Ok
 
     script.
 
@@ -104,12 +131,13 @@ block content
             el: '#app',
             data: {
                 title: 'Discovery and Lost',
+                loginDialog: false,
                 imgSrc: '',
                 domEleArray: null,
                 isFile: false,
                 isProgress: false,
                 valid: false,
-                name: '',
+                name: 'user',
                 nameRules: [
                     function (v) {
                         return !!v || 'Name is required'
@@ -118,7 +146,7 @@ block content
                         return v.length <= 10 || 'Name must be less than 10 characters'
                     },
                 ],
-                email: '',
+                email: 'user@discovery.cf',
                 emailRules: [
                     function (v) {
                         return !!v || 'E-mail is required'
@@ -133,14 +161,17 @@ block content
                 picker: null,
                 date: null,
                 menu: false,
-                modal: false
+                modal: false,
+                responseDialog: false,
+                resSuccessMsg: "This is temporary message.",
+                responseErrorDialog: false
             },
             methods: {
-                browseClick: function(){
+                browseClick: function () {
                     var inputFile = document.getElementById('file')
                     inputFile.click()
                 },
-                removeFile: function(){
+                removeFile: function () {
                     this.domEleArray[1] = this.domEleArray[0].clone(true); // 쌔거(0번) -> 복사(1번)
                     $('#file').replaceWith(this.domEleArray[1]);
                     $("#file").change(function () {
@@ -148,7 +179,7 @@ block content
                     });
                     this.isFile = false
                 },
-                imageChange: function(){
+                imageChange: function () {
                     var inputFile = document.getElementById('file')
 
                     var reader = new FileReader();
@@ -159,7 +190,7 @@ block content
                     this.isFile = true
                 },
                 uploadImage: function (e) {
-                    this.isProgress = true
+                    vue.isProgress = true
                     var form = document.getElementById('image-form')
                     form.submit()
                 },
@@ -175,8 +206,41 @@ block content
                     this.logos.splice(this.logos.indexOf(item), 1)
                     this.logos = [this.logos]
                 },
+                dateToMs(date) {
+                    var temp = date.split('-');
+                    var year = parseInt(temp[0]);
+                    var month = parseInt(temp[1]);
+                    var day = parseInt(temp[2]);
+                    var k = Date.parse(date);
+                    return k;
+                },
+                msToDate(ms) {
+                    var date = new Date(ms);
+                    var dd = date.getDate();
+                    var mm = date.getMonth() + 1; //January is 0!
+
+                    var yyyy = date.getFullYear();
+                    if (dd < 10) {
+                        dd = '0' + dd;
+                    }
+                    if (mm < 10) {
+                        mm = '0' + mm;
+                    }
+                    var dateString = yyyy + "-" + mm + "-" + dd;
+                    return dateString
+                },
+                listToString(arr) {
+                    var result = "";
+                    for (var i = 0; i < arr.length; i++) {
+                        result += arr[i];
+                        if (i + 1 < arr.length) {
+                            result += ";";
+                        }
+                    }
+                    return result;
+                },
                 submit() {
-                    console.log('submit')
+
                     var data = {
                         name: this.name,
                         email: this.email,
@@ -192,57 +256,120 @@ block content
                     form.setAttribute("action", "/lost/test");
                     form.setAttribute("enctype", "application/json");
 
-                    var hiddenField = document.createElement("input");
+                    hiddenField = document.createElement("input");
                     hiddenField.setAttribute("type", "hidden");
-                    hiddenField.setAttribute("name", "name");
-                    hiddenField.setAttribute("value", this.name);
+                    hiddenField.setAttribute("name", "photos");
+                    hiddenField.setAttribute("value", "#{image}");
+                    form.appendChild(hiddenField);
+
+                    // var hiddenField = document.createElement("input");
+                    // hiddenField.setAttribute("type", "hidden");
+                    // hiddenField.setAttribute("name", "name");
+                    // hiddenField.setAttribute("value", this.name);
+                    // form.appendChild(hiddenField);
+
+                    // hiddenField = document.createElement("input");
+                    // hiddenField.setAttribute("type", "hidden");
+                    // hiddenField.setAttribute("name", "email");
+                    // hiddenField.setAttribute("value", this.email);
+                    // form.appendChild(hiddenField);
+
+                    hiddenField = document.createElement("input");
+                    hiddenField.setAttribute("type", "hidden");
+                    hiddenField.setAttribute("name", "discovery_date");
+                    hiddenField.setAttribute("value", this.dateToMs(this.date));
                     form.appendChild(hiddenField);
 
                     hiddenField = document.createElement("input");
                     hiddenField.setAttribute("type", "hidden");
-                    hiddenField.setAttribute("name", "email");
-                    hiddenField.setAttribute("value", this.email);
+                    hiddenField.setAttribute("name", "tags");
+                    hiddenField.setAttribute("value", this.listToString(this.labels));
                     form.appendChild(hiddenField);
+                    // for (i = 0; i < this.labels.length; i++) {
+                    //     hiddenField = document.createElement("input");
+                    //     hiddenField.setAttribute("type", "hidden");
+                    //     hiddenField.setAttribute("name", "labels");
+                    //     hiddenField.setAttribute("value", this.labels[i]);
+                    //     form.appendChild(hiddenField);
+                    // }
 
                     hiddenField = document.createElement("input");
                     hiddenField.setAttribute("type", "hidden");
-                    hiddenField.setAttribute("name", "date");
-                    hiddenField.setAttribute("value", this.date);
+                    hiddenField.setAttribute("name", "description");
+                    hiddenField.setAttribute("value", this.listToString(this.texts));
                     form.appendChild(hiddenField);
+                    // for (i = 0; i < this.texts.length; i++) {
+                    //     hiddenField = document.createElement("input");
+                    //     hiddenField.setAttribute("type", "hidden");
+                    //     hiddenField.setAttribute("name", "texts");
+                    //     hiddenField.setAttribute("value", this.texts[i]);
+                    //     form.appendChild(hiddenField);
+                    // }
 
-                    for (i = 0; i < this.labels.length; i++) {
-                        hiddenField = document.createElement("input");
-                        hiddenField.setAttribute("type", "hidden");
-                        hiddenField.setAttribute("name", "labels");
-                        hiddenField.setAttribute("value", this.labels[i]);
-                        form.appendChild(hiddenField);
-                    }
-                    for (i = 0; i < this.texts.length; i++) {
-                        hiddenField = document.createElement("input");
-                        hiddenField.setAttribute("type", "hidden");
-                        hiddenField.setAttribute("name", "texts");
-                        hiddenField.setAttribute("value", this.texts[i]);
-                        form.appendChild(hiddenField);
-                    }
-                    for (i = 0; i < this.logos.length; i++) {
-                        hiddenField = document.createElement("input");
-                        hiddenField.setAttribute("type", "hidden");
-                        hiddenField.setAttribute("name", "logos");
-                        hiddenField.setAttribute("value", this.logos[i]);
-                        form.appendChild(hiddenField);
-                    }
+                    hiddenField = document.createElement("input");
+                    hiddenField.setAttribute("type", "hidden");
+                    hiddenField.setAttribute("name", "brand");
+                    hiddenField.setAttribute("value", this.listToString(this.logos));
+                    form.appendChild(hiddenField);
+                    // for (i = 0; i < this.logos.length; i++) {
+                    //     hiddenField = document.createElement("input");
+                    //     hiddenField.setAttribute("type", "hidden");
+                    //     hiddenField.setAttribute("name", "logos");
+                    //     hiddenField.setAttribute("value", this.logos[i]);
+                    //     form.appendChild(hiddenField);
+                    // }
+
+                    hiddenField = document.createElement("input");
+                    hiddenField.setAttribute("type", "hidden");
+                    hiddenField.setAttribute("name", "category");
+                    hiddenField.setAttribute("value", "none");
+                    form.appendChild(hiddenField);
 
                     document.body.appendChild(form);
 
 
                     form.submit();
+                },
+                submitWithAxios() {
+
+                    var image = "#{image}";
+                    image = image.startsWith('/') ? image : '/' + image;
+
+                    var data = {
+                        photos: image,
+                        discovery_date: this.dateToMs(this.date),
+                        tags: this.listToString(this.labels),
+                        description: this.listToString(this.texts),
+                        brand: this.listToString(this.logos),
+                        category: 'none'
+                    };
+
+                    axios.post(
+                        '/lost/test',
+                        data
+                    ).then(function (response) {
+                        var data = response.data;
+                        var insertId = data.insertId;
+                        if (insertId != null) {
+                            vue.resSuccessMsg = "The item was successfully registered. The registration number is " + insertId + ".";
+                            vue.responseDialog = true;
+                        } else {
+                            vue.responseErrorDialog = true;
+                        }
+                        console.log(response);
+                    }).catch(function (error) {
+                        alert(error);
+                    });
                 }
             },
             mounted: [
                 function () {
+                    this.domEleArray = [$('#file').clone()];
+                },
+                function () {
                     var text = '#{labels}'
                     var list = text.split(',')
-                    if(list.length > 0 && (list[0] === '' || list[0] === ' ')){
+                    if (list.length > 0 && (list[0] === '' || list[0] === ' ')) {
                         list.pop()
                     }
                     this.labels = list
@@ -262,102 +389,22 @@ block content
                         list.pop()
                     }
                     this.logos = list
-                },
-                function(){
-                    this.domEleArray = [$('#file').clone()];
+                }, function () {
+                    var today = new Date();
+                    var dd = today.getDate();
+                    var mm = today.getMonth() + 1; //January is 0!
+
+                    var yyyy = today.getFullYear();
+                    if (dd < 10) {
+                        dd = '0' + dd;
+                    }
+                    if (mm < 10) {
+                        mm = '0' + mm;
+                    }
+                    var today = yyyy + "-" + mm + "-" + dd; //dd + '/' + mm + '/' + yyyy;
+                    this.date = today;
                 }
             ]
         });
 
-        // var $imageupload = $('.imageupload');
-        // $imageupload.imageupload();
-        // $('#imageupload-disable').on('click', function () {
-        //     $imageupload.imageupload('disable');
-        //     $(this).blur();
-        // })
-        // $('#imageupload-enable').on('click', function () {
-        //     $imageupload.imageupload('enable');
-        //     $(this).blur();
-        // })
-        // $('#imageupload-reset').on('click', function () {
-        //     $imageupload.imageupload('reset');
-        //     $(this).blur();
-        // });
-
-
-
-
-    //
-    //script.
-    //    function changeText(id) {
-    //        var changedText;
-    //        var text = document.getElementById(id).innerHTML;
-    //        var popup = prompt("Please enter text:", text);
-    //        if (popup == null || popup == "") {
-    //            changedText = text;
-    //        } else {
-    //            changedText = popup;
-    //        }
-    //        document.getElementById(id).innerHTML = changedText;
-    //    }
-    //
-    //    function changeInputText(el) {
-    //        // alert(el.value);
-    //        var changedText;
-    //        var text = el.value;
-    //        var popup = prompt("Please enter text:", text);
-    //        if (popup == null || popup == "") {
-    //            changedText = text;
-    //        } else {
-    //            changedText = popup;
-    //        }
-    //        el.value = changedText;
-    //        var id = el.id;
-    //        el_hidden = document.getElementsByClassName(id)[0];
-    //        el_hidden.value = el.value;
-    //    }
-    //
-    //    function addInputText(btn, type) {
-    //
-    //        var id = btn.id;
-    //
-    //        var changeText;
-    //        var popup = prompt("Please enter text:", "");
-    //        if (popup == null || popup == "") {
-    //            return;
-    //        } else {
-    //            changedText = popup;
-    //        }
-    //
-    //        var ul_texts = document.getElementById('ul-' + type);
-    //
-    //        // li.tag
-    //        var li = document.createElement('li');
-    //        li.className = 'tag';
-    //
-    //        // input.reset-this(type='button' id= "texts_" + count value=txt onclick="changeInputText(this)")
-    //        var inputButton = document.createElement('input');
-    //        inputButton.className = 'reset-this';
-    //        inputButton.onclick = function () {
-    //            changeInputText(this);
-    //        };
-    //        inputButton.type = 'button';
-    //        inputButton.value = changedText;
-    //        inputButton.id = type + '_' + id;
-    //
-    //        // input(type='hidden' class= "texts_" + count name= "texts" value=txt)
-    //        var inputHidden = document.createElement('input');
-    //        inputHidden.type = 'hidden';
-    //        inputHidden.value = changedText;
-    //        inputHidden.name = type;
-    //        inputHidden.className = type + '_' + id;
-    //
-    //        btn.id = parseInt(id) + 1 + "";
-    //
-    //        li.appendChild(inputButton);
-    //        li.appendChild(inputHidden);
-    //
-    //        ul_texts.appendChild(li);
-    //
-    //    }
 
