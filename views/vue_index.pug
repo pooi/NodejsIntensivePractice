@@ -107,6 +107,8 @@ block content
 
     include vue_footer
 
+    include vue_dialog
+
     script.
         var vm = new Vue({
             el: '#app',
@@ -115,11 +117,6 @@ block content
                 loginDialog: false
             },
             method:{
-                // gotoTop: function(){
-                //     alert("click!")
-                //     document.body.scrollTop = 0; // For Safari
-                //     document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
-                // }
             }
         })
 

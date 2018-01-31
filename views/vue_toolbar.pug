@@ -13,20 +13,4 @@ v-toolbar(fixed, dark, flat)
         v-btn(icon='').hidden-md-and-up
             v-icon more_vert
 
-v-dialog(v-model='loginDialog', max-width='500px')
-    v-card
-        v-card-title
-            span.headline Login
-        hr.py-0.my-0
-        v-card-text
-            v-container(grid-list-md='')
-                v-layout(wrap='')
-                    v-flex(xs12='')
-                        v-text-field(label='Student ID', required)
-                    v-flex(xs12='')
-                        v-text-field(label='Password', type='password', required)
-            small * indicates required field
-        v-card-actions
-            v-spacer
-            v-btn(color='blue darken-1', flat='', @click.native='loginDialog = false') Close
-            v-btn(color='blue darken-1', flat='', @click.native='loginDialog = false') Login
+

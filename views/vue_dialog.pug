@@ -1,0 +1,45 @@
+v-dialog.md6(v-model='responseDialog', persistent, scrollable, max-width='500px')
+    //v-layout( wrap, align-center='')
+    //v-flex(xs12='', md6='')
+    v-card
+        v-card-title.headline(icon)
+            v-icon.mr-2(color='success') check_circle
+            | Successfully Registered
+        hr.py-0.my-0
+        v-card-media(src= image, height='250px')
+        v-card-text(v-text='resSuccessMsg')
+            //| Let Google help apps determine location. This means sending anonymous location data to Google, even when no apps are running.
+        hr.py-0.my-0
+        v-card-actions
+            v-spacer
+            v-btn(color='green darken-1', flat='flat', href='/lost') Ok
+            //v-btn(color='success', flat, @click.native="responseDialog = false") Ok
+
+v-dialog(v-model='responseErrorDialog', max-width='500px')
+    v-card
+        v-card-title.headline
+            v-icon.mr-2(color='error') error
+            | Registration Failure
+        v-card-text
+            | If you continue to fail, contact the administrator.
+        v-card-actions
+            v-spacer
+            v-btn(color='error', flat='flat', @click.native="responseErrorDialog = false") Ok
+
+v-dialog(v-model='loginDialog', max-width='500px')
+    v-card
+        v-card-title
+            span.headline Login
+        hr.py-0.my-0
+        v-card-text
+            v-container(grid-list-md='')
+                v-layout(wrap='')
+                    v-flex(xs12='')
+                        v-text-field(label='Student ID', required)
+                    v-flex(xs12='')
+                        v-text-field(label='Password', type='password', required)
+            small * indicates required field
+        v-card-actions
+            v-spacer
+            v-btn(color='blue darken-1', flat='', @click.native='loginDialog = false') Close
+            v-btn(color='blue darken-1', flat='', @click.native='loginDialog = false') Login

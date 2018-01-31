@@ -57,7 +57,7 @@ block content
                             .form-group
                                 label.control-label.col-sm-2 Labels:
                                 .col-sm-10
-                                    v-select(label='Input labels', chips='', tags='', solo='', append-icon='', clearable='', v-model='labels' )
+                                    v-select(label='Input labels', chips='', tags='', clearable='', v-model='labels' )
                                         template(slot='selection', slot-scope='data')
                                             v-chip(close='', @input='removeLabel(data.item)', :selected='data.selected')
                                                 strong {{ data.item }}
@@ -65,7 +65,7 @@ block content
                             .form-group
                                 label.control-label.col-sm-2 Description:
                                 .col-sm-10
-                                    v-select(label='Input some text', chips='', tags='', solo='', append-icon='', clearable='', v-model='texts')
+                                    v-select(label='Input some text', chips='', tags='', clearable='', v-model='texts')
                                         template(slot='selection', slot-scope='data')
                                             v-chip( close='', @input='removeText(data.item)', :selected='data.selected')
                                                 strong {{ data.item }}
@@ -73,7 +73,8 @@ block content
                             .form-group
                                 label.control-label.col-sm-2 Logos:
                                 .col-sm-10
-                                    v-select(label='Input brand name', chips='', tags='', solo='', append-icon='', clearable='', v-model='logos')
+                                    //v-select(label='Input brand name', chips='', tags='', solo='', append-icon='', clearable='', v-model='logos')
+                                    v-select(label='Input brand name', chips='', tags='', clearable='', v-model='logos')
                                         template(slot='selection', slot-scope='data')
                                             v-chip( close='', @input='removeLogo(data.item)', :selected='data.selected')
                                                 strong {{ data.item }}
@@ -90,40 +91,62 @@ block content
                                             v-btn(flat='', color='primary', @click='modal = false') Cancel
                                             v-btn(flat='', color='primary', @click='$refs.dialog.save(date)') OK
 
+                            .form-group
+                                label.control-label.col-sm-2 Location:
+                                .col-sm-10
+                                    v-layout( wrap)
+                                        v-flex(xs5, md3)
+                                            v-select.xs3(:items='buildings', v-model='selectedBuilding', label='Select building', auto, append-icon='account_balance', autocomplete)
+                                        v-flex.ml-2(xs4, md2)
+                                            v-select.xs3(:items='rooms', v-model='selectedRoom', label='Select room', auto, append-icon='room', autocomplete)
+                                        v-flex.ml-2.pt-2(xs2, md1, v-show='!locationProgress', style='vertical-align: middle;')
+                                            v-fab-transition
+                                                v-btn(color='primary', dark, fab, small, v-on:click='getCurrentLocation')
+                                                    v-icon my_location
+                                        //v-flex.ml-2(xs6, md1, v-if='locationProgress')
+                                        //    v-progress-circular(:indeterminate="true", color='info')
+
+                                    //v-btn(color='primary', v-on:click='getCurrentLocation', v-if='!locationProgress') Get location
+
+                                    v-card.ma-1
+                                        v-progress-linear.py-0.my-0(:indeterminate="true", color='info', v-if='locationProgress', height='2')
+                                        div(id='div_map', style='width:100%; height:200px;')
+
+
+                                    //    img.pa-2(:src='mapUrl', id='map-img', width='100%', v-if='mapUrl != null')
+                                        //#map(width='50%')
+                                        //script(async, defer, src='https://maps.googleapis.com/maps/api/js?key=AIzaSyCEFVgjGWKUi7iA37ful7Fgkle2nGVzfv8&callback=initMap')
+
 
                             br
                             hr
                             p(class='right')
-                                v-btn(color='info', @click.native="responseDialog = true") Dialog(temp)
+                                //v-btn(color='info', @click.native="responseDialog = true") Dialog(temp)
                                 v-btn(color='error', type='button', onclick="window.location.href='/lost'") Back
                                 v-btn(color='info', @click="submitWithAxios") Submit
 
 
+
+
             include vue_footer
 
-    v-dialog.md6(v-model='responseDialog', persistent, scrollable, max-width='500px')
-        //v-layout( wrap, align-center='')
-        //v-flex(xs12='', md6='')
-        v-card
-            v-card-title.headline Successfully Registered
-            hr.py-0.my-0
-            v-card-media(src= image, height='250px')
-            v-card-text(v-text='resSuccessMsg')
-                //| Let Google help apps determine location. This means sending anonymous location data to Google, even when no apps are running.
-            hr.py-0.my-0
-            v-card-actions
-                v-spacer
-                v-btn(color='green darken-1', flat='flat', href='/lost') Ok
-                //v-btn(color='success', flat, @click.native="responseDialog = false") Ok
+    include vue_dialog
 
-    v-dialog(v-model='responseErrorDialog', max-width='350', persistent)
-        v-card
-            v-card-title.headline Registration Failure
-            v-card-text
-                | If you continue to fail, contact the administrator.
-            v-card-actions
-                v-spacer
-                v-btn(color='green darken-1', flat='flat', @click.native="responseErrorDialog = false") Ok
+    script.
+        function initMap() {
+            console.log('initMap');
+            var uluru = {lat: 37.550511, lng: 127.073852};
+            var map = new google.maps.Map(document.getElementById('div_map'), {
+                zoom: 17,
+                center: uluru
+            });
+            console.log(map);
+            var marker = new google.maps.Marker({
+                position: uluru,
+                map: map
+            });
+        }
+    script(async, defer, src='https://maps.googleapis.com/maps/api/js?key=AIzaSyCEFVgjGWKUi7iA37ful7Fgkle2nGVzfv8&callback=initMap')
 
     script.
 
@@ -131,11 +154,11 @@ block content
             el: '#app',
             data: {
                 title: 'Discovery and Lost',
-                loginDialog: false,
                 imgSrc: '',
                 domEleArray: null,
                 isFile: false,
                 isProgress: false,
+                locationProgress: false,
                 valid: false,
                 name: 'user',
                 nameRules: [
@@ -161,7 +184,20 @@ block content
                 picker: null,
                 date: null,
                 menu: false,
+                isShowMap: false,
+                mapUrl: null,
+                selectedBuilding: null,
+                buildings: [
+                    '고인돌 잔디밭','광개토관','군자관','다산관','대양홀','모짜르트홀','무방관','박물관','세종관',
+                    '세종이노베이션센터','아사달 연못','애지헌','영실관','용덕관','우정당','율곡관','이당관','진관홀',
+                    '집현관','충무관','학생회관','학술정보원','행복기숙사'
+                ],
+                selectedRoom: null,
+                rooms: [
+                    '101', '201', '301', '401'
+                ],
                 modal: false,
+                loginDialog: false,
                 responseDialog: false,
                 resSuccessMsg: "This is temporary message.",
                 responseErrorDialog: false
@@ -205,6 +241,79 @@ block content
                 removeLogo(item) {
                     this.logos.splice(this.logos.indexOf(item), 1)
                     this.logos = [this.logos]
+                },
+                getCurrentLocation(){
+                    if (navigator.geolocation) {
+                        this.locationProgress = true;
+                        //위치 정보를 얻기
+                        navigator.geolocation.getCurrentPosition(function (pos) {
+                            var latitude = pos.coords.latitude;   // 적도의 북쪽 기준 각도인 위도
+                            var longitude = pos.coords.longitude; // 그리니치 천문대의 동쪽 기준 각도인 경도
+                            var accuracy = pos.coords.accuracy;   // 미터 단위의 정확도
+
+                            vue.isShowMap = true
+                            // // initMap(latitude, longitude);
+                            //
+                            // // 해당 위치의 구글 지도에 대한 정적 이미지 URL을 생성한다.
+                            // var map_url = "http://maps.google.com/maps/api/staticmap"
+                            //     + "?center=" + latitude + "," + longitude + "&size=640x640&scale=2&sensor=true&&markers=color:red%7Clabel:C%7C" + latitude +"," + longitude;
+                            //
+                            // // 대략적으로 지도 줌 레벨을 계산하여 설정한다.
+                            // var zoomlevel = 17; // 대부분 최대한 확대하여 시작한다.
+                            // if (accuracy > 80)  // 위치가 부정확할 경우 축소한다.
+                            //     zoomlevel -= Math.round(Math.log(accuracy / 50) / Math.LN2);
+                            //
+                            // map_url += "&zoom=" + zoomlevel; // 줌 레벨을 URL에 추가한다.
+                            //
+                            // // API key 추가 ( 키 발급 필요, 키가 없으면 지도 요청시 응답 상태 코드가 403 (Forbidden) 떨어짐.)
+                            // map_url += "&key=AIzaSyCEFVgjGWKUi7iA37ful7Fgkle2nGVzfv8";
+                            //
+                            // // 이제 이미지 객체에 지도를 출력한다.
+                            // // image.src = map_url;
+                            // vue.mapUrl = map_url;
+                            // console.log(map_url);
+
+                            var uluru = {lat: latitude, lng: longitude};
+                            var map = new google.maps.Map(document.getElementById('div_map'), {
+                                zoom: 17,
+                                center: uluru
+                            });
+                            console.log(map);
+                            var marker = new google.maps.Marker({
+                                position: uluru,
+                                map: map
+                            });
+
+                            // alert(pos.coords.latitude + ", " + pos.coords.longitude);
+                            // $('#latitude').html(pos.coords.latitude);     // 위도
+                            // $('#longitude').html(pos.coords.longitude); // 경도
+                            vue.locationProgress = false;
+
+                            // var divMap = document.getElementById('div_map');
+                            // divMap.appendChild("")
+                        }, function (error) {
+                            switch (error.code) {
+                                case error.PERMISSION_DENIED:
+                                    alert("User denied the request for Geolocation.");
+                                    break;
+                                case error.POSITION_UNAVAILABLE:
+                                    alert("Location information is unavailable.");
+                                    break;
+                                case error.TIMEOUT:
+                                    alert("The request to get user location timed out.");
+                                    break;
+                                case error.UNKNOWN_ERROR:
+                                    alert("An unknown error occurred.");
+                                    break;
+                                default:
+                                    alert("An unknown error occurred.");
+                                    break;
+                            }
+                            vue.locationProgress = false;
+                        });
+                    } else {
+                        alert("이 브라우저에서는 Geolocation이 지원되지 않습니다.")
+                    }
                 },
                 dateToMs(date) {
                     var temp = date.split('-');
@@ -333,7 +442,7 @@ block content
                 submitWithAxios() {
 
                     var image = "#{image}";
-                    image = image.startsWith('/') ? image : '/' + image;
+                    image = image.startsWith('/') ? image : '/' +image;
 
                     var data = {
                         photos: image,
@@ -350,16 +459,17 @@ block content
                     ).then(function (response) {
                         var data = response.data;
                         var insertId = data.insertId;
-                        if (insertId != null) {
+                        if(insertId != null){
                             vue.resSuccessMsg = "The item was successfully registered. The registration number is " + insertId + ".";
                             vue.responseDialog = true;
-                        } else {
+                        }else{
                             vue.responseErrorDialog = true;
                         }
                         console.log(response);
-                    }).catch(function (error) {
-                        alert(error);
-                    });
+                    })
+                        .catch(function (error) {
+                            alert(error);
+                        });
                 }
             },
             mounted: [
