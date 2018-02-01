@@ -3,13 +3,13 @@ block content
 
     - function func(){ return "Register Lost Item"};
 
-    div(style="margin-top: 50px;")
-
-            v-content
+    div(style="margin-top: 48px;")
+        v-app
+            v-content.brown.lighten-5
                 v-container.pa-2
 
                     v-flex(md12='')
-                        v-card.elevation-4.pa-3.my-2
+                        v-card.elevation-10.pa-3.my-4
 
                             v-card-title.headline.pa-0= func()
                             //h2= func()
@@ -21,12 +21,12 @@ block content
                                     input(id='file', type='file', name='file', v-on:change='imageChange', accept="image/*" style='display: none;')
                                     v-layout(xs12, align-center)
                                         v-card(width='100%')
-                                            v-card-title(style='background-color: #f5f5f5;')
+                                            v-card-title.grey.lighten-5
                                                 div
                                                     h2.headline.my-0.py-0 Upload Image
 
                                             hr.my-0
-                                            v-progress-linear.my-0(:indeterminate="true", height="2", color='info', v-if='isProgress')
+                                            v-progress-linear.my-0(:indeterminate="true", height="2", color='deep-orange darken-3', v-if='isProgress')
 
                                             v-flex(xs12, text-xs-center)
                                                 img.pa-2(:src='imgSrc', id='uploaded-img', width='50%', v-if='isFile')
@@ -39,7 +39,7 @@ block content
                                                 v-btn(flat, small, color='orange', v-on:click='browseClick') Change
                                                 v-btn(flat, small, color='info', v-on:click='uploadImage') Submit
 
-                                p.pt-2.right * JPG, PNG, GIF 파일만 업로드 가능합니다.
+                                v-subheader * JPG, PNG, GIF 파일만 업로드 가능합니다.
 
                             else
                                 hr
@@ -47,7 +47,7 @@ block content
                                     .form-group
                                         label.control-label.col-sm-2 Image:
                                         .col-sm-10
-                                            v-card.elevation-10(width='60%')
+                                            v-card.elevation-10.mb-3(width='60%')
                                                 img(src= image width="100%")
                                     .form-group
                                         label.control-label.col-sm-2 Name:
@@ -64,7 +64,8 @@ block content
                                         .col-sm-10
                                             v-select(label='Input labels', chips='', tags='', clearable='', v-model='labels' )
                                                 template(slot='selection', slot-scope='data')
-                                                    v-chip(close='', @input='removeLabel(data.item)', :selected='data.selected')
+                                                    v-chip.elevation-2(close='', @input='removeLabel(data.item)', :selected='data.selected', color="orange darken-2", text-color="white")
+                                                        strong.title.mr-1 #
                                                         strong {{ data.item }}
 
                                     .form-group
@@ -72,7 +73,8 @@ block content
                                         .col-sm-10
                                             v-select(label='Input some text', chips='', tags='', clearable='', v-model='texts')
                                                 template(slot='selection', slot-scope='data')
-                                                    v-chip( close='', @input='removeText(data.item)', :selected='data.selected')
+                                                    v-chip.elevation-2( close='', @input='removeText(data.item)', :selected='data.selected', color="orange darken-2", text-color="white")
+                                                        strong.title.mr-1 #
                                                         strong {{ data.item }}
 
                                     .form-group
@@ -81,17 +83,18 @@ block content
                                             //v-select(label='Input brand name', chips='', tags='', solo='', append-icon='', clearable='', v-model='logos')
                                             v-select(label='Input brand name', chips='', tags='', clearable='', v-model='logos')
                                                 template(slot='selection', slot-scope='data')
-                                                    v-chip( close='', @input='removeLogo(data.item)', :selected='data.selected')
+                                                    v-chip.elevation-2( close='', @input='removeLogo(data.item)', :selected='data.selected', color="orange darken-2", text-color="white")
+                                                        strong.title.mr-1 #
                                                         strong {{ data.item }}
 
                                     .form-group
                                         label.control-label.col-sm-2(for='date') 습득일:
                                         .col-sm-10
-                                            v-date-picker.hidden-sm-and-down(v-model='date', :landscape='true', color="green lighten-1", name='date')
+                                            v-date-picker.elevation-10.mb-3.hidden-sm-and-down(v-model='date', :landscape='true', color="brown darken-1", name='date')
                                             //v-date-picker.mt-3(full-width landscape v-model='picker', color="green lighten-1")
                                             v-dialog.hidden-md-and-up(ref='dialog', persistent, v-model='modal', lazy, full-width, width='330px', :return-value.sync='date')
                                                 v-text-field(slot='activator', label='습득일', v-model='date', readonly)
-                                                v-date-picker(v-model='date', scrollable, color="green lighten-1", name='date')
+                                                v-date-picker(v-model='date', scrollable, color="brown darken-1", name='date')
                                                     v-spacer
                                                     v-btn(flat='', color='primary', @click='modal = false') Cancel
                                                     v-btn(flat='', color='primary', @click='$refs.dialog.save(date)') OK
@@ -113,8 +116,8 @@ block content
 
                                             //v-btn(color='primary', v-on:click='getCurrentLocation', v-if='!locationProgress') Get location
 
-                                            v-card.ma-1
-                                                v-progress-linear.py-0.my-0(:indeterminate="true", color='info', v-if='locationProgress', height='2')
+                                            v-card.elevation-5.ml-1.mr-3.mb-3
+                                                v-progress-linear.py-0.my-0(:indeterminate="true", color='deep-orange darken-3', v-if='locationProgress', height='2')
                                                 div(id='div_map', style='width:100%; height:200px;')
 
 
@@ -135,7 +138,7 @@ block content
 
 
 
-            include vue_footer
+        include vue_footer
 
     include vue_dialog
 
@@ -160,7 +163,7 @@ block content
         const vue = new Vue({
             el: '#app',
             data: {
-                title: 'Discovery and Lost',
+                title: 'D&L',
                 imgSrc: '',
                 domEleArray: null,
                 isFile: false,
@@ -474,9 +477,9 @@ block content
                         }
                         console.log(response);
                     })
-                    .catch(function (error) {
-                        alert(error);
-                    });
+                        .catch(function (error) {
+                            alert(error);
+                        });
                 }
             },
             mounted: [

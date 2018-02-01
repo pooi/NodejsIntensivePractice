@@ -1,13 +1,13 @@
 extends vue_layout
 block content
 
-    div(style='margin-top:50px')
+    div(style='margin-top:48px')
 
     section
         v-parallax(src='images/hero.jpeg', height='600')
             v-layout.white--text(column='', align-center='', justify-center='')
                 img(src='images/vuetify.png', alt='Vuetify.js', height='200')
-                h1.white--text.mb-2.display-1.text-xs-center {{ title }}
+                h1.white--text.mb-2.display-1.text-xs-center Discovery and Lost
                 .subheading.mb-3.text-xs-center Powered by team nearby
                 v-btn.blue.lighten-2.mt-5(round, dark='', large='', href='#fetures')
                     | Get Started
@@ -113,7 +113,7 @@ block content
         var vm = new Vue({
             el: '#app',
             data: {
-                title: 'Discovery and Lost',
+                title: 'D&L',
                 loginDialog: false
             },
             method:{

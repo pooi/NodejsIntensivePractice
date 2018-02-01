@@ -1,16 +1,16 @@
-v-toolbar(fixed, dark, flat)
-    v-toolbar-side-icon
-    v-toolbar-title(v-text='title')
+v-toolbar(fixed, dark, flat, dense, color='deep-orange darken-3')
+    //v-toolbar-side-icon
+    v-toolbar-title(v-text='title', onclick="window.location.href='/'")
     v-spacer
     v-toolbar-items
         v-btn(flat, @click.native="loginDialog = true") Login
-        v-btn(icon='', href='/').hidden-sm-and-down
-            v-icon home
-        v-btn(icon='').hidden-sm-and-down
-            v-icon search
-        v-btn(icon='').hidden-sm-and-down
-            v-icon refresh
-        v-btn(icon='').hidden-md-and-up
-            v-icon more_vert
+        //v-btn(icon='', href='/').hidden-sm-and-down
+        //    v-icon home
+        //v-btn(icon='').hidden-sm-and-down
+        //    v-icon search
+        //v-btn(icon='').hidden-sm-and-down
+        //    v-icon refresh
+        //v-btn(icon='').hidden-md-and-up
+        //    v-icon more_vert
 
 
