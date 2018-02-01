@@ -4,126 +4,133 @@ block content
     - function func(){ return "Register Lost Item"};
 
     div(style="margin-top: 50px;")
-        v-app
+
             v-content
-                v-container
-                    h2= func()
+                v-container.pa-2
 
-                    if image == null
-                        hr
+                    v-flex(md12='')
+                        v-card.elevation-4.pa-3.my-2
 
-                        form(action='/lost' method='post' enctype="multipart/form-data", id='image-form')
-                            input(id='file', type='file', name='file', v-on:change='imageChange', accept="image/*" style='display: none;')
-                            v-layout(xs12, align-center)
-                                v-card(width='100%')
-                                    v-card-title(style='background-color: #f5f5f5;')
-                                        div
-                                            h2.headline.my-0.py-0 Upload Image
+                            v-card-title.headline.pa-0= func()
+                            //h2= func()
 
-                                    hr.my-0
-                                    v-progress-linear.my-0(:indeterminate="true", height="2", color='info', v-if='isProgress')
+                            if image == null
+                                hr
 
-                                    v-flex(xs12, text-xs-center)
-                                        img.pa-2(:src='imgSrc', id='uploaded-img', width='50%', v-if='isFile')
+                                form(action='/lost' method='post' enctype="multipart/form-data", id='image-form')
+                                    input(id='file', type='file', name='file', v-on:change='imageChange', accept="image/*" style='display: none;')
+                                    v-layout(xs12, align-center)
+                                        v-card(width='100%')
+                                            v-card-title(style='background-color: #f5f5f5;')
+                                                div
+                                                    h2.headline.my-0.py-0 Upload Image
 
-                                    v-flex.py-5(xs12, text-xs-center, v-if='!isFile')
-                                        v-btn(width='100%', color='info', v-on:click='browseClick', flat, large) Browse
+                                            hr.my-0
+                                            v-progress-linear.my-0(:indeterminate="true", height="2", color='info', v-if='isProgress')
 
-                                    v-card-actions.right(v-if='isFile')
-                                        v-btn(flat, small, color='red', v-on:click='removeFile') Remove
-                                        v-btn(flat, small, color='orange', v-on:click='browseClick') Change
-                                        v-btn(flat, small, color='info', v-on:click='uploadImage') Submit
+                                            v-flex(xs12, text-xs-center)
+                                                img.pa-2(:src='imgSrc', id='uploaded-img', width='50%', v-if='isFile')
 
-                        p.pt-2.right * JPG, PNG, GIF 파일만 업로드 가능합니다.
+                                            v-flex.py-5(xs12, text-xs-center, v-if='!isFile')
+                                                v-btn(width='100%', color='info', v-on:click='browseClick', flat, large) Browse
 
-                    else
-                        hr
-                        v-form.form-horizontal(ref="form" action='/lost/test2' method='POST')
-                            .form-group
-                                label.control-label.col-sm-2 Image:
-                                .col-sm-10
-                                    v-card.elevation-10(width='60%')
-                                        img(src= image width="100%")
-                            .form-group
-                                label.control-label.col-sm-2 Name:
-                                .col-sm-10
-                                    v-text-field(label='Name', v-model='name', :rules="nameRules", :counter='10', name='name')
+                                            v-card-actions.right(v-if='isFile')
+                                                v-btn(flat, small, color='red', v-on:click='removeFile') Remove
+                                                v-btn(flat, small, color='orange', v-on:click='browseClick') Change
+                                                v-btn(flat, small, color='info', v-on:click='uploadImage') Submit
 
-                            .form-group
-                                label.control-label.col-sm-2 E-mail:
-                                .col-sm-10
-                                    v-text-field(label='E-mail', v-model='email', :rules="emailRules", name='email')
+                                p.pt-2.right * JPG, PNG, GIF 파일만 업로드 가능합니다.
 
-                            .form-group
-                                label.control-label.col-sm-2 Labels:
-                                .col-sm-10
-                                    v-select(label='Input labels', chips='', tags='', clearable='', v-model='labels' )
-                                        template(slot='selection', slot-scope='data')
-                                            v-chip(close='', @input='removeLabel(data.item)', :selected='data.selected')
-                                                strong {{ data.item }}
+                            else
+                                hr
+                                v-form.form-horizontal(ref="form" action='/lost/test2' method='POST')
+                                    .form-group
+                                        label.control-label.col-sm-2 Image:
+                                        .col-sm-10
+                                            v-card.elevation-10(width='60%')
+                                                img(src= image width="100%")
+                                    .form-group
+                                        label.control-label.col-sm-2 Name:
+                                        .col-sm-10
+                                            v-text-field(label='Name', v-model='name', :rules="nameRules", :counter='10', name='name')
 
-                            .form-group
-                                label.control-label.col-sm-2 Description:
-                                .col-sm-10
-                                    v-select(label='Input some text', chips='', tags='', clearable='', v-model='texts')
-                                        template(slot='selection', slot-scope='data')
-                                            v-chip( close='', @input='removeText(data.item)', :selected='data.selected')
-                                                strong {{ data.item }}
+                                    .form-group
+                                        label.control-label.col-sm-2 E-mail:
+                                        .col-sm-10
+                                            v-text-field(label='E-mail', v-model='email', :rules="emailRules", name='email')
 
-                            .form-group
-                                label.control-label.col-sm-2 Logos:
-                                .col-sm-10
-                                    //v-select(label='Input brand name', chips='', tags='', solo='', append-icon='', clearable='', v-model='logos')
-                                    v-select(label='Input brand name', chips='', tags='', clearable='', v-model='logos')
-                                        template(slot='selection', slot-scope='data')
-                                            v-chip( close='', @input='removeLogo(data.item)', :selected='data.selected')
-                                                strong {{ data.item }}
+                                    .form-group
+                                        label.control-label.col-sm-2 Labels:
+                                        .col-sm-10
+                                            v-select(label='Input labels', chips='', tags='', clearable='', v-model='labels' )
+                                                template(slot='selection', slot-scope='data')
+                                                    v-chip(close='', @input='removeLabel(data.item)', :selected='data.selected')
+                                                        strong {{ data.item }}
 
-                            .form-group
-                                label.control-label.col-sm-2(for='date') 습득일:
-                                .col-sm-10
-                                    v-date-picker.hidden-sm-and-down(v-model='date', :landscape='true', color="green lighten-1", name='date')
-                                    //v-date-picker.mt-3(full-width landscape v-model='picker', color="green lighten-1")
-                                    v-dialog.hidden-md-and-up(ref='dialog', persistent, v-model='modal', lazy, full-width, width='330px', :return-value.sync='date')
-                                        v-text-field(slot='activator', label='습득일', v-model='date', readonly)
-                                        v-date-picker(v-model='date', scrollable, color="green lighten-1", name='date')
-                                            v-spacer
-                                            v-btn(flat='', color='primary', @click='modal = false') Cancel
-                                            v-btn(flat='', color='primary', @click='$refs.dialog.save(date)') OK
+                                    .form-group
+                                        label.control-label.col-sm-2 Description:
+                                        .col-sm-10
+                                            v-select(label='Input some text', chips='', tags='', clearable='', v-model='texts')
+                                                template(slot='selection', slot-scope='data')
+                                                    v-chip( close='', @input='removeText(data.item)', :selected='data.selected')
+                                                        strong {{ data.item }}
 
-                            .form-group
-                                label.control-label.col-sm-2 Location:
-                                .col-sm-10
-                                    v-layout( wrap)
-                                        v-flex(xs5, md3)
-                                            v-select.xs3(:items='buildings', v-model='selectedBuilding', label='Select building', auto, append-icon='account_balance', autocomplete)
-                                        v-flex.ml-2(xs4, md2)
-                                            v-select.xs3(:items='rooms', v-model='selectedRoom', label='Select room', auto, append-icon='room', autocomplete)
-                                        v-flex.ml-2.pt-2(xs2, md1, v-show='!locationProgress', style='vertical-align: middle;')
-                                            v-fab-transition
-                                                v-btn(color='primary', dark, fab, small, v-on:click='getCurrentLocation')
-                                                    v-icon my_location
-                                        //v-flex.ml-2(xs6, md1, v-if='locationProgress')
-                                        //    v-progress-circular(:indeterminate="true", color='info')
+                                    .form-group
+                                        label.control-label.col-sm-2 Logos:
+                                        .col-sm-10
+                                            //v-select(label='Input brand name', chips='', tags='', solo='', append-icon='', clearable='', v-model='logos')
+                                            v-select(label='Input brand name', chips='', tags='', clearable='', v-model='logos')
+                                                template(slot='selection', slot-scope='data')
+                                                    v-chip( close='', @input='removeLogo(data.item)', :selected='data.selected')
+                                                        strong {{ data.item }}
 
-                                    //v-btn(color='primary', v-on:click='getCurrentLocation', v-if='!locationProgress') Get location
+                                    .form-group
+                                        label.control-label.col-sm-2(for='date') 습득일:
+                                        .col-sm-10
+                                            v-date-picker.hidden-sm-and-down(v-model='date', :landscape='true', color="green lighten-1", name='date')
+                                            //v-date-picker.mt-3(full-width landscape v-model='picker', color="green lighten-1")
+                                            v-dialog.hidden-md-and-up(ref='dialog', persistent, v-model='modal', lazy, full-width, width='330px', :return-value.sync='date')
+                                                v-text-field(slot='activator', label='습득일', v-model='date', readonly)
+                                                v-date-picker(v-model='date', scrollable, color="green lighten-1", name='date')
+                                                    v-spacer
+                                                    v-btn(flat='', color='primary', @click='modal = false') Cancel
+                                                    v-btn(flat='', color='primary', @click='$refs.dialog.save(date)') OK
 
-                                    v-card.ma-1
-                                        v-progress-linear.py-0.my-0(:indeterminate="true", color='info', v-if='locationProgress', height='2')
-                                        div(id='div_map', style='width:100%; height:200px;')
+                                    .form-group
+                                        label.control-label.col-sm-2 Location:
+                                        .col-sm-10
+                                            v-layout( wrap)
+                                                v-flex(xs5, md3)
+                                                    v-select.xs3(:items='buildings', v-model='selectedBuilding', label='Select building', auto, append-icon='account_balance', autocomplete)
+                                                v-flex.ml-2(xs4, md2)
+                                                    v-select.xs3(:items='rooms', v-model='selectedRoom', label='Select room', auto, append-icon='room', autocomplete)
+                                                v-flex.ml-2.pt-2(xs2, md1, v-show='!locationProgress', style='vertical-align: middle;')
+                                                    v-fab-transition
+                                                        v-btn(color='primary', dark, fab, small, v-on:click='getCurrentLocation')
+                                                            v-icon my_location
+                                                //v-flex.ml-2(xs6, md1, v-if='locationProgress')
+                                                //    v-progress-circular(:indeterminate="true", color='info')
+
+                                            //v-btn(color='primary', v-on:click='getCurrentLocation', v-if='!locationProgress') Get location
+
+                                            v-card.ma-1
+                                                v-progress-linear.py-0.my-0(:indeterminate="true", color='info', v-if='locationProgress', height='2')
+                                                div(id='div_map', style='width:100%; height:200px;')
 
 
-                                    //    img.pa-2(:src='mapUrl', id='map-img', width='100%', v-if='mapUrl != null')
-                                        //#map(width='50%')
-                                        //script(async, defer, src='https://maps.googleapis.com/maps/api/js?key=AIzaSyCEFVgjGWKUi7iA37ful7Fgkle2nGVzfv8&callback=initMap')
+                                            //    img.pa-2(:src='mapUrl', id='map-img', width='100%', v-if='mapUrl != null')
+                                                //#map(width='50%')
+                                                //script(async, defer, src='https://maps.googleapis.com/maps/api/js?key=AIzaSyCEFVgjGWKUi7iA37ful7Fgkle2nGVzfv8&callback=initMap')
 
 
-                            br
-                            hr
-                            p(class='right')
-                                //v-btn(color='info', @click.native="responseDialog = true") Dialog(temp)
-                                v-btn(color='error', type='button', onclick="window.location.href='/lost'") Back
-                                v-btn(color='info', @click="submitWithAxios") Submit
+                                    hr.pb-0.mb-0
+                                    //p(class='right')
+                                    //div(class=right)
+                                        //v-btn(color='info', @click.native="responseDialog = true") Dialog(temp)
+                                    .form-group.ma-0.pt-2
+                                        v-card-actions.right
+                                            v-btn(color='error', type='button', onclick="window.location.href='/lost'") Back
+                                            v-btn(color='info', @click="submitWithAxios") Submit
 
 
 
