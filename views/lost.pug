@@ -1,6 +1,8 @@
 extends vue_layout
 block content
 
+
+
     - function func(){ return "Register Lost Item"};
 
     div(style="margin-top: 48px;")
@@ -139,8 +141,10 @@ block content
 
 
         include vue_footer
+        include vue_menu_fab
 
     include vue_dialog
+
 
     script.
         function initMap() {
@@ -164,6 +168,14 @@ block content
             el: '#app',
             data: {
                 title: 'D&L',
+                scrollData: {
+                    fab: false,
+                    offsetTop: 0,
+                    scrollT: 0,
+                    delta: 100,
+                    isShowFabTop: true,
+                    transition: 'slide-y-reverse-transition'
+                },
                 imgSrc: '',
                 domEleArray: null,
                 isFile: false,
@@ -485,6 +497,36 @@ block content
             mounted: [
                 function () {
                     this.domEleArray = [$('#file').clone()];
+                },
+                function () {
+                    $(window).scroll(
+                        function (event) {
+
+                            var scroll = $(window).scrollTop();
+
+                            vue.scrollData.scrollT += (scroll - vue.scrollData.offsetTop);
+
+                            if (vue.scrollData.scrollT > vue.scrollData.delta) {
+                                vue.scrollData.isShowFabTop = false;
+                                vue.scrollData.scrollT = 0;
+                            } else if (vue.scrollData.scrollT < -vue.scrollData.delta) {
+                                vue.scrollData.isShowFabTop = true;
+                                vue.scrollData.scrollT = 0;
+                            }
+
+                            vue.scrollData.offsetTop = scroll;
+
+                            if (scroll === 0) {
+                                vue.scrollData.isShowFabTop = true;
+                                vue.scrollData.scrollT = 0;
+                                vue.scrollData.offsetTop = 0;
+                            }
+                            if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 200) {
+                                vue.scrollData.isShowFabTop = true;
+                            }
+
+                        }
+                    );
                 },
                 function () {
                     var text = '#{labels}'

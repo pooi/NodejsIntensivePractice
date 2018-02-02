@@ -51,9 +51,13 @@ html(lang='en')
 
             v-app(light)
 
-                include vue_toolbar
+                v-container#scroll-target.scroll-y.pa-0(fluid)
 
-                block content
+                    v-layout(column)
+
+                        include vue_toolbar
+
+                        block content
 
         //script.
         //    // console.log("Hi");

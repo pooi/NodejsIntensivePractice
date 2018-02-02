@@ -105,19 +105,62 @@ block content
     //v-btn(fixed, dark, fab, bottom, right, color='green', small, v-on:click="gotoTop")
     //    v-icon keyboard_arrow_up
 
+    //v-fab-transition
+    //    v-btn(fixed, dark, fab, bottom, left,  color='deep-orange darken-3', v-show="scrollData.isShowFabTop", onclick='window.scrollTo(0,0);')
+    //        v-icon keyboard_arrow_up
+    include vue_menu_fab
+
     include vue_footer
 
     include vue_dialog
 
     script.
-        var vm = new Vue({
+        const vue = new Vue({
             el: '#app',
             data: {
                 title: 'D&L',
-                loginDialog: false
+                loginDialog: false,
+                scrollData: {
+                    fab: false,
+                    offsetTop: 0,
+                    scrollT: 0,
+                    delta: 200,
+                    isShowFabTop: false,
+                    transition: 'slide-y-reverse-transition'
+                }
+
             },
             method:{
-            }
+            },
+            mounted:[
+                function(){
+                    $(window).scroll(
+                        function (event) {
+
+                            var scroll = $(window).scrollTop();
+
+                            vue.scrollData.scrollT += (scroll-vue.scrollData.offsetTop);
+
+                            if(vue.scrollData.scrollT > vue.scrollData.delta){
+                                vue.scrollData.isShowFabTop = true;
+                                vue.scrollData.scrollT = 0;
+                            }else if (vue.scrollData.scrollT < -vue.scrollData.delta) {
+                                vue.scrollData.isShowFabTop = false;
+                                vue.scrollData.scrollT = 0;
+                            }
+
+                            vue.scrollData.offsetTop = scroll;
+
+                            if(scroll === 0){
+                                vue.scrollData.isShowFabTop = false;
+                                vue.scrollData.scrollT = 0;
+                                vue.scrollData.offsetTop = 0;
+                            }
+
+                        }
+                    );
+                }
+            ]
         })
 
 
