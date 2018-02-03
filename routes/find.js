@@ -27,7 +27,11 @@ router.get('/', function (req, res) {
             console.log(err);
             res.status(500).send("Internal Server Error");
         }
-        res.render('find', {items: convertResult(results), page: page});
+        var json = JSON.stringify(convertResult(results));
+        // res.send("Sorry");
+        // res.render('find', {items: convertResult(results), page: page});
+        // res.render('find', {items: json, page: page});
+        res.render('find', {items: json, page: page+1});
     });
 });
 router.get('/:page', function (req, res) {
@@ -35,16 +39,42 @@ router.get('/:page', function (req, res) {
     if (page) {
         page = parseInt(page);
     } else {
-        page = 0;
+        page = 1;
     }
-    var page2 = page * 30;
+    if(page <= 0){
+        page = 1;
+    }
+    var page2 = (page-1) * 30;
     var sql = 'SELECT * FROM attractionsTbl limit ?, 30';
     conn.query(sql, [page2], function (err, results, fields) {
         if (err) {
             console.log(err);
             res.status(500).send("Internal Server Error");
         }
-        res.render('find', {items: convertResult(results), page: page});
+        var json = JSON.stringify(convertResult(results));
+        res.render('find', {items: json, page: page});
+    });
+});
+router.post('/', function(req, res){
+    console.log(req.body);
+    var page = req.body.page;
+    if (page) {
+        page = parseInt(page);
+    } else {
+        page = 1;
+    }
+    if(page <= 0){
+        page = 1;
+    }
+    var page2 = (page-1) * 30;
+    var sql = 'SELECT * FROM attractionsTbl limit ?, 30';
+    conn.query(sql, [page2], function (err, results, fields) {
+        if (err) {
+            console.log(err);
+            res.status(500).send("Internal Server Error");
+        }
+        var json = JSON.stringify(convertResult(results));
+        res.send(json);
     });
 });
 

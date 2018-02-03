@@ -59,6 +59,7 @@ function init(init_image, init_labels, init_texts, init_logos) {
             loginDialog: false,
             responseDialog: false,
             resSuccessMsg: "This is temporary message.",
+            resSuccessCode: "1",
             responseErrorDialog: false
         },
         methods: {
@@ -319,7 +320,8 @@ function init(init_image, init_labels, init_texts, init_logos) {
                     var data = response.data;
                     var insertId = data.insertId;
                     if (insertId != null) {
-                        vue.resSuccessMsg = "The item was successfully registered. The registration number is " + insertId + ".";
+                        vue.resSuccessMsg = "The item was successfully registered. The registration number is ";
+                        vue.resSuccessCode = insertId;
                         vue.responseDialog = true;
                     } else {
                         vue.responseErrorDialog = true;

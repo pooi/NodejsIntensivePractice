@@ -7,7 +7,9 @@ v-dialog.md6(v-model='responseDialog', persistent, scrollable, max-width='500px'
             | Successfully Registered
         hr.py-0.my-0
         v-card-media(src= image, height='250px')
-        v-card-text(v-text='resSuccessMsg')
+        v-card-text
+            | {{ resSuccessMsg}}
+            code.title {{resSuccessCode}}
             //| Let Google help apps determine location. This means sending anonymous location data to Google, even when no apps are running.
         hr.py-0.my-0
         v-card-actions

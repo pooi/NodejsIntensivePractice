@@ -1,34 +1,177 @@
-extends layout
+extends vue_layout
 block content
 
-    .container
-        h2 Attraction List
-        .row
-            each item in items
-                .card.col-sm-4(style="padding: 10px;")
-                    img.card-img-top(src=item.mainImage alt='Card image' style='width:100%')
-                    .card-body
-                        h4.card-title= item.title
-                        p.card-text= item.sContents
-                        a.btn.btn-primary(href='#') See Detail
-        br
-        //- form(action='/' method='post')
-        //-     input(type="hidden", name="page", value="0")
-        //-     input.btn.btn-success(type='submit', value="Home")
-        //- form(action='/' method='post')
-        //-     input(type="hidden", name="page", value=page+1)
-        //-     input.btn.btn-success(type='submit', value="Next")
+    div(style="margin-top: 48px;")
+        v-app
+            v-content.brown.lighten-5
+                v-container(v-bind='{ [`grid-list-lg`]: true }')
+                    v-layout(wrap)
+                        v-flex(xs12, sm6, md4, v-for="item in items", :key="item.id", v-model='items')
+                            v-card.elevation-2(flat='', tile='')
+                                v-card-media(:src="item.mainImage", height='200px')
+                                v-card-title.headline.mb-0 {{item.title}}
+                                v-card-text {{item.sContents}}
+                                v-card-actions
+                                    v-spacer
+                                    v-btn(flat, color='orange') Share
+                                    v-btn(flat, color='orange') Detail
 
-        center
-            a.btn.btn-success(href="/find" style="margin-right: 5px;") Home
-            - var n = 0;
-            while n < 10
-                if page
-                    if page == n
-                        a.btn.btn-primary(href="/find/" + n style="margin-right: 5px;")= n++
-                    else
-                        a.btn.btn-default(href="/find/" + n style="margin-right: 5px;")= n++
-                else
-                    a.btn.btn-default(href="/find/" + n style="margin-right: 5px;")= n++
 
+
+                    .text-xs-center.mt-4
+                        v-progress-circular.py-0.my-0(:indeterminate="true", color='deep-orange darken-3', :size="50", v-show='isLoadMore')
+                        v-btn(dark, color='deep-orange darken-3', v-if='isBtnLoadMore', v-on:click='loadMore') Load More
+                    //    v-pagination(:length='6', v-model='page', @input="redirectPage")
+
+
+
+
+
+
+
+
+        include vue_footer
+        include vue_menu_fab
+
+    include vue_dialog
+
+
+    script.
+        var vue = new Vue({
+            el: '#app',
+            data: {
+                title: 'D&L',
+                scrollData: {
+                    fab: false,
+                    offsetTop: 0,
+                    scrollT: 0,
+                    delta: 100,
+                    isShowFabTop: true,
+                    transition: 'slide-y-reverse-transition'
+                },
+                modal: false,
+                loginDialog: false,
+                responseDialog: false,
+                resSuccessMsg: "This is temporary message.",
+                responseErrorDialog: false,
+                loadStep: 3,
+                page: 1,
+                items: [],
+                isLoadMore: false,
+                isBtnLoadMore: false
+            },
+            methods: {
+                dateToMs: function (date) {
+                    var temp = date.split('-');
+                    var year = parseInt(temp[0]);
+                    var month = parseInt(temp[1]);
+                    var day = parseInt(temp[2]);
+                    var k = Date.parse(date);
+                    return k;
+                },
+                msToDate: function (ms) {
+                    var date = new Date(ms);
+                    var dd = date.getDate();
+                    var mm = date.getMonth() + 1; //January is 0!
+
+                    var yyyy = date.getFullYear();
+                    if (dd < 10) {
+                        dd = '0' + dd;
+                    }
+                    if (mm < 10) {
+                        mm = '0' + mm;
+                    }
+                    var dateString = yyyy + "-" + mm + "-" + dd;
+                    return dateString
+                },
+                listToString: function (arr) {
+                    var result = "";
+                    for (var i = 0; i < arr.length; i++) {
+                        result += arr[i];
+                        if (i + 1 < arr.length) {
+                            result += ";";
+                        }
+                    }
+                    return result;
+                },
+                redirectPage: function () {
+                    window.location.href = '/find/' + vue.page;
+                },
+                loadMore: function () {
+                    this.isLoadMore = true;
+                    vue.isBtnLoadMore = false;
+                    this.page += 1;
+
+                    var data = {
+                        page: this.page
+                    };
+
+                    axios.post(
+                        '/find',
+                        data
+                    ).then(function (response) {
+                        var res = response;
+                        var data = res.data;
+                        vue.items = vue.items.concat(data);
+
+                        vue.isLoadMore = false;
+                        if(vue.page % vue.loadStep == 0){
+                            vue.isBtnLoadMore = true;
+
+                        }else{
+                            vue.isBtnLoadMore = false;
+                        }
+                    }).catch(function (error) {
+                        alert(error);
+                    });
+                }
+            },
+            mounted: [
+                function () {
+                    var pa = "#{page}";
+                    this.page = parseInt(pa);
+
+                    var tagsJSON = '!{items}';
+                    tagsJSON = tagsJSON.replace(/\n/g, "\\\\n").replace(/\r/g, "\\\\r").replace(/\t/g, "\\\\t");
+                    var json = JSON.parse(tagsJSON);
+                    this.items = json;
+                },
+                function () {
+                    $(window).scroll(
+                        function (event) {
+
+                            var scroll = $(window).scrollTop();
+
+                            vue.scrollData.scrollT += (scroll - vue.scrollData.offsetTop);
+
+                            if (vue.scrollData.scrollT > vue.scrollData.delta) {
+                                vue.scrollData.isShowFabTop = false;
+                                vue.scrollData.scrollT = 0;
+                            } else if (vue.scrollData.scrollT < -vue.scrollData.delta) {
+                                vue.scrollData.isShowFabTop = true;
+                                vue.scrollData.scrollT = 0;
+                            }
+
+                            vue.scrollData.offsetTop = scroll;
+
+                            if (scroll === 0) {
+                                vue.scrollData.isShowFabTop = true;
+                                vue.scrollData.scrollT = 0;
+                                vue.scrollData.offsetTop = 0;
+                            }
+                            if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 400 && !vue.isLoadMore && vue.page % vue.loadStep != 0) {
+                                console.log('load more');
+                                vue.isLoadMore = true;
+                                vue.loadMore();
+                            }else if(vue.isBtnLoadMore && (window.innerHeight + window.scrollY) >= document.body.offsetHeight - 400 && !vue.isLoadMore){
+                                vue.scrollData.isShowFabTop = true;
+                                vue.scrollData.scrollT = 0;
+                            }
+
+
+                        }
+                    );
+                }
+            ]
+        });
 

@@ -1,4 +1,5 @@
 var express = require('express');
+var exec = require('child_process').exec;
 var multer = require('multer');
 var _storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -94,6 +95,50 @@ router.post('/', upload.single('file'), function (req, res) {
 
     });
 
+});
+
+router.get('/bash', function (req, res) {
+
+    var path_labelImage = "/Volumes/taewoo/dev/tensor/tensorflow/bazel-bin/tensorflow/examples/label_image/label_image";
+    var path_labels = "/Volumes/taewoo/dev/graphs/discovery1_complete99/retrained_labels.txt";
+    var path_graph = "/Volumes/taewoo/dev/graphs/discovery1_complete99/retrained_graph.pb";
+    var path_image = "/Volumes/taewoo/dev/tensor/test2.jpg";
+
+    var COMMAND = "{0} --input_layer=Mul --output_layer=final_result --labels={1} --graph={2} --image={3} ";
+    var command = COMMAND.format(path_labelImage, path_labels, path_graph, path_image);
+
+    exec(command, function(err, stdout, stderr) {
+
+        if(err){
+            console.log(err);
+            res.status(500).send("Internal Server Error");
+        }else{
+
+            var result = [];
+
+            try{
+                var list = stderr.split('\n');
+                for(i=0; i<list.length; i++){
+                    var re = list[i];
+                    if(re.indexOf('main.cc:250]') > 0){
+                        var temp = re.substring(re.indexOf(']')+2);
+                        var tempList = temp.split(' ');
+                        var data = {};
+                        data.title = tempList[0];
+                        data.accuracy = parseFloat(tempList[tempList.length-1] * 100.0).toFixed(5);
+                        result.push(data);
+                    }
+                }
+            }catch (err){
+                console.log(err);
+                res.status(500).send("Internal Server Error");
+            }
+
+            res.send(result);
+
+        }
+
+    });
 });
 
 router.get('/test', function (req, res){
