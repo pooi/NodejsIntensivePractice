@@ -9,12 +9,12 @@ block content
                 img(src='images/vuetify.png', alt='Vuetify.js', height='200')
                 h1.white--text.mb-2.display-1.text-xs-center Discovery and Lost
                 .subheading.mb-3.text-xs-center Powered by team nearby
-                v-btn.blue.lighten-2.mt-5(round, dark='', large='', href='#fetures')
+                v-btn.mt-5(round, dark='', large='', href='#fetures', color='info')
                     | Get Started
 
     section#fetures
-        v-layout.my-5(column='', wrap='', align-center='')
-            v-flex.my-3(xs12='', sm4='')
+        v-layout.mt-3.mb-5(column='', wrap='', align-center='')
+            v-flex.my-3(xs12='', sm8='')
                 .text-xs-center
                     h2.headline The best way to manage lost item
                     span.subheading
@@ -24,43 +24,37 @@ block content
                     v-layout( wrap, align-center='')
 
                         v-flex(xs12='', md4='')
-                            v-card.elevation-0.transparent
+                            v-card(hover, onclick="window.location.href='/find'")
                                 v-card-text.text-xs-center
-                                    v-icon.blue--text.text--lighten-2(x-large='') color_lens
+                                    v-icon.blue--text.text--darken-2.display-3(x-large='') color_lens
                                 v-card-title.layout.justify-center(primary-title='')
                                     .headline.text-xs-center Find Your Item
                                 v-card-text.text-xs-center
                                     | Cras facilisis mi vitae nunc lobortis pharetra. Nulla volutpat tincidunt ornare.
-                                    | Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
-                                    | Nullam in aliquet odio. Aliquam eu est vitae tellus bibendum tincidunt. Suspendisse potenti.
-                                v-card-title.layout.justify-center(primary-title='')
-                                    v-btn(round, large, color="info", href='/find') More
+                                v-card-title.layout.justify-center.py-0(primary-title='')
+                                    v-btn(round, large, color='blue darken-3', href='/find', flat) More
 
                         v-flex(xs12='', md4='')
-                            v-card.elevation-0.transparent
+                            v-card(hover, onclick="window.location.href='/find'")
                                 v-card-text.text-xs-center
-                                    v-icon.blue--text.text--lighten-2(x-large='') flash_on
+                                    v-icon.blue--text.text--darken-2.display-3(x-large='') flash_on
                                 v-card-title.layout.justify-center(primary-title='')
                                     .headline Register Lost Item
                                 v-card-text.text-xs-center
                                     | Cras facilisis mi vitae nunc lobortis pharetra. Nulla volutpat tincidunt ornare.
-                                    | Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
-                                    | Nullam in aliquet odio. Aliquam eu est vitae tellus bibendum tincidunt. Suspendisse potenti.
-                                v-card-title.layout.justify-center(primary-title='')
-                                    v-btn(round, large, color='info', href='/lost') More
+                                v-card-title.layout.justify-center.py-0(primary-title='')
+                                    v-btn(round, large, color='blue darken-3', href='/lost', flat) More
 
                         v-flex(xs12='', md4='')
-                            v-card.elevation-0.transparent
+                            v-card(hover, onclick="window.location.href='/find'")
                                 v-card-text.text-xs-center
-                                    v-icon.blue--text.text--lighten-2(x-large='') build
+                                    v-icon.blue--text.text--darken-2.display-3(x-large='') build
                                 v-card-title.layout.justify-center(primary-title='')
                                     .headline.text-xs-center Manage Lost Item
                                 v-card-text.text-xs-center
                                     | Cras facilisis mi vitae nunc lobortis pharetra. Nulla volutpat tincidunt ornare.
-                                    | Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
-                                    | Nullam in aliquet odio. Aliquam eu est vitae tellus bibendum tincidunt. Suspendisse potenti.
-                                v-card-title.layout.justify-center(primary-title='')
-                                    v-btn(round, large, color='info') More
+                                v-card-title.layout.justify-center.py-0(primary-title='')
+                                    v-btn(round, large, color='blue darken-3', flat) More
     section
         v-parallax(src='images/section.jpg', height='380')
             v-layout(column='', align-center='', justify-center='')
@@ -131,6 +125,11 @@ block content
 
             },
             method:{
+                loginSejong: function(){
+                    var id = document.getElementsByName('loginId');
+                    var pw = document.getElementsByName('loginPw');
+                    loginSejong(id, pw);
+                }
             },
             mounted:[
                 function(){
