@@ -10,4 +10,8 @@ router.get('/', function (req, res, next) {
     res.render('vue_index');
 });
 
+router.get('/login/sejong', function (req, res, next) {
+    res.send(req.body);
+});
+
 module.exports = router;

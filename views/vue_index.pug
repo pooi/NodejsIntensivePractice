@@ -35,7 +35,7 @@ block content
                                     v-btn(round, large, color='blue darken-3', href='/find', flat) More
 
                         v-flex(xs12='', md4='')
-                            v-card(hover, onclick="window.location.href='/find'")
+                            v-card(hover, onclick="window.location.href='/lost'")
                                 v-card-text.text-xs-center
                                     v-icon.blue--text.text--darken-2.display-3(x-large='') flash_on
                                 v-card-title.layout.justify-center(primary-title='')
@@ -46,7 +46,7 @@ block content
                                     v-btn(round, large, color='blue darken-3', href='/lost', flat) More
 
                         v-flex(xs12='', md4='')
-                            v-card(hover, onclick="window.location.href='/find'")
+                            v-card(hover, onclick="window.location.href='/lost/test'")
                                 v-card-text.text-xs-center
                                     v-icon.blue--text.text--darken-2.display-3(x-large='') build
                                 v-card-title.layout.justify-center(primary-title='')
@@ -113,7 +113,6 @@ block content
             el: '#app',
             data: {
                 title: 'D&L',
-                loginDialog: false,
                 scrollData: {
                     fab: false,
                     offsetTop: 0,
@@ -121,6 +120,9 @@ block content
                     delta: 200,
                     isShowFabTop: false,
                     transition: 'slide-y-reverse-transition'
+                },
+                loginData:{
+
                 }
 
             },

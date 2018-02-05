@@ -97,7 +97,7 @@ router.post('/', upload.single('file'), function (req, res) {
 
 });
 
-router.get('/bash', function (req, res) {
+router.get('/recognition', function (req, res) {
 
     var path_labelImage = "/Volumes/taewoo/dev/tensor/tensorflow/bazel-bin/tensorflow/examples/label_image/label_image";
     var path_labels = "/Volumes/taewoo/dev/graphs/discovery1_complete99/retrained_labels.txt";

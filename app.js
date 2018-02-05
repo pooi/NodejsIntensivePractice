@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var index = require('./routes/index');
+var login = require('./routes/login');
 var users = require('./routes/users');
 var find = require('./routes/find');
 var lost = require('./routes/lost');
@@ -35,6 +36,7 @@ app.use('/scripts', express.static(__dirname + '/node_modules/bootstrap/dist/js'
 app.use('/styles', express.static(__dirname + '/node_modules/bootstrap/dist/css'));
 
 app.use('/', index);
+app.use('/login', login);
 app.use('/users', users);
 app.use('/find', find);
 app.use('/lost', lost);

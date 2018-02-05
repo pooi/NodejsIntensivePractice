@@ -13,6 +13,9 @@ function init(init_image, init_labels, init_texts, init_logos) {
                 isShowFabTop: true,
                 transition: 'slide-y-reverse-transition'
             },
+            loginData:{
+                // isProgress: false
+            },
             imgSrc: '',
             domEleArray: null,
             isFile: false,
@@ -56,7 +59,6 @@ function init(init_image, init_labels, init_texts, init_logos) {
                 '101', '201', '301', '401'
             ],
             modal: false,
-            loginDialog: false,
             responseDialog: false,
             resSuccessMsg: "This is temporary message.",
             resSuccessCode: "1",
@@ -338,6 +340,7 @@ function init(init_image, init_labels, init_texts, init_logos) {
                 this.domEleArray = [$('#file').clone()];
             },
             function () {
+                vue.scrollData.isShowFabTop = true;
                 $(window).scroll(
                     function (event) {
 
