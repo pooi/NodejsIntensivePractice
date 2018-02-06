@@ -134,11 +134,23 @@ v-dialog(v-model='loginData.infoDialog', fullscreen='', transition='dialog-botto
 script.
 
     $(document).ready(function () {
-        setLoginData();
+        setLoginData(true);
     });
 
-    function setLoginData() {
+    function setLoginData(check) {
         console.log('set login data');
+
+        var userData = null;
+        if(check){
+            try {
+                var tagsJSON = '!{userData}';
+                console.log(tagsJSON);
+                tagsJSON = tagsJSON.replace(/\n/g, "\\\\n").replace(/\r/g, "\\\\r").replace(/\t/g, "\\\\t");
+                userData = JSON.parse(tagsJSON);
+            } catch (err) {
+                console.log('There is no user data.');
+            }
+        }
 
         var data = {
             dialog: false,
@@ -150,7 +162,7 @@ script.
             id: null,
             pw: null,
             isHidePw: true,
-            user: null
+            user: userData
         };
 
         vue.$set(vue.$data, 'loginData', data);
@@ -158,6 +170,17 @@ script.
 
         vue.loginData.isProgress = false;
 
+    }
+
+    function logout(){
+        axios.get('/auth/logout')
+            .then(function (response) {
+                console.log(response);
+                setLoginData(false);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
     }
 
     function loginSejong() {
@@ -191,7 +214,7 @@ script.
         };
 
         axios.post(
-            '/login/sejong',
+            '/auth/sejong',
             data
         ).then(function (response) {
             var data = response.data;
@@ -231,9 +254,4 @@ script.
             });
 
 
-    }
-
-    function logout() {
-        vue.loginData.user = null;
-        vue.loginData.infoDialog = false;
     }

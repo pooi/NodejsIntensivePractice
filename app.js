@@ -5,15 +5,16 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-var index = require('./routes/index');
-var login = require('./routes/login');
-var users = require('./routes/users');
-var find = require('./routes/find');
-var lost = require('./routes/lost');
 
 var app = express();
 
 app.locals.pretty = true;
+
+var index = require('./routes/index');
+var auth = require('./routes/auth')(app);
+var users = require('./routes/users');
+var find = require('./routes/find');
+var lost = require('./routes/lost');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -36,7 +37,7 @@ app.use('/scripts', express.static(__dirname + '/node_modules/bootstrap/dist/js'
 app.use('/styles', express.static(__dirname + '/node_modules/bootstrap/dist/css'));
 
 app.use('/', index);
-app.use('/login', login);
+app.use('/auth', auth);
 app.use('/users', users);
 app.use('/find', find);
 app.use('/lost', lost);
@@ -53,7 +54,7 @@ app.use(function(req, res, next){
 
     // respond with html page
     if (req.accepts('html')) {
-        res.render('404', { url: req.url });
+        res.render('404', {userData: JSON.stringify(req.session.userData),  url: req.url });
         return;
     }
 

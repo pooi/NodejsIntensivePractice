@@ -28,7 +28,7 @@ vision.init(jsonfile);
 
 /* GET lost listing. */
 router.get('/', function (req, res) {
-    res.render('lost');
+    res.render('lost', {userData: JSON.stringify(req.session.userData)});
 });
 router.post('/', upload.single('file'), function (req, res) {
     console.log(req.file); // 콘솔(터미널)을 통해서 req.file Object 내용 확인 가능.
@@ -91,7 +91,7 @@ router.post('/', upload.single('file'), function (req, res) {
             }
         }
 
-        res.render('lost', {image: req.file.filename, labels: labels, texts: texts, logos: logos, colors: colors});
+        res.render('lost', {userData: JSON.stringify(req.session.userData), image: req.file.filename, labels: labels, texts: texts, logos: logos, colors: colors});
 
     });
 
@@ -186,7 +186,7 @@ router.get('/test', function (req, res){
         }
     }
 
-    res.render('lost_test', {image: filename, labels: labels, texts: texts, logos: logos, colors: colors});
+    res.render('lost_test', {userData: JSON.stringify(req.session.userData), image: filename, labels: labels, texts: texts, logos: logos, colors: colors});
 
 });
 router.get('/vue/test', function (req, res){
@@ -234,7 +234,7 @@ router.get('/vue/test', function (req, res){
         }
     }
 
-    res.render('vue_lost_test', {image: filename, labels: labels, texts: texts, logos: logos, colors: colors});
+    res.render('vue_lost_test', {userData: JSON.stringify(req.session.userData), image: filename, labels: labels, texts: texts, logos: logos, colors: colors});
 
 });
 router.post('/test', function (req, res) {

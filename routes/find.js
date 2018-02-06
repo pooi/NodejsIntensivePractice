@@ -14,9 +14,6 @@ function convertResult(results) {
 }
 
 /* GET users listing. */
-// router.get('/', function (req, res, next) {
-//     res.send('respond with a resource');
-// });
 
 router.get('/', function (req, res) {
     // res.render('temp');
@@ -31,7 +28,7 @@ router.get('/', function (req, res) {
         // res.send("Sorry");
         // res.render('find', {items: convertResult(results), page: page});
         // res.render('find', {items: json, page: page});
-        res.render('find', {items: json, page: page+1});
+        res.render('find', {userData: JSON.stringify(req.session.userData), items: json, page: page+1});
     });
 });
 router.get('/:page', function (req, res) {
@@ -52,7 +49,7 @@ router.get('/:page', function (req, res) {
             res.status(500).send("Internal Server Error");
         }
         var json = JSON.stringify(convertResult(results));
-        res.render('find', {items: json, page: page});
+        res.render('find', {userData: JSON.stringify(req.session.userData), items: json, page: page});
     });
 });
 router.post('/', function(req, res){
