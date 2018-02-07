@@ -30,10 +30,11 @@ v-dialog(v-model='responseErrorDialog', max-width='500px')
 
 v-dialog(v-model='loginData.dialog', :persistent='loginData.isProgress', max-width='500px')
     v-card(ref="form")
-        v-card-title
-            span.headline Login
+        v-card-title(style='background-color: rgb(194,0,47);')
+            img(src='/images/logo/sejong_white.svg', style='width: 50%;')
+            //span.headline Login
         hr.py-0.my-0
-        v-progress-linear.my-0(:indeterminate="true", height="2", color='deep-orange darken-3', v-if='loginData.isProgress')
+        //v-progress-linear.my-0(:indeterminate="true", height="2", color='deep-orange darken-3', v-if='loginData.isProgress')
         v-card-text
             v-container(grid-list-md='')
                 v-layout(wrap='')
@@ -41,11 +42,16 @@ v-dialog(v-model='loginData.dialog', :persistent='loginData.isProgress', max-wid
                         v-text-field(label='Student ID', id='loginId', required, :disabled='loginData.isProgress', v-model="loginData.id", ref="loginData.id", :rules="[() => !!loginData.id || 'This field is required']")
                     v-flex(xs12='')
                         v-text-field(label='Password', id='loginPw', type='password', required, :disabled='loginData.isProgress', :append-icon="loginData.isHidePw ? 'visibility' : 'visibility_off'", :append-icon-cb="() => (loginData.isHidePw = !loginData.isHidePw)", :type="loginData.isHidePw ? 'password' : 'text'", v-model="loginData.pw", ref="loginData.pw", :rules="[() => !!loginData.pw || 'This field is required']")
-            small * indicates required field
+            v-flex(xs12='')
+                small Login with portal.sejong.ac.kr
+            v-flex(xs12='')
+                small * indicates required field
+
         v-card-actions
             v-spacer
             v-btn(color='blue darken-1', flat, @click.native='loginData.dialog = false', :disabled='loginData.isProgress') Close
             v-btn(color='blue darken-1', flat, type='submit', onclick='loginSejong()', :disabled='loginData.isProgress') Login
+        v-progress-linear.my-0(:indeterminate="true", height="3", color='deep-orange darken-3', v-if='loginData.isProgress')
 
 v-snackbar(:timeout='4000', :color='loginData.snackColor', v-model='loginData.snackbar', top, right)
     | {{ loginData.snackMsg }}
@@ -141,7 +147,7 @@ script.
         console.log('set login data');
 
         var userData = null;
-        if(check){
+        if (check) {
             try {
                 var tagsJSON = '!{userData}';
                 console.log(tagsJSON);
@@ -172,7 +178,7 @@ script.
 
     }
 
-    function logout(){
+    function logout() {
         axios.get('/auth/logout')
             .then(function (response) {
                 console.log(response);

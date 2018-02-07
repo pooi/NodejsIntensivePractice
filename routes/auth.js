@@ -27,7 +27,7 @@ module.exports = function (app) {
 
         var COMMAND = 'python3 "{0}/loginSejong.py" {1} {2}';
         var command = COMMAND.format(__dirname, id, pw);
-        console.log(command);
+        // console.log(command);
 
         exec(command, function(err, stdout, stderr) {
 
@@ -42,11 +42,15 @@ module.exports = function (app) {
 
                 var data = JSON.parse(result);
                 console.log(data);
-                req.session.userData = data;
-                console.log('session: ', req.session);
-                req.session.save(function() {
-                    res.send(req.session.userData);
-                });
+                if(data.status === 'fail'){
+                    res.send(data);
+                }else {
+                    req.session.userData = data;
+                    console.log('session: ', req.session);
+                    req.session.save(function () {
+                        res.send(req.session.userData);
+                    });
+                }
 
                 // res.send(data);
 
