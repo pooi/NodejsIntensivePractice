@@ -1,0 +1,4 @@
+scarf
+phone
+wallet
+headband
