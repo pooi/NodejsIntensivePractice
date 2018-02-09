@@ -162,6 +162,38 @@ block content
         }
     script(async, defer, src='https://maps.googleapis.com/maps/api/js?key=AIzaSyCEFVgjGWKUi7iA37ful7Fgkle2nGVzfv8&callback=initMap')
 
+    script.
+        $(document).ready(function () {
+            recognitionImage();
+        });
+
+        function recognitionImage() {
+            var image = "#{image}";
+            var data = {
+                image: image
+            };
+
+            axios.post(
+                '/lost/recognition',
+                data
+            ).then(function (response) {
+                var data = response.data;
+                console.log(data);
+                // var insertId = data.insertId;
+                // if (insertId != null) {
+                //     vue.resSuccessMsg = "The item was successfully registered. The registration number is ";
+                //     vue.resSuccessCode = insertId;
+                //     vue.responseDialog = true;
+                // } else {
+                //     vue.responseErrorDialog = true;
+                // }
+                // console.log(response);
+            })
+                .catch(function (error) {
+                    alert(error);
+                });
+        }
+
     script(type="text/javascript" src='/javascripts/lost-config.js')
     script.
         const vue = init("#{image}", '#{labels}', '#{texts}', '#{logos}');

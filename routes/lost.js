@@ -144,6 +144,55 @@ router.get('/recognition', function (req, res) {
 
     });
 });
+router.post('/recognition', function (req, res) {
+
+    var imagePath = req.body.image;
+
+    var path_labelImage = 'python3 "' + __dirname + '/../recognition/label_image.py"';
+    var path_labels = '"' + __dirname + '/../recognition/retrained_labels.txt"';
+    var path_graph = '"' + __dirname + '/../recognition/retrained_graph.pb"';
+    var path_image = '"' + __dirname + '/../uploads' + imagePath + '"';
+
+    var COMMAND = "{0} --input_layer=Mul --output_layer=final_result --labels={1} --graph={2} --image={3} ";
+    var command = COMMAND.format(path_labelImage, path_labels, path_graph, path_image);
+
+    exec(command, function(err, stdout, stderr) {
+
+        if(err){
+            console.log(err);
+            res.status(500).send("Internal Server Error");
+        }else{
+
+            var result = [];
+
+            try{
+                var list = stdout.split('\n');
+                for(var i=0; i<list.length; i++){
+                    var re = list[i];
+                    if(re.length <= 0){
+                        continue;
+                    }
+                    console.log(re);
+                    var tempList = re.split(' ');
+                    if(tempList.length < 2){
+                        continue;
+                    }
+                    var data = {};
+                    data.title = tempList[0];
+                    data.accuracy = parseFloat(tempList[1] * 100.0).toFixed(5);
+                    result.push(data);
+                }
+            }catch (err){
+                console.log(err);
+                res.status(500).send("Internal Server Error");
+            }
+
+            res.send(result);
+
+        }
+
+    });
+});
 
 router.get('/test', function (req, res){
     var filename = testImage;
