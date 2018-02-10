@@ -147,6 +147,9 @@ router.get('/recognition', function (req, res) {
 router.post('/recognition', function (req, res) {
 
     var imagePath = req.body.image;
+    if(!imagePath.startsWith('/')){
+        imagePath = '/' + imagePath;
+    }
 
     var path_labelImage = 'python3 "' + __dirname + '/../recognition/label_image.py"';
     var path_labels = '"' + __dirname + '/../recognition/retrained_labels.txt"';
@@ -172,7 +175,7 @@ router.post('/recognition', function (req, res) {
                     if(re.length <= 0){
                         continue;
                     }
-                    console.log(re);
+                    // console.log(re);
                     var tempList = re.split(' ');
                     if(tempList.length < 2){
                         continue;

@@ -21,6 +21,9 @@ function init(init_image, init_labels, init_texts, init_logos) {
             isFile: false,
             isProgress: false,
             locationProgress: false,
+            isRecognitionProgress: true,
+            recognitionData: null,
+            category: null,
             valid: false,
             name: 'user',
             nameRules: [
@@ -369,6 +372,39 @@ function init(init_image, init_labels, init_texts, init_logos) {
 
                     }
                 );
+            },
+            function () {
+
+                if(init_image === null || init_image === ''){
+                    return;
+                }
+
+                var data = {
+                    image: init_image
+                };
+
+                axios.post(
+                    '/lost/recognition',
+                    data
+                ).then(function (response) {
+                    var data = response.data;
+                    console.log(data);
+                    vue.isRecognitionProgress = false;
+                    vue.recognitionData = data;
+                    vue.category = data[0].title;
+                    // var insertId = data.insertId;
+                    // if (insertId != null) {
+                    //     vue.resSuccessMsg = "The item was successfully registered. The registration number is ";
+                    //     vue.resSuccessCode = insertId;
+                    //     vue.responseDialog = true;
+                    // } else {
+                    //     vue.responseErrorDialog = true;
+                    // }
+                    // console.log(response);
+                })
+                    .catch(function (error) {
+                        alert(error);
+                    });
             },
             function () {
                 var text = init_labels;
