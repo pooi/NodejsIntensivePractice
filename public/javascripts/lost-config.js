@@ -24,6 +24,36 @@ function init(init_image, init_labels, init_texts, init_logos) {
             isRecognitionProgress: true,
             recognitionData: null,
             category: null,
+            tempCategory: null,
+            subcategory: null,
+            loadingSubCategory: false,
+            categories: [
+                '가방', '귀금속'
+            ],
+            subcategories: [],
+            categoryData:{
+                '가방': [
+                    '여성용가방', '남성용가방', '기타가방'
+                ],
+                '귀금속': [
+                    '반지', '목걸이', '시계', '귀걸이'
+                ]
+            },
+            // categoryData: [
+            //     {
+            //         id: '가방',
+            //         data:[
+            //             '여성용가방', '남성용가방', '기타가방'
+            //         ]
+            //     },
+            //     {
+            //         id: '귀금속',
+            //         data:[
+            //             '반지', '목걸이', '시계', '귀걸이'
+            //         ]
+            //     }
+            //
+            // ],
             valid: false,
             name: 'user',
             nameRules: [
@@ -212,6 +242,31 @@ function init(init_image, init_labels, init_texts, init_logos) {
                     }
                 }
                 return result;
+            },
+            changeSubCategories: function () {
+
+                console.log('changeSubCategories');
+                if(!vue.loadingSubCategory) {
+                    vue.subcategory = null;
+                    vue.loadingSubCategory = true;
+
+                    setTimeout(function () {
+                        console.log('timeout');
+                        if (vue.categoryData.hasOwnProperty(vue.tempCategory)) {
+                            var list = vue.categoryData[vue.tempCategory];
+                            vue.subcategories = list;
+                        }
+                        vue.loadingSubCategory = false;
+                        clearTimeout();
+                    }, 500);
+                }
+
+                // alert(vue.tempCategory);
+                // if(vue.categoryData.hasOwnProperty(vue.tempCategory)){
+                //     var list = vue.categoryData[vue.tempCategory];
+                //     vue.subcategories = list;
+                // }
+
             },
             submit: function () {
 
