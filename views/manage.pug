@@ -1,0 +1,37 @@
+extends vue_layout
+block content
+
+
+    div(style="margin-top: 48px;")
+        v-app
+            v-content.brown.lighten-5
+                v-container.pa-2
+
+                    v-flex(md12='')
+                        v-card.elevation-10.my-4
+
+                            v-tabs(fixed-tabs='')
+                                v-tab(v-for='n in 3', :key='n')
+                                    | Item {{ n }}
+
+                            hr.ma-0
+
+                            v-layout.pa-3
+
+                                v-card-title.headline.pa-0 Manage
+
+                                hr
+
+
+                            //h2= func()
+
+
+
+        include vue_footer
+        include vue_menu_fab
+
+    include vue_dialog
+
+    script(type="text/javascript" src='/javascripts/manage-config.js')
+    script.
+        const vue = init();

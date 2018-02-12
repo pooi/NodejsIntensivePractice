@@ -60,7 +60,7 @@ v-snackbar(:timeout='4000', :color='loginData.snackColor', v-model='loginData.sn
 v-dialog(v-model='loginData.infoDialog', fullscreen='', transition='dialog-bottom-transition', :overlay='true')
     v-card.brown.lighten-5.elevation-10
         v-toolbar(dark='', color='deep-orange darken-3',  dense)
-            v-btn(icon='', @click.native='loginData.infoDialog = false', dark='')
+            v-btn(icon='', @click.native='loginData.infoDialog = false', dark='', style='height: auto;')
                 v-icon close
             v-toolbar-title Information
             v-spacer

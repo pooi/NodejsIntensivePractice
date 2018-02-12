@@ -13,14 +13,14 @@ block content
                                 v-card-text {{item.sContents}}
                                 v-card-actions
                                     v-spacer
-                                    v-btn(flat, color='orange') Share
-                                    v-btn(flat, color='orange') Detail
+                                    v-btn(flat, color='orange', style='height: auto; width: auto;') Share
+                                    v-btn(flat, color='orange', style='height: auto; width: auto;') Detail
 
 
 
                     .text-xs-center.mt-4
                         v-progress-circular.py-0.my-0(:indeterminate="true", color='deep-orange darken-3', :size="50", v-show='isLoadMore')
-                        v-btn(dark, color='deep-orange darken-3', v-if='isBtnLoadMore', v-on:click='loadMore') Load More
+                        v-btn(dark, color='deep-orange darken-3', v-if='isBtnLoadMore', v-on:click='loadMore', style='height: auto; width: auto;') Load More
                     //    v-pagination(:length='6', v-model='page', @input="redirectPage")
 
 
