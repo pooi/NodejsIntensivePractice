@@ -16,7 +16,12 @@ function init() {
             loginData:{
 
             },
-            date: null
+            date: null,
+            tabItems: [
+                'Web', 'Shopping', 'Videos'
+            ],
+            currentTab: 'tab-Web',
+            items: [],
         },
         methods: {
             dateToMs: function (date) {
@@ -51,6 +56,23 @@ function init() {
                     }
                 }
                 return result;
+            },
+            getLostItem: function () {
+                var data = {
+                    id: '1'
+                };
+
+                console.log("getLostItem");
+                axios.post(
+                    '/manage/lost',
+                    data
+                ).then(function (response) {
+                    var res = response;
+                    var data = res.data;
+                    vue.items = vue.items.concat(data);
+                }).catch(function (error) {
+                    alert(error);
+                });
             }
         },
         mounted: [
@@ -99,6 +121,22 @@ function init() {
                 }
                 var today = yyyy + "-" + mm + "-" + dd; //dd + '/' + mm + '/' + yyyy;
                 this.date = today;
+            },
+            function () {
+                var data = {
+                };
+
+                console.log("getLostItem");
+                axios.post(
+                    '/manage/lost',
+                    data
+                ).then(function (response) {
+                    var res = response;
+                    var data = res.data;
+                    vue.items = vue.items.concat(data);
+                }).catch(function (error) {
+                    alert(error);
+                });
             }
         ]
     });

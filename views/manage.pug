@@ -10,20 +10,80 @@ block content
                     v-flex(md12='')
                         v-card.elevation-10.my-4
 
-                            v-tabs(fixed-tabs='')
-                                v-tab(v-for='n in 3', :key='n')
-                                    | Item {{ n }}
+                            v-tabs(fixed-tabs, v-model='currentTab', show-arrows, slider-color='orange darken-3')
+                                v-tab(v-for='item in tabItems', :key='item', :href="'#tab-' + item")
+                                    | {{ item }}
+
 
                             hr.ma-0
 
-                            v-layout.pa-3
-
-                                v-card-title.headline.pa-0 Manage
-
-                                hr
+                            //div.pa-3.pb-4
 
 
-                            //h2= func()
+
+                            v-tabs-items(v-model='currentTab')
+
+                                v-tab-item(:id="'tab-Web'")
+                                    v-card-title.headline.pa-0.mx-4.mt-2 Web
+                                        v-spacer
+
+                                        v-btn(flat, color='grey', style="height:auto;")
+                                            v-icon.ma-0(left, dark) filter_list
+
+                                    hr.my-1.mx-4
+
+                                    v-card-title
+                                        div
+                                            v-container(v-bind='{ [`grid-list-lg`]: true }')
+                                                v-layout(wrap)
+                                                    v-flex(xs12, sm6, md4, v-for="item in items", :key="item.id", v-model='items')
+                                                        v-card.elevation-2(flat='', tile='')
+                                                            v-card-title.title.mb-0 {{item.id}}
+                                                            v-card-media(:src="item.photos", height='200px')
+                                                            v-card-text.pt-3.pb-0 {{ msToDate(item.discovery_date) }}
+                                                            v-card-actions
+                                                                v-spacer
+                                                                v-btn(flat, color='orange', style='height: auto; width: auto;') Share
+                                                                v-btn(flat, color='orange', style='height: auto; width: auto;') Detail
+                                                //v-card
+                                                //    v-card-media(src='/static/doc-images/cards/desert.jpg', height='200px')
+                                                //    v-card-title(primary-title='')
+                                                //        div
+                                                //            h3.headline.mb-0 Kangaroo Valley Safari
+                                                //            div
+                                                //                | Located two hours south of Sydney in the
+                                                //                br
+                                                //                | Southern Highlands of New South Wales, ...
+                                                //    v-card-actions
+                                                //        v-btn(flat='', color='orange') Share
+                                                //        v-btn(flat='', color='orange') Explore
+
+
+
+
+                                    //v-tab-item(v-for='item in tabItems', :key='item', :id="'tab-' + item")
+                                    //    v-card-title.headline.pa-0 {{ item }}
+                                    //
+                                    //    hr
+                                    //
+                                    //    v-card-title
+                                    //        div
+                                    //            v-card
+                                    //                v-card-media(src='/static/doc-images/cards/desert.jpg', height='200px')
+                                    //                v-card-title(primary-title='')
+                                    //                    div
+                                    //                        h3.headline.mb-0 Kangaroo Valley Safari
+                                    //                        div
+                                    //                            | Located two hours south of Sydney in the
+                                    //                            br
+                                    //                            | Southern Highlands of New South Wales, ...
+                                    //                v-card-actions
+                                    //                    v-btn(flat='', color='orange') Share
+                                    //                    v-btn(flat='', color='orange') Explore
+
+
+
+
 
 
 
