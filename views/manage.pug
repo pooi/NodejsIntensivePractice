@@ -15,7 +15,7 @@ block content
                                     | {{ item }}
 
 
-                            hr.ma-0
+                            v-divider.my-0
 
                             //div.pa-3.pb-4
 
@@ -30,7 +30,8 @@ block content
                                         v-btn(flat, color='grey', style="height:auto;")
                                             v-icon.ma-0(left, dark) filter_list
 
-                                    hr.my-1.mx-4
+                                    v-flex(xs12)
+                                        v-divider.my-1.mr-4.ml-4
 
                                     v-card-title
                                         div
@@ -43,8 +44,8 @@ block content
                                                             v-card-text.pt-3.pb-0 {{ msToDate(item.discovery_date) }}
                                                             v-card-actions
                                                                 v-spacer
-                                                                v-btn(flat, color='orange', style='height: auto; width: auto;') Share
-                                                                v-btn(flat, color='orange', style='height: auto; width: auto;') Detail
+                                                                v-btn(flat, color='orange') Share
+                                                                v-btn(flat, color='orange') Detail
                                                 //v-card
                                                 //    v-card-media(src='/static/doc-images/cards/desert.jpg', height='200px')
                                                 //    v-card-title(primary-title='')
