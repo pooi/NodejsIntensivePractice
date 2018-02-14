@@ -1,4 +1,41 @@
-scarf
-phone
-wallet
+earing
+sanitary napkin
 headband
+mirror
+comb
+gloves
+pencil case
+cash
+hat
+key
+camera
+necklace
+calculator
+earphone
+umbrella
+ring
+scarf
+mp3
+sunglasses
+laptop
+earplug
+planner
+watch
+pouch
+pen
+notebook
+lip balm
+tumbler
+perfume
+hair strap
+supplementary battery
+cosmetics
+wallet
+phone
+identification
+mouse
+charger
+card
+book
+headphone
+blanket
