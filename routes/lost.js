@@ -6,7 +6,7 @@ var _storage = multer.diskStorage({
         cb(null, 'uploads/')
     },
     filename: function (req, file, cb) {
-        cb(null, Date.now() + file.originalname);
+        cb(null, Date.now() + makeRandomString(10));
         // console.log(file);
     }
 });
@@ -25,6 +25,17 @@ var jsonfile = __dirname + '/../config/NodePractice-2f88e00ddb65.json';
 //Initialize the api
 vision.init(jsonfile);
 
+function makeRandomString(len) {
+    if(len <= 0)
+        len = 4;
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+    for (var i = 0; i < len; i++)
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+    return text;
+}
 
 /* GET lost listing. */
 router.get('/', function (req, res) {
@@ -181,8 +192,14 @@ router.post('/recognition', function (req, res) {
                         continue;
                     }
                     var data = {};
-                    data.title = tempList[0];
-                    data.accuracy = parseFloat(tempList[1] * 100.0).toFixed(5);
+                    data.title = "";
+                    for(var j=0; j<tempList.length-1; j++){
+                        data.title += tempList[j];
+                        if(j < tempList.length-2){
+                            data.title += " ";
+                        }
+                    }
+                    data.accuracy = parseFloat(tempList[tempList.length-1] * 100.0).toFixed(5);
                     result.push(data);
                 }
             }catch (err){

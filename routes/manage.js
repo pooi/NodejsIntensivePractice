@@ -30,4 +30,18 @@ router.post('/lost', function(req, res){
     });
 });
 
+router.get('/:id', function (req, res) {
+    var id = req.params.id;
+    var sql = 'SELECT * FROM lost WHERE id=?';
+    conn.query(sql, [id], function (err, results, fields) {
+        if (err) {
+            console.log(err);
+            res.status(500).send("Internal Server Error");
+        }
+        var json = JSON.stringify(results[0]);
+        console.log(json);
+        res.render('manage_detail', {userData: JSON.stringify(req.session.userData), data: json});
+    });
+});
+
 module.exports = router;

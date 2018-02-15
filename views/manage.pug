@@ -44,8 +44,8 @@ block content
                                                             v-card-text.pt-3.pb-0 {{ msToDate(item.discovery_date) }}
                                                             v-card-actions
                                                                 v-spacer
-                                                                v-btn(flat, color='orange') Share
-                                                                v-btn(flat, color='orange') Detail
+                                                                //v-btn(flat, color='orange') Share
+                                                                v-btn(flat, color='orange', :href="'/manage/'+item.id") Detail
                                                 //v-card
                                                 //    v-card-media(src='/static/doc-images/cards/desert.jpg', height='200px')
                                                 //    v-card-title(primary-title='')

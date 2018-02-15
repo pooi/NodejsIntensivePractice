@@ -1,0 +1,62 @@
+extends vue_layout
+block content
+
+
+    div(style="margin-top: 48px;")
+        v-app
+            v-content.brown.lighten-5
+                v-container.hidden-xs-only.pa-2
+
+                    v-flex(md12='')
+                        v-card.elevation-10.my-4.pt-3.pb-0
+
+                            div.px-3
+                                v-card-title.headline.pa-0 Detail Information
+
+                                v-divider.my-3
+
+                                v-layout(row, wrap)
+                                    v-flex(xs12, sm5)
+                                        v-card.elevation-4.mb-3(width='100%')
+                                            img(:src= "data.photos", width="100%")
+
+                                    v-flex.pl-4(xs12, sm7)
+                                        v-card-title.headline.pa-0 {{ data.id }}
+
+                            v-flex(xs12)
+                                v-btn.elevation-0(block, color='grey darken-1', dark, onclick="window.history.back();") Back
+
+
+                v-container.hidden-sm-and-up.pa-0(fluid, style="padding-top: 50px;")
+
+                    v-flex(md12='')
+                        v-card.elevation-0
+
+                            div.pa-4
+
+                                v-card-title.headline.pa-0 Detail Information
+
+                                v-divider.my-3
+
+                                v-layout(row, wrap)
+                                    v-flex.pb-4(xs12, sm5)
+                                        v-card.elevation-4(width='100%')
+                                            img(:src= "data.photos", width="100%")
+
+                                    v-flex(xs12, sm7)
+                                        v-card-title.headline.pa-0 {{ data.id }}
+
+                            v-flex(xs12)
+                                v-btn.elevation-0(block, color='grey darken-1', dark, onclick="window.history.back();") Back
+
+
+
+
+        include vue_footer
+        include vue_menu_fab
+
+    include vue_dialog
+
+    script(type="text/javascript" src='/javascripts/manage-detail-config.js')
+    script.
+        const vue = init('!{data}');
