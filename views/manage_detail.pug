@@ -1,10 +1,13 @@
 extends vue_layout
 block content
 
+    include vue_toolbar
 
     div(style="margin-top: 48px;")
         v-app
             v-content.brown.lighten-5
+
+                // ############ PC
                 v-container.hidden-xs-only.pa-2
 
                     v-flex(md12='')
@@ -27,24 +30,77 @@ block content
                                 v-btn.elevation-0(block, color='grey darken-1', dark, onclick="window.history.back();") Back
 
 
+                // ############ Mobile
                 v-container.hidden-sm-and-up.pa-0(fluid, style="padding-top: 50px;")
 
                     v-flex(md12='')
                         v-card.elevation-0
 
-                            div.pa-4
+                            div.pa-3
 
-                                v-card-title.headline.pa-0 Detail Information
+                                v-card-title.headline.pa-0.pt-4 Detail Information
 
                                 v-divider.my-3
+
+                                //| {{ data }}
 
                                 v-layout(row, wrap)
                                     v-flex.pb-4(xs12, sm5)
                                         v-card.elevation-4(width='100%')
                                             img(:src= "data.photos", width="100%")
 
-                                    v-flex(xs12, sm7)
-                                        v-card-title.headline.pa-0 {{ data.id }}
+                                    //v-flex(xs12, sm7)
+                                    //    v-card-title.headline.pa-0 {{ data.id }}
+
+                                    v-flex(xs3)
+                                        v-subheader.right ID:
+                                    v-flex.pl-4(xs9)
+                                        v-subheader {{data.id}}
+
+
+                                    v-flex(xs3)
+                                        v-subheader.right Category:
+                                    v-flex.pl-4(xs9)
+                                        v-subheader {{data.category}}
+
+
+                                    v-flex(xs3)
+                                        v-subheader.right 습득일:
+                                    v-flex.pl-4(xs9)
+                                        v-subheader {{msToDate(data.discovery_date)}}
+
+
+                                    v-flex(xs3)
+                                        v-subheader.right 등록일:
+                                    v-flex.pl-4(xs9)
+                                        v-subheader {{data.registered_date}}
+
+
+                                    v-flex(xs3)
+                                        v-subheader.right Brand:
+                                    v-flex.pl-4(xs9)
+                                        v-chip.elevation-0(outline, v-for="brand in data.brand.split(';')", :key="brand", v-model='brand', color="orange darken-2")
+                                            strong.title.mr-1 #
+                                            strong {{ brand }}
+
+                                    v-layout.mt-2
+
+                                        v-flex(xs3)
+                                            v-subheader.right Tags:
+                                        v-flex.pl-4(xs9)
+                                            v-chip.elevation-0(outline, v-for="tag in data.tags.split(';')", :key="tag", v-model='tag', color="orange darken-2")
+                                                strong.title.mr-1 #
+                                                strong {{ tag }}
+
+                                    v-layout.mt-2
+
+                                        v-flex(xs3)
+                                            v-subheader.right Description:
+                                        v-flex.pl-4(xs9)
+                                            v-chip.elevation-0(outline, v-for="description in data.description.split(';')", :key="description", v-model='description', color="orange darken-2")
+                                                strong.title.mr-1 #
+                                                strong {{ description }}
+
 
                             v-flex(xs12)
                                 v-btn.elevation-0(block, color='grey darken-1', dark, onclick="window.history.back();") Back

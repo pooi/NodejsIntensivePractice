@@ -71,5 +71,5 @@ dump.rdb
 config.json
 package-lock.json
 
-uploads/*
+uploads/
 config/*.json

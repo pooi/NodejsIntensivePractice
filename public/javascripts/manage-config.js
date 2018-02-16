@@ -17,6 +17,7 @@ function init() {
 
             },
             date: null,
+            isShowTab: false,
             tabItems: [
                 'Web', 'Shopping', 'Videos'
             ],
@@ -77,7 +78,8 @@ function init() {
         },
         mounted: [
             function () {
-                vue.scrollData.isShowFabTop = true;
+                // console.log("window", $(window));
+                this.scrollData.isShowFabTop = true;
                 $(window).scroll(
                     function (event) {
 
@@ -88,9 +90,11 @@ function init() {
                         if (vue.scrollData.scrollT > vue.scrollData.delta) {
                             vue.scrollData.isShowFabTop = false;
                             vue.scrollData.scrollT = 0;
+                            vue.isShowTab = true;
                         } else if (vue.scrollData.scrollT < -vue.scrollData.delta) {
                             vue.scrollData.isShowFabTop = true;
                             vue.scrollData.scrollT = 0;
+                            vue.isShowTab = false;
                         }
 
                         vue.scrollData.offsetTop = scroll;
@@ -99,10 +103,12 @@ function init() {
                             vue.scrollData.isShowFabTop = true;
                             vue.scrollData.scrollT = 0;
                             vue.scrollData.offsetTop = 0;
+                            vue.isShowTab = false;
                         }
-                        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 200) {
-                            vue.scrollData.isShowFabTop = true;
-                        }
+                        // if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 50) {
+                        //     vue.scrollData.isShowFabTop = true;
+                        //     vue.isShowTab = false;
+                        // }
 
                     }
                 );

@@ -398,7 +398,7 @@ function init(init_image, init_labels, init_texts, init_logos) {
                 this.domEleArray = [$('#file').clone()];
             },
             function () {
-                vue.scrollData.isShowFabTop = true;
+                this.scrollData.isShowFabTop = true;
                 $(window).scroll(
                     function (event) {
 
@@ -484,7 +484,8 @@ function init(init_image, init_labels, init_texts, init_logos) {
                     list.pop()
                 }
                 this.logos = list
-            }, function () {
+            },
+            function () {
                 var today = new Date();
                 var dd = today.getDate();
                 var mm = today.getMonth() + 1; //January is 0!
