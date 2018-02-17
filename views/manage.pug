@@ -25,28 +25,53 @@ block content
                             v-tabs-items(v-model='currentTab')
 
                                 v-tab-item(:id="'tab-Web'")
-                                    v-card-title.headline.pa-0.mx-4.mt-2 Web
-                                        v-spacer
+                                    div.hidden-xs-only
+                                        v-card-title.headline.pa-0.mx-4.mt-2 Web
+                                            v-spacer
 
-                                        v-btn(flat, color='grey', style="height:auto;")
-                                            v-icon.ma-0(left, dark) filter_list
+                                            v-btn(flat, color='grey', style="height:auto;")
+                                                v-icon.ma-0(left, dark) filter_list
 
-                                    v-flex(xs12)
-                                        v-divider.my-1.mr-4.ml-4
+                                        v-flex(xs12)
+                                            v-divider.my-1.mr-4.ml-4
 
-                                    v-card-title
-                                        div
-                                            v-container(v-bind='{ [`grid-list-lg`]: true }')
-                                                v-layout(wrap)
-                                                    v-flex(xs12, sm6, md4, v-for="item in items", :key="item.id", v-model='items')
-                                                        v-card.elevation-2(flat='', tile='')
-                                                            v-card-title.title.mb-0 {{item.id}}
-                                                            v-card-media(:src="item.photos", height='200px')
-                                                            v-card-text.pt-3.pb-0 {{ msToDate(item.discovery_date) }}
-                                                            v-card-actions
-                                                                v-spacer
-                                                                //v-btn(flat, color='orange') Share
-                                                                v-btn(flat, color='orange', :href="'/manage/'+item.id") Detail
+                                        v-card-title
+                                            div
+                                                v-container(v-bind='{ [`grid-list-lg`]: true }')
+                                                    v-layout(wrap)
+                                                        v-flex(xs12, sm6, md4, v-for="item in items", :key="item.id", v-model='items')
+                                                            v-card.elevation-2(flat='', tile='')
+                                                                v-card-title.title.mb-0 {{item.id}}
+                                                                v-card-media(:src="item.photos", height='200px')
+                                                                v-card-text.pt-3.pb-0 {{ msToDate(item.discovery_date) }}
+                                                                v-card-actions
+                                                                    v-spacer
+                                                                    //v-btn(flat, color='orange') Share
+                                                                    v-btn(flat, color='orange', :href="'/manage/'+item.id") Detail
+
+
+                                    div.hidden-sm-and-up
+                                        v-card-title.headline.pa-0.mx-3.mt-4 Web
+
+                                        v-flex(xs12)
+                                        v-divider.my-2
+
+                                        //v-card-title
+                                        //    div
+                                        v-container.pa-0(v-bind='{ [`grid-list-lg`]: true }')
+                                            v-layout(wrap)
+                                                v-flex(xs12, v-for="item in items", :key="item.id", v-model='items')
+                                                    v-card(flat='', tile='')
+                                                        v-card-title.title.mb-0 {{item.id}}
+                                                        v-card-media(:src="item.photos", height='300px')
+                                                        v-card-text.pt-3.pb-0 {{ msToDate(item.discovery_date) }}
+                                                        v-card-actions
+                                                            v-spacer
+                                                            //v-btn(flat, color='orange') Share
+                                                            v-btn(flat, color='orange', :href="'/manage/'+item.id") Detail
+                                                    //v-divider
+
+
                                                 //v-card
                                                 //    v-card-media(src='/static/doc-images/cards/desert.jpg', height='200px')
                                                 //    v-card-title(primary-title='')

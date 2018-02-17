@@ -18,15 +18,72 @@ block content
 
                                 v-divider.my-3
 
-                                v-layout(row, wrap)
-                                    v-flex(xs12, sm5)
+                                v-layout(row, wrap, sm12)
+                                    //v-flex(xs12, sm5)
+                                    //    v-card.elevation-4.mb-3(width='100%')
+                                    //        img(:src= "data.photos", width="100%")
+                                    //
+                                    //v-flex.pl-4(xs12, sm7)
+                                    //    v-card-title.headline.pa-0 {{ data.id }}
+
+                                    v-flex(sm2)
+                                        v-subheader.right Image:
+                                    v-flex.pl-4(sm9)
                                         v-card.elevation-4.mb-3(width='100%')
                                             img(:src= "data.photos", width="100%")
 
-                                    v-flex.pl-4(xs12, sm7)
-                                        v-card-title.headline.pa-0 {{ data.id }}
+                                    v-flex(sm2)
+                                        v-subheader.right ID:
+                                    v-flex.pl-4(sm10)
+                                        v-subheader {{data.id}}
 
-                            v-flex(xs12)
+
+                                    v-flex(sm2)
+                                        v-subheader.right Category:
+                                    v-flex.pl-4(sm10)
+                                        v-subheader {{data.category}}
+
+
+                                    v-flex(sm2)
+                                        v-subheader.right 습득일:
+                                    v-flex.pl-4(sm10)
+                                        v-subheader {{msToDate(data.discovery_date)}}
+
+
+                                    v-flex(sm2)
+                                        v-subheader.right 등록일:
+                                    v-flex.pl-4(sm10)
+                                        v-subheader {{data.registered_date}}
+
+
+                                    v-flex(sm2)
+                                        v-subheader.right Brand:
+                                    v-flex.pl-4(sm10)
+                                        v-chip.elevation-0(outline, v-for="brand in data.brand.split(';')", :key="brand", v-model='brand', color="orange darken-2")
+                                            strong.title.mr-1 #
+                                            strong {{ brand }}
+
+                                    //v-layout.mt-2
+
+                                    v-flex(sm2)
+                                        v-subheader.right Tags:
+                                    v-flex.pl-4(sm10)
+                                        v-chip.elevation-0(outline, v-for="tag in data.tags.split(';')", :key="tag", v-model='tag', color="orange darken-2")
+                                            strong.title.mr-1 #
+                                            strong {{ tag }}
+
+                                    //v-layout.mt-2.mb-5
+
+                                    v-flex(sm2)
+                                        v-subheader.right Description:
+                                    v-flex.pl-4(sm10)
+                                        v-chip.elevation-0(outline, v-for="description in data.description.split(';')", :key="description", v-model='description', color="orange darken-2")
+                                            strong.title.mr-1 #
+                                            strong {{ description }}
+
+
+
+                            v-flex.mt-5(xs12)
                                 v-btn.elevation-0(block, color='grey darken-1', dark, onclick="window.history.back();") Back
 
 

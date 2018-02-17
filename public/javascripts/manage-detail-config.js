@@ -74,34 +74,34 @@ function init(init_data) {
         mounted: [
             function () {
                 vue.scrollData.isShowFabTop = true;
-                $(window).scroll(
-                    function (event) {
-
-                        var scroll = $(window).scrollTop();
-
-                        vue.scrollData.scrollT += (scroll - vue.scrollData.offsetTop);
-
-                        if (vue.scrollData.scrollT > vue.scrollData.delta) {
-                            vue.scrollData.isShowFabTop = false;
-                            vue.scrollData.scrollT = 0;
-                        } else if (vue.scrollData.scrollT < -vue.scrollData.delta) {
-                            vue.scrollData.isShowFabTop = true;
-                            vue.scrollData.scrollT = 0;
-                        }
-
-                        vue.scrollData.offsetTop = scroll;
-
-                        if (scroll === 0) {
-                            vue.scrollData.isShowFabTop = true;
-                            vue.scrollData.scrollT = 0;
-                            vue.scrollData.offsetTop = 0;
-                        }
-                        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 200) {
-                            vue.scrollData.isShowFabTop = true;
-                        }
-
-                    }
-                );
+                // $(window).scroll(
+                //     function (event) {
+                //
+                //         var scroll = $(window).scrollTop();
+                //
+                //         vue.scrollData.scrollT += (scroll - vue.scrollData.offsetTop);
+                //
+                //         if (vue.scrollData.scrollT > vue.scrollData.delta) {
+                //             vue.scrollData.isShowFabTop = false;
+                //             vue.scrollData.scrollT = 0;
+                //         } else if (vue.scrollData.scrollT < -vue.scrollData.delta) {
+                //             vue.scrollData.isShowFabTop = true;
+                //             vue.scrollData.scrollT = 0;
+                //         }
+                //
+                //         vue.scrollData.offsetTop = scroll;
+                //
+                //         if (scroll === 0) {
+                //             vue.scrollData.isShowFabTop = true;
+                //             vue.scrollData.scrollT = 0;
+                //             vue.scrollData.offsetTop = 0;
+                //         }
+                //         if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 200) {
+                //             vue.scrollData.isShowFabTop = true;
+                //         }
+                //
+                //     }
+                // );
             },
             function () {
                 var today = new Date();

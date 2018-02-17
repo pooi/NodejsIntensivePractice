@@ -85,26 +85,32 @@ function init() {
 
                         var scroll = $(window).scrollTop();
 
-                        vue.scrollData.scrollT += (scroll - vue.scrollData.offsetTop);
+                        // vue.scrollData.scrollT += (scroll - vue.scrollData.offsetTop);
+                        //
+                        // if (vue.scrollData.scrollT > vue.scrollData.delta) {
+                        //     vue.scrollData.isShowFabTop = false;
+                        //     vue.scrollData.scrollT = 0;
+                        //     // vue.isShowTab = true;
+                        // } else if (vue.scrollData.scrollT < -vue.scrollData.delta) {
+                        //     vue.scrollData.isShowFabTop = true;
+                        //     vue.scrollData.scrollT = 0;
+                        //     // vue.isShowTab = false;
+                        // }
+                        //
+                        // vue.scrollData.offsetTop = scroll;
 
-                        if (vue.scrollData.scrollT > vue.scrollData.delta) {
-                            vue.scrollData.isShowFabTop = false;
-                            vue.scrollData.scrollT = 0;
+                        if(scroll <= 50){
+                            vue.isShowTab = false;
+                        }else{
                             vue.isShowTab = true;
-                        } else if (vue.scrollData.scrollT < -vue.scrollData.delta) {
-                            vue.scrollData.isShowFabTop = true;
-                            vue.scrollData.scrollT = 0;
-                            vue.isShowTab = false;
                         }
 
-                        vue.scrollData.offsetTop = scroll;
-
-                        if (scroll === 0) {
-                            vue.scrollData.isShowFabTop = true;
-                            vue.scrollData.scrollT = 0;
-                            vue.scrollData.offsetTop = 0;
-                            vue.isShowTab = false;
-                        }
+                        // if (scroll === 0) {
+                        //     vue.scrollData.isShowFabTop = true;
+                        //     vue.scrollData.scrollT = 0;
+                        //     vue.scrollData.offsetTop = 0;
+                        //     // vue.isShowTab = false;
+                        // }
                         // if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 50) {
                         //     vue.scrollData.isShowFabTop = true;
                         //     vue.isShowTab = false;
