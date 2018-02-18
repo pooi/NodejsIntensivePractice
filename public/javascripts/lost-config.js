@@ -370,7 +370,7 @@ function init(init_image, init_labels, init_texts, init_logos) {
                     tags: this.listToString(this.labels),
                     description: this.listToString(this.texts),
                     brand: this.listToString(this.logos),
-                    category: 'none'
+                    category: this.category
                 };
 
                 axios.post(

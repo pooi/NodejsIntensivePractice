@@ -5,13 +5,13 @@ v-dialog.md6(v-model='responseDialog', persistent, scrollable, max-width='500px'
         v-card-title.headline(icon)
             v-icon.mr-2(color='success') check_circle
             | Successfully Registered
-        hr.py-0.my-0
+        v-divider.py-0.my-0
         v-card-media(src= image, height='250px')
         v-card-text
             | {{ resSuccessMsg}}
             code.title {{resSuccessCode}}
             //| Let Google help apps determine location. This means sending anonymous location data to Google, even when no apps are running.
-        hr.py-0.my-0
+        v-divider.py-0.my-0
         v-card-actions
             v-spacer
             v-btn(color='green darken-1', flat='flat', href='/lost') Ok
@@ -33,7 +33,7 @@ v-dialog(v-model='loginData.dialog', :persistent='loginData.isProgress', max-wid
         v-card-title(style='background-color: rgb(194,0,47);')
             img(src='/images/logo/sejong_white.svg', style='width: 50%;')
             //span.headline Login
-        hr.py-0.my-0
+        v-divider.py-0.my-0
         //v-progress-linear.my-0(:indeterminate="true", height="2", color='deep-orange darken-3', v-if='loginData.isProgress')
         v-card-text
             v-container(grid-list-md='')
