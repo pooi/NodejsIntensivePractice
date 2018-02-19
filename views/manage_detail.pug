@@ -35,51 +35,60 @@ block content
                                     v-flex(sm2)
                                         v-subheader.right ID:
                                     v-flex.pl-4(sm10)
-                                        v-subheader {{data.id}}
+                                        v-subheader.black--text {{data.id}}
 
 
                                     v-flex(sm2)
                                         v-subheader.right Category:
                                     v-flex.pl-4(sm10)
-                                        v-subheader {{data.category}}
+                                        v-subheader.black--text {{data.category}}
 
 
                                     v-flex(sm2)
                                         v-subheader.right 습득일:
                                     v-flex.pl-4(sm10)
-                                        v-subheader {{msToDate(data.discovery_date)}}
+                                        v-subheader.black--text {{msToDate(data.discovery_date)}}
 
 
                                     v-flex(sm2)
                                         v-subheader.right 등록일:
                                     v-flex.pl-4(sm10)
-                                        v-subheader {{data.registered_date}}
+                                        v-subheader.black--text {{data.registered_date}}
 
 
                                     v-flex(sm2)
                                         v-subheader.right Brand:
                                     v-flex.pl-4(sm10)
-                                        v-chip.elevation-0(outline, v-for="brand in data.brand.split(';')", :key="brand", v-model='brand', color="orange darken-2")
-                                            strong.title.mr-1 #
-                                            strong {{ brand }}
+                                        div(v-if="data.brand.split(';')[0] !== ''")
+                                            v-chip.elevation-0(outline, v-for="brand in data.brand.split(';')", :key="brand", v-model='brand', color="orange darken-2")
+                                                strong.title.mr-1 #
+                                                strong {{ brand }}
+                                        div(v-else)
+                                            v-subheader There are no data.
 
                                     //v-layout.mt-2
 
                                     v-flex(sm2)
                                         v-subheader.right Tags:
                                     v-flex.pl-4(sm10)
-                                        v-chip.elevation-0(outline, v-for="tag in data.tags.split(';')", :key="tag", v-model='tag', color="orange darken-2")
-                                            strong.title.mr-1 #
-                                            strong {{ tag }}
+                                        div(v-if="data.tags.split(';')[0] !== ''")
+                                            v-chip.elevation-0(outline, v-for="tag in data.tags.split(';')", :key="tag", v-model='tag', color="orange darken-2")
+                                                strong.title.mr-1 #
+                                                strong {{ tag }}
+                                        div(v-else)
+                                            v-subheader There are no data.
 
                                     //v-layout.mt-2.mb-5
 
                                     v-flex(sm2)
                                         v-subheader.right Description:
                                     v-flex.pl-4(sm10)
-                                        v-chip.elevation-0(outline, v-for="description in data.description.split(';')", :key="description", v-model='description', color="orange darken-2")
-                                            strong.title.mr-1 #
-                                            strong {{ description }}
+                                        div(v-if="data.description.split(';')[0] !== ''")
+                                            v-chip.elevation-0(outline, v-for="description in data.description.split(';')", :key="description", v-model='description', color="orange darken-2")
+                                                strong.title.mr-1 #
+                                                strong {{ description }}
+                                        div(v-else)
+                                            v-subheader There are no data.
 
 
 
@@ -112,51 +121,60 @@ block content
                                     v-flex(xs3)
                                         v-subheader.right ID:
                                     v-flex.pl-4(xs9)
-                                        v-subheader {{data.id}}
+                                        v-subheader.black--text {{data.id}}
 
 
                                     v-flex(xs3)
                                         v-subheader.right Category:
                                     v-flex.pl-4(xs9)
-                                        v-subheader {{data.category}}
+                                        v-subheader.black--text {{data.category}}
 
 
                                     v-flex(xs3)
                                         v-subheader.right 습득일:
                                     v-flex.pl-4(xs9)
-                                        v-subheader {{msToDate(data.discovery_date)}}
+                                        v-subheader.black--text {{msToDate(data.discovery_date)}}
 
 
                                     v-flex(xs3)
                                         v-subheader.right 등록일:
                                     v-flex.pl-4(xs9)
-                                        v-subheader {{data.registered_date}}
+                                        v-subheader.black--text {{data.registered_date}}
 
 
                                     v-flex(xs3)
                                         v-subheader.right Brand:
                                     v-flex.pl-4(xs9)
-                                        v-chip.elevation-0(outline, v-for="brand in data.brand.split(';')", :key="brand", v-model='brand', color="orange darken-2")
-                                            strong.title.mr-1 #
-                                            strong {{ brand }}
+                                        div(v-if="data.brand.split(';')[0] !== ''")
+                                            v-chip.elevation-0(outline, v-for="brand in data.brand.split(';')", :key="brand", v-model='brand', color="orange darken-2")
+                                                strong.title.mr-1 #
+                                                strong {{ brand }}
+                                        div(v-else)
+                                            v-subheader There are no data.
 
                                     v-layout.mt-2
 
                                         v-flex(xs3)
                                             v-subheader.right Tags:
                                         v-flex.pl-4(xs9)
-                                            v-chip.elevation-0(outline, v-for="tag in data.tags.split(';')", :key="tag", v-model='tag', color="orange darken-2")
-                                                strong.title.mr-1 #
-                                                strong {{ tag }}
+                                            div(v-if="data.tags.split(';')[0] !== ''")
+                                                v-chip.elevation-0(outline, v-for="tag in data.tags.split(';')", :key="tag", v-model='tag', color="orange darken-2")
+                                                    strong.title.mr-1 #
+                                                    strong {{ tag }}
+                                            div(v-else)
+                                                v-subheader There are no data.
 
                                     v-layout.mt-2
 
                                         v-flex(xs3)
                                             v-subheader.right Description:
                                         v-flex.pl-4(xs9)
-                                            v-chip.elevation-0(outline, v-for="description in data.description.split(';')", :key="description", v-model='description', color="orange darken-2")
-                                                strong.title.mr-1 #
-                                                strong {{ description }}
+                                            div(v-if="data.description.split(';')[0] !== ''")
+                                                v-chip.elevation-0(outline, v-for="description in data.description.split(';')", :key="description", v-model='description', color="orange darken-2")
+                                                    strong.title.mr-1 #
+                                                    strong {{ description }}
+                                            div(v-else)
+                                                v-subheader There are no data.
 
 
                             v-flex(xs12)
