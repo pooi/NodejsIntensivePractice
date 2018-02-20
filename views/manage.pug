@@ -11,10 +11,16 @@ block content
                     v-flex(md12='')
                         v-card.elevation-10.my-4
 
-                            v-tabs(fixed-tabs, v-model='currentTab', show-arrows, slider-color='orange darken-3')
-                                v-tab(v-for='item in tabItems', :key='item', :href="'#tab-' + item")
-                                    | {{ item }}
-
+                            div(v-if='currentTab === "tab-Web"')
+                                v-toolbar.pt-2(color="deep-orange darken-3", dark, tabs, flat, dense)
+                                    v-text-field.mx-3(prepend-icon="search", append-icon="mic", label="Search", solo-inverted, flat)
+                                    v-tabs(slot="extension", centered, fixed-tabs, v-model='currentTab', show-arrows, dark, color="transparent", slider-color='white')
+                                        v-tab(v-for='item in tabItems', :key='item', :href="'#tab-' + item")
+                                            | {{ item }}
+                            div(v-else)
+                                v-tabs(fixed-tabs, v-model='currentTab', show-arrows, dark, color="deep-orange darken-3", slider-color='white')
+                                    v-tab(v-for='item in tabItems', :key='item', :href="'#tab-' + item")
+                                        | {{ item }}
 
                             v-divider.my-0
 
@@ -31,6 +37,7 @@ block content
 
                                             v-btn(flat, color='grey', style="height:auto;")
                                                 v-icon.ma-0(left, dark) filter_list
+                                                | 필터
 
                                         v-flex(xs12)
                                             v-divider.my-1.mr-4.ml-4
@@ -56,6 +63,11 @@ block content
                                     // ############# Mobile
                                     div.hidden-sm-and-up
                                         v-card-title.headline.pa-0.mx-3.mt-4 Web
+                                            v-spacer
+
+                                            v-btn(flat, color='grey', style="height:auto;")
+                                                v-icon.ma-0(left, dark) filter_list
+                                                | 필터
 
                                         v-flex(xs12)
                                         v-divider.mt-2.mb-4
