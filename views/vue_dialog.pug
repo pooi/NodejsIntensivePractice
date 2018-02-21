@@ -43,15 +43,26 @@ v-dialog(v-model='loginData.dialog', :persistent='loginData.isProgress', max-wid
                     v-flex(xs12='')
                         v-text-field(label='Password', id='loginPw', type='password', required, :disabled='loginData.isProgress', :append-icon="loginData.isHidePw ? 'visibility' : 'visibility_off'", :append-icon-cb="() => (loginData.isHidePw = !loginData.isHidePw)", :type="loginData.isHidePw ? 'password' : 'text'", v-model="loginData.pw", ref="loginData.pw", :rules="[() => !!loginData.pw || 'This field is required']")
             v-flex(xs12='')
+                small * indicates required field
+            v-flex(xs12='')
                 small Login with portal.sejong.ac.kr
             v-flex(xs12='')
-                small * indicates required field
+                small 최초 로그인 시 비밀번호를 제외한 사용자 정보가 서버에 저장됩니다.
 
-        v-card-actions
-            v-spacer
-            v-btn(color='blue darken-1', flat, @click.native='loginData.dialog = false', :disabled='loginData.isProgress') Close
-            v-btn(color='blue darken-1', flat, type='submit', onclick='loginSejong()', :disabled='loginData.isProgress') Login
+            v-expansion-panel.elevation-0.mt-2(popout)
+                v-expansion-panel-content
+                    small(slot='header') How we handle login
+                    v-card
+                        v-card-text
+                            | Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.
+
         v-progress-linear.my-0(:indeterminate="true", height="3", color='deep-orange darken-3', v-if='loginData.isProgress')
+        v-btn.my-0.white--text(color='deep-orange darken-3', block, type='submit', onclick='loginSejong()', :disabled='loginData.isProgress') Login
+        //v-card-actions
+        //    v-spacer
+        //    v-btn(color='blue darken-1', flat, @click.native='loginData.dialog = false', :disabled='loginData.isProgress') Close
+        //    v-btn(color='blue darken-1', flat, type='submit', onclick='loginSejong()', :disabled='loginData.isProgress') Login
+
 
 v-snackbar(:timeout='4000', :color='loginData.snackColor', v-model='loginData.snackbar', top, right)
     | {{ loginData.snackMsg }}
@@ -74,10 +85,10 @@ v-dialog(v-model='loginData.infoDialog', fullscreen='', transition='dialog-botto
                     v-list-tile-title {{ loginData.user.name }}
 
             //v-divider.my-0.ml-3.mr-0(inset, style='width:100%;')
-            v-list-tile.pl-2(avatar='', v-if='loginData.user.studentId !== null')
+            v-list-tile.pl-2(avatar='', v-if='loginData.user.id !== null')
                 v-list-tile-content
                     v-list-tile-sub-title Student ID
-                    v-list-tile-title {{ loginData.user.studentId }}
+                    v-list-tile-title {{ loginData.user.id }}
 
             //v-divider.my-0.ml-3.mr-0(inset, style='width:100%;')
             v-list-tile.pl-2(avatar='', v-if='loginData.user.major !== null')
@@ -86,10 +97,10 @@ v-dialog(v-model='loginData.infoDialog', fullscreen='', transition='dialog-botto
                     v-list-tile-title {{ loginData.user.major }}
 
             //v-divider.my-0.ml-3.mr-0(inset, style='width:100%;')
-            v-list-tile.pl-2(avatar='', v-if='loginData.user.identity !== null')
+            v-list-tile.pl-2(avatar='', v-if='loginData.user.type !== null')
                 v-list-tile-content
-                    v-list-tile-sub-title Identity
-                    v-list-tile-title {{ loginData.user.identity }}
+                    v-list-tile-sub-title Type
+                    v-list-tile-title {{ loginData.user.type }}
 
             //v-divider.my-0.ml-3.mr-0(inset, style='width:100%;')
             v-list-tile.pl-2(avatar='', v-if='loginData.user.email !== null')
@@ -98,10 +109,10 @@ v-dialog(v-model='loginData.infoDialog', fullscreen='', transition='dialog-botto
                     v-list-tile-title {{ loginData.user.email }}
 
             //v-divider.my-0.ml-3.mr-0(inset, style='width:100%;')
-            v-list-tile.pl-2(avatar='', v-if='loginData.user.phone !== null')
+            v-list-tile.pl-2(avatar='', v-if='loginData.user.contact !== null')
                 v-list-tile-content
-                    v-list-tile-sub-title Phone
-                    v-list-tile-title {{ loginData.user.phone }}
+                    v-list-tile-sub-title Contact
+                    v-list-tile-title {{ loginData.user.contact }}
 
         //v-divider(v-if='loginData.user !== null')
         v-list.mb-5(one-line='', subheader='', v-if='loginData.user !== null')
