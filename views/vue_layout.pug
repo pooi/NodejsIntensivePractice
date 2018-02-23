@@ -20,6 +20,14 @@ html(lang='en')
         //script(src='https://unpkg.com/vuetify/dist/vuetify.js')
         link(href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons', rel='stylesheet')
 
+        script(src='//developers.kakao.com/sdk/js/kakao.min.js')
+
+        script(type='text/javascript').
+            //<![CDATA[
+            // 사용할 앱의 JavaScript 키를 설정해 주세요.
+            Kakao.init('d3e2ef60efcb6f73aad9244a187a0902');
+            //]]>
+
 
     body
         #app

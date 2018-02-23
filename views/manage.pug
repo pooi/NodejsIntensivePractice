@@ -57,7 +57,10 @@ block content
                                                                 v-card-actions
                                                                     v-spacer
                                                                     //v-btn(flat, color='orange') Share
-                                                                    v-btn(flat, color='orange', :href="'/manage/'+item.id") Detail
+                                                                    v-btn(flat, small, slot='activator', color='orange', dark, @click.native="rgtShareItem(item)") Share
+                                                                    v-btn(flat,small, color='orange', :href="'/manage/'+item.id") Detail
+
+
 
 
                                     // ############# Mobile
@@ -92,56 +95,31 @@ block content
                                                         v-card-actions
                                                             v-spacer
                                                             //v-btn(flat, color='orange') Share
-                                                            v-btn(flat, color='orange', :href="'/manage/'+item.id") Detail
+                                                            v-btn(flat, small, slot='activator', color='orange', dark, @click.native="rgtShareItem(item)") Share
+                                                            v-btn(flat, small, color='orange', :href="'/manage/'+item.id") Detail
                                                     //v-divider
 
 
-                                                //v-card
-                                                //    v-card-media(src='/static/doc-images/cards/desert.jpg', height='200px')
-                                                //    v-card-title(primary-title='')
-                                                //        div
-                                                //            h3.headline.mb-0 Kangaroo Valley Safari
-                                                //            div
-                                                //                | Located two hours south of Sydney in the
-                                                //                br
-                                                //                | Southern Highlands of New South Wales, ...
-                                                //    v-card-actions
-                                                //        v-btn(flat='', color='orange') Share
-                                                //        v-btn(flat='', color='orange') Explore
 
-
-
-
-                                    //v-tab-item(v-for='item in tabItems', :key='item', :id="'tab-' + item")
-                                    //    v-card-title.headline.pa-0 {{ item }}
-                                    //
-                                    //    hr
-                                    //
-                                    //    v-card-title
-                                    //        div
-                                    //            v-card
-                                    //                v-card-media(src='/static/doc-images/cards/desert.jpg', height='200px')
-                                    //                v-card-title(primary-title='')
-                                    //                    div
-                                    //                        h3.headline.mb-0 Kangaroo Valley Safari
-                                    //                        div
-                                    //                            | Located two hours south of Sydney in the
-                                    //                            br
-                                    //                            | Southern Highlands of New South Wales, ...
-                                    //                v-card-actions
-                                    //                    v-btn(flat='', color='orange') Share
-                                    //                    v-btn(flat='', color='orange') Explore
-
-
-
+                    v-bottom-sheet(v-model='sheet', inset, max-width='500px')
+                        v-list
+                            v-subheader Share to ...
+                            v-list-tile(v-for='tile in shares', :key='tile', @click='shareTo(tile.title)')
+                                v-list-tile-avatar
+                                    v-avatar(size='32px', tile='')
+                                        img(:src="'/images/' + tile.img")
+                                v-list-tile-title {{ tile.title }}
 
 
 
 
         include vue_footer
-        include vue_menu_fab
+        //include vue_menu_fab
 
     include vue_dialog
+
+
+
 
     script(type="text/javascript" src='/javascripts/manage-config.js')
     script.

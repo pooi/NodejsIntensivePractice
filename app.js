@@ -4,6 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var favicon = require('serve-favicon');
 
 
 var app = express();
@@ -37,6 +38,7 @@ app.use('/scripts', express.static(__dirname + '/node_modules/axios/dist'));
 app.use('/scripts', express.static(__dirname + '/node_modules/jquery/dist'));
 app.use('/scripts', express.static(__dirname + '/node_modules/bootstrap/dist/js'));
 app.use('/styles', express.static(__dirname + '/node_modules/bootstrap/dist/css'));
+app.use(favicon(path.join(__dirname,'public','images', 'logo', 'favicon.ico')));
 
 app.use('/', index);
 app.use('/auth', auth);

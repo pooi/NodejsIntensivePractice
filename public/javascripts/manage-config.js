@@ -23,6 +23,14 @@ function init() {
             ],
             currentTab: 'tab-Web',
             items: [],
+            sheet: false,
+            shares: [
+                { img: 'kakao.png', title: 'Kakao' },
+                { img: 'facebook.png', title: 'Facebook' },
+            ],
+            shareItem: {
+
+            }
         },
         methods: {
             dateToMs: function (date) {
@@ -74,6 +82,48 @@ function init() {
                 }).catch(function (error) {
                     alert(error);
                 });
+            },
+            rgtShareItem: function(item){
+                this.sheet = true;
+                this.shareItem = item;
+                console.log(this.shareItem);
+            },
+            shareTo: function (title) {
+                if(title === "Kakao"){
+
+                    var tags = "";
+                    var tagList = this.shareItem.tags.split(";");
+                    for(var i=0; i<tagList.length; i++){
+                        var tag = tagList[i];
+                        if(tag !== ""){
+                            tags += "#" + tag + " ";
+                        }
+                    }
+
+                    Kakao.Link.sendDefault({
+                        objectType: 'feed',
+                        content: {
+                            title: 'D&L 유실물' + " - " + vue.shareItem.id,
+                            description: tags,
+                            imageUrl: 'https://denl.xyz/' + vue.shareItem.photos,
+                            link: {
+                                mobileWebUrl: 'https://denl.xyz/manage/' + vue.shareItem.id,
+                                webUrl: 'https://denl.xyz/manage/' + vue.shareItem.id
+                            }
+                        },
+                        buttons: [
+                            {
+                                title: '확인하기',
+                                link: {
+                                    mobileWebUrl: 'https://denl.xyz/manage/' + vue.shareItem.id,
+                                    webUrl: 'https://denl.xyz/manage/' + vue.shareItem.id
+                                }
+                            }
+                        ]
+                    });
+                }
+                this.sheet = false;
+
             }
         },
         mounted: [
