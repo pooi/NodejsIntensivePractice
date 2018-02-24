@@ -16,7 +16,6 @@ function init() {
             loginData:{
 
             },
-            date: null,
             isShowTab: false,
             tabItems: [
                 'Web', 'Shopping', 'Videos'
@@ -30,7 +29,37 @@ function init() {
             ],
             shareItem: {
 
-            }
+            },
+            filterDialog: false,
+            categoryDialog: false,
+            category: null,
+            subcategory: null,
+            categories: [
+                '가방', '귀금속'
+            ],
+            subcategories: [],
+            categoryData:{
+                '가방': [
+                    '여성용가방', '남성용가방', '기타가방'
+                ],
+                '귀금속': [
+                    '반지', '목걸이', '시계', '귀걸이'
+                ]
+            },
+            date: null,
+            startDate: null,
+            finishDate: null,
+            dateModal: false,
+            dateModal1: false,
+            dateModal2: false,
+            dateCheckbox: true,
+            rgtDate: null,
+            rgtStartDate: null,
+            rgtFinishDate: null,
+            rgtDateModal: false,
+            rgtDateModal1: false,
+            rgtDateModal2: false,
+            rgtDateCheckbox: true
         },
         methods: {
             dateToMs: function (date) {
@@ -124,7 +153,39 @@ function init() {
                 }
                 this.sheet = false;
 
-            }
+            },
+            changeSubCategories2: function (item) {
+
+                if (vue.categoryData.hasOwnProperty(item)) {
+                    vue.category = item;
+                    vue.subcategory = null;
+                    var list = vue.categoryData[item];
+                    vue.subcategories = list;
+                }
+
+                // console.log('changeSubCategories');
+                // if(!vue.loadingSubCategory) {
+                //     vue.subcategory = null;
+                //     vue.loadingSubCategory = true;
+                //
+                //     setTimeout(function () {
+                //         console.log('timeout');
+                //         if (vue.categoryData.hasOwnProperty(vue.tempCategory)) {
+                //             var list = vue.categoryData[vue.tempCategory];
+                //             vue.subcategories = list;
+                //         }
+                //         vue.loadingSubCategory = false;
+                //         clearTimeout();
+                //     }, 500);
+                // }
+
+                // alert(vue.tempCategory);
+                // if(vue.categoryData.hasOwnProperty(vue.tempCategory)){
+                //     var list = vue.categoryData[vue.tempCategory];
+                //     vue.subcategories = list;
+                // }
+
+            },
         },
         mounted: [
             function () {
@@ -182,7 +243,12 @@ function init() {
                     mm = '0' + mm;
                 }
                 var today = yyyy + "-" + mm + "-" + dd; //dd + '/' + mm + '/' + yyyy;
-                this.date = today;
+                // this.date = today;
+                // this.startDate = today;
+                // this.finishDate = today;
+                // this.rgtDate = today;
+                // this.rgtStartDate = today;
+                // this.rgtFinishDate = today;
             },
             function () {
                 var data = {

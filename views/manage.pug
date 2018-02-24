@@ -35,7 +35,7 @@ block content
                                         v-card-title.headline.pa-0.mx-4.mt-2 Web
                                             v-spacer
 
-                                            v-btn(flat, color='grey', style="height:auto;")
+                                            v-btn(flat, color='grey', style="height:auto;", @click.native="filterDialog = true")
                                                 v-icon.ma-0(left, dark) filter_list
                                                 | 필터
 
@@ -68,7 +68,7 @@ block content
                                         v-card-title.headline.pa-0.mx-3.mt-4 Web
                                             v-spacer
 
-                                            v-btn(flat, color='grey', style="height:auto;")
+                                            v-btn(flat, color='grey', style="height:auto;", @click.native="filterDialog = true")
                                                 v-icon.ma-0(left, dark) filter_list
                                                 | 필터
 
@@ -118,6 +118,123 @@ block content
 
     include vue_dialog
 
+    v-dialog(v-model='filterDialog', max-width='500px')
+        v-card
+            v-card-title
+                span.headline Filter
+            v-divider
+            v-card-text
+                v-container(grid-list-md='')
+                    v-layout(wrap='')
+                        v-flex(sm3, xs12)
+                            .subheading.grey--text 카테고리:
+                        v-flex(sm9, xs12)
+                            v-breadcrumbs.pt-0(v-if="category != null")
+                                v-icon(slot='divider') chevron_right
+                                v-breadcrumbs-item(v-for='item in [category, subcategory]', :key='item')
+                                    | {{ item }}
+                            v-flex(xs12)
+                                v-btn(flat, color='orange darken-2', dark, @click.native='categoryDialog = true') Select Category
+
+                        v-flex(sm3, xs12)
+                            .subheading.grey--text 습득일:
+                        v-flex(sm9, xs12)
+                            //v-date-picker.elevation-10.mb-3.hidden-xs-only(v-model='date', :landscape='true', color="brown darken-1", name='date', full-width)
+                                //v-date-picker.mt-3(full-width landscape v-model='picker', color="green lighten-1")
+                            div(v-if='dateCheckbox')
+                                v-dialog(ref='dialog', persistent, v-model='dateModal', lazy, full-width, width='400px', :return-value.sync='date')
+                                    v-text-field(color="orange darken-2", slot='activator', label='습득일', v-model='date', readonly)
+                                    v-date-picker(v-model='date', scrollable, lazy, full-width, width='400px', color="brown darken-1", name='date')
+                                        v-spacer
+                                        v-btn(flat='', color='error', @click='date = null') Clear
+                                        v-btn(flat='', color='primary', @click='dateModal = false') Cancel
+                                        v-btn(flat='', color='primary', @click='$refs.dialog.save(date)') OK
+                            div(v-else)
+                                v-dialog(ref='dialog1', persistent, v-model='dateModal1', lazy, full-width, width='400px', :return-value.sync='startDate')
+                                    v-text-field(color="orange darken-2", slot='activator', label='시작일', v-model='startDate', readonly)
+                                    v-date-picker(v-model='startDate', scrollable, lazy, full-width, width='400px', color="brown darken-1", name='startDate')
+                                        v-spacer
+                                        v-btn(flat='', color='error', @click='startDate = null') Clear
+                                        v-btn(flat='', color='primary', @click='dateModal1 = false') Cancel
+                                        v-btn(flat='', color='primary', @click='$refs.dialog1.save(startDate)') OK
+                                v-dialog(ref='dialog2', persistent, v-model='dateModal2', lazy, full-width, width='400px', :return-value.sync='finishDate')
+                                    v-text-field(color="orange darken-2", slot='activator', label='종료일', v-model='finishDate', readonly)
+                                    v-date-picker(v-model='finishDate', scrollable, lazy, full-width, width='400px', color="brown darken-1", name='finishDate')
+                                        v-spacer
+                                        v-btn(flat='', color='error', @click='finishDate = null') Clear
+                                        v-btn(flat='', color='primary', @click='dateModal2 = false') Cancel
+                                        v-btn(flat='', color='primary', @click='$refs.dialog2.save(finishDate)') OK
+                            //v-flex(xs12)
+                            v-btn.mb-2(round='', small, color='error', @click='startDate = finishDate = null', v-if='!dateCheckbox') Clear
+                            v-switch(color='orange', label='All-day', hide-details, v-model='dateCheckbox')
+
+
+                        v-flex.my-2(xs12)
+
+                        v-flex(sm3, xs12)
+                            .subheading.grey--text 등록일:
+                        v-flex(sm9, xs12)
+                            //v-date-picker.elevation-10.mb-3.hidden-xs-only(v-model='date', :landscape='true', color="brown darken-1", name='date', full-width)
+                                //v-date-picker.mt-3(full-width landscape v-model='picker', color="green lighten-1")
+                            div(v-if='rgtDateCheckbox')
+                                v-dialog(ref='rgtDialog', persistent, v-model='rgtDateModal', lazy, full-width, width='400px', :return-value.sync='rgtDate')
+                                    v-text-field(color="orange darken-2", slot='activator', label='습득일', v-model='rgtDate', readonly)
+                                    v-date-picker(v-model='rgtDate', scrollable, lazy, full-width, width='400px', color="brown darken-1", name='rgtDate')
+                                        v-spacer
+                                        v-btn(flat='', color='primary', @click='rgtDateModal = false') Cancel
+                                        v-btn(flat='', color='primary', @click='$refs.rgtDialog.save(rgtDate)') OK
+                            div(v-else)
+                                v-dialog(ref='rgtDialog1', persistent, v-model='rgtDateModal1', lazy, full-width, width='400px', :return-value.sync='rgtStartDate')
+                                    v-text-field(color="orange darken-2", slot='activator', label='시작일', v-model='rgtStartDate', readonly)
+                                    v-date-picker(v-model='rgtStartDate', scrollable, lazy, full-width, width='400px', color="brown darken-1", name='rgtStartDate')
+                                        v-spacer
+                                        v-btn(flat='', color='primary', @click='rgtDateModal1 = false') Cancel
+                                        v-btn(flat='', color='primary', @click='$refs.rgtDialog1.save(rgtStartDate)') OK
+                                v-dialog(ref='rgtDialog2', persistent, v-model='rgtDateModal2', lazy, full-width, width='400px', :return-value.sync='rgtFinishDate')
+                                    v-text-field(color="orange darken-2", slot='activator', label='종료일', v-model='rgtFinishDate', readonly)
+                                    v-date-picker(v-model='rgtFinishDate', scrollable, lazy, full-width, width='400px', color="brown darken-1", name='rgtFinishDate')
+                                        v-spacer
+                                        v-btn(flat='', color='primary', @click='rgtDateModal2 = false') Cancel
+                                        v-btn(flat='', color='primary', @click='$refs.rgtDialog2.save(rgtFinishDate)') OK
+                            v-btn.mb-2(round='', small, color='error', @click='rgtStartDate = rgtFinishDate = null', v-if='!rgtDateCheckbox') Clear
+                            v-switch(color='orange', label='All-day', hide-details, v-model='rgtDateCheckbox')
+
+            v-divider
+            v-card-actions
+                v-spacer
+                v-btn(color='blue darken-1', flat='', @click.native='filterDialog = false') Close
+                v-btn(color='blue darken-1', flat='', @click.native='filterDialog = false') Search
+
+    v-dialog(v-model='categoryDialog', max-width='500px')
+        v-card
+            v-card-title.headline Select Category
+            v-divider
+            v-card-text
+                v-layout(wrap)
+                    v-layout.mr-1(xs6)
+                        v-flex(xs12)
+                            v-list(one-line)
+                                v-subheader Category 1
+                                template(v-for='(item, index) in categories')
+                                    v-list-tile(avatar, @click='changeSubCategories2(item)', :key='item', :color="category === item ? 'orange darken-2' : '' ")
+                                        v-list-tile-content
+                                            v-list-tile-title(v-html='item', :class="category === item ? 'title' : '' ")
+                                        v-list-tile-action
+                                            v-icon(:color="category === item ? 'orange darken-2' : 'grey'") keyboard_arrow_right
+                                    //v-divider(v-if='index + 1 < categories.length', :key='index')
+
+                    v-layout.ml-1(xs6)
+                        v-flex(xs12)
+                            v-list(one-line)
+                                v-subheader Category 2
+                                template(v-for='(item, index) in subcategories')
+                                    v-list-tile(avatar, @click='subcategory = item; categoryDialog=false', :key='item', :color="subcategory === item ? 'orange darken-2' : '' ")
+                                        v-list-tile-content
+                                            v-list-tile-title(v-html='item', :class="subcategory === item ? 'title' : '' ")
+            v-divider
+            v-card-actions
+                v-spacer
+                v-btn(color='error', flat='flat', @click.native="categoryDialog = false") Ok
 
 
 

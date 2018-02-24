@@ -133,7 +133,7 @@ block content
                                                 //v-date-picker.mt-3(full-width landscape v-model='picker', color="green lighten-1")
                                             v-dialog.hidden-sm-and-up(ref='dialog', persistent, v-model='modal', lazy, full-width, width='330px', :return-value.sync='date')
                                                 v-text-field(color="orange darken-2", slot='activator', label='습득일', v-model='date', readonly)
-                                                v-date-picker(v-model='date', scrollable, color="brown darken-1", name='date')
+                                                v-date-picker(v-model='date', scrollable, lazy, full-width, width='330px', color="brown darken-1", name='date')
                                                     v-spacer
                                                     v-btn(flat='', color='primary', @click='modal = false') Cancel
                                                     v-btn(flat='', color='primary', @click='$refs.dialog.save(date)') OK
