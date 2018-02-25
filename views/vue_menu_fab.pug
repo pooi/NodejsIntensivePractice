@@ -8,8 +8,8 @@ script.
 
     }
 v-fab-transition
-    v-speed-dial(fixed, hover, v-model='scrollData.fab', left, bottom, :direction='top', :open-on-hover='false', :transition='transition', v-show='scrollData.isShowFabTop', style='z-index: 9999;')
-        v-btn.ma-0.mt-2(slot='activator', color='deep-orange darken-3', dark, fab,  v-model='scrollData.fab')
+    v-speed-dial(fixed, v-model='scrollData.fab', right, bottom, :direction='top', :open-on-hover='false', :transition='slide-y-reverse-transition', v-show='scrollData.isShowFabTop', style='z-index: 9999;')
+        v-btn.ma-0.mt-2.elevation-8(slot='activator', color='deep-orange darken-3', dark, fab,  v-model='scrollData.fab')
             v-icon list
             v-icon close
         v-btn(fab, dark, small, color='green', href='/find')

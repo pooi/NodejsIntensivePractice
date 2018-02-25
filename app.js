@@ -38,7 +38,7 @@ app.use('/scripts', express.static(__dirname + '/node_modules/axios/dist'));
 app.use('/scripts', express.static(__dirname + '/node_modules/jquery/dist'));
 app.use('/scripts', express.static(__dirname + '/node_modules/bootstrap/dist/js'));
 app.use('/styles', express.static(__dirname + '/node_modules/bootstrap/dist/css'));
-app.use(favicon(path.join(__dirname,'public','images', 'logo', 'favicon.ico')));
+app.use(favicon(path.join(__dirname,'public','images', 'logo', 'logo_color.svg')));
 
 app.use('/', index);
 app.use('/auth', auth);

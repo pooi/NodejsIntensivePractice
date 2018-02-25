@@ -31,6 +31,7 @@ function init() {
 
             },
             filterDialog: false,
+            isFilterProgress: false,
             categoryDialog: false,
             category: null,
             subcategory: null,
@@ -63,6 +64,8 @@ function init() {
         },
         methods: {
             dateToMs: function (date) {
+                if(date === null)
+                    return null;
                 var temp = date.split('-');
                 var year = parseInt(temp[0]);
                 var month = parseInt(temp[1]);
@@ -71,6 +74,8 @@ function init() {
                 return k;
             },
             msToDate: function (ms) {
+                if(ms === null)
+                    return null;
                 var date = new Date(ms);
                 var dd = date.getDate();
                 var mm = date.getMonth() + 1; //January is 0!
@@ -186,6 +191,62 @@ function init() {
                 // }
 
             },
+            searchWithFilter: function(){
+
+                var data = {
+                    category: this.category,
+                    subcategory: this.subcategory,
+                    date: this.dateToMs(this.date),
+                    startDate: this.dateToMs(this.startDate),
+                    finishDate: this.dateToMs(this.finishDate),
+                    isAllDayDate: this.dateCheckbox,
+                    rgtDate: this.dateToMs(this.rgtDate),
+                    rgtStartDate: this.dateToMs(this.rgtStartDate),
+                    rgtFinishDate: this.dateToMs(this.rgtFinishDate),
+                    isAllDayRgtDate: this.rgtDateCheckbox
+                };
+
+                isFilterProgress = true;
+
+                axios.post(
+                    '/manage/filter',
+                    data
+                ).then(function (response) {
+                    var res = response;
+                    var data = res.data;
+                    vue.items = [];
+                    vue.items = vue.items.concat(data);
+                    vue.filterDialog = false;
+                    vue.isFilterProgress = false;
+                }).catch(function (error) {
+                    alert(error);
+                    vue.filterDialog = false;
+                    vue.isFilterProgress = false;
+                });
+
+            },
+            clearFilter: function () {
+                this.category= null;
+                this.subcategory= null;
+                this.date= null;
+                this.startDate= null;
+                this.finishDate= null;
+                this.dateModal= false;
+                this.dateModal1= false;
+                this.dateModal2= false;
+                this.dateCheckbox= true;
+                this.rgtDate= null;
+                this.rgtStartDate= null;
+                this.rgtFinishDate= null;
+                this.rgtDateModal= false;
+                this.rgtDateModal1= false;
+                this.rgtDateModal2= false;
+                this.rgtDateCheckbox= true;
+
+                this.filterDialog = false;
+
+                this.searchWithFilter();
+            }
         },
         mounted: [
             function () {

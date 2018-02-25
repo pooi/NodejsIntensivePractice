@@ -43,22 +43,22 @@ block content
                                             v-divider.my-1.mr-4.ml-4
 
                                         v-card-title
-                                            div
-                                                v-container(v-bind='{ [`grid-list-lg`]: true }')
-                                                    v-layout(wrap)
-                                                        v-flex(xs12, sm6, md4, v-for="item in items", :key="item.id", v-model='items')
-                                                            v-card.elevation-2(flat='', tile='')
-                                                                v-card-title.title.mb-0 {{item.id}}
-                                                                v-card-media(:src="item.photos", height='200px')
-                                                                v-card-text.pt-3.pb-0.subheading {{ item.category }}
-                                                                v-card-text.pt-3.pb-0 {{ msToDate(item.discovery_date) }}
-                                                                v-card-text.py-2
-                                                                    span(v-for="tag in item.tags.split(';')").caption.brown--text {{"#" + tag}}&nbsp
-                                                                v-card-actions
-                                                                    v-spacer
-                                                                    //v-btn(flat, color='orange') Share
-                                                                    v-btn(flat, small, slot='activator', color='orange', dark, @click.native="rgtShareItem(item)") Share
-                                                                    v-btn(flat,small, color='orange', :href="'/manage/'+item.id") Detail
+                                            //div
+                                            v-container(v-bind='{ [`grid-list-lg`]: true }')
+                                                v-layout(wrap)
+                                                    v-flex(xs12, sm6, md4, v-for="item in items", :key="item.id", v-model='items')
+                                                        v-card.elevation-2(flat='', tile='')
+                                                            v-card-title.title.mb-0 {{item.id}}
+                                                            v-card-media(:src="item.photos", height='200px')
+                                                            v-card-text.pt-3.pb-0.subheading {{ item.category }}
+                                                            v-card-text.pt-3.pb-0 {{ msToDate(item.discovery_date) }}
+                                                            v-card-text.py-2
+                                                                span(v-for="tag in item.tags.split(';')").caption.brown--text {{"#" + tag}}&nbsp
+                                                            v-card-actions
+                                                                v-spacer
+                                                                //v-btn(flat, color='orange') Share
+                                                                v-btn(flat, small, slot='activator', color='orange', dark, @click.native="rgtShareItem(item)") Share
+                                                                v-btn(flat,small, color='orange', :href="'/manage/'+item.id") Detail
 
 
 
@@ -123,6 +123,7 @@ block content
             v-card-title
                 span.headline Filter
             v-divider
+            v-progress-linear.my-0(:indeterminate="true", height="2", color='deep-orange darken-3', v-show='isFilterProgress')
             v-card-text
                 v-container(grid-list-md='')
                     v-layout(wrap='')
@@ -134,7 +135,9 @@ block content
                                 v-breadcrumbs-item(v-for='item in [category, subcategory]', :key='item')
                                     | {{ item }}
                             v-flex(xs12)
+                                v-btn(flat, color='error', dark, @click.native='category = subcategory = null', v-if="category !== null || subcategory !== null") Clear
                                 v-btn(flat, color='orange darken-2', dark, @click.native='categoryDialog = true') Select Category
+
 
                         v-flex(sm3, xs12)
                             .subheading.grey--text 습득일:
@@ -165,7 +168,7 @@ block content
                                         v-btn(flat='', color='primary', @click='dateModal2 = false') Cancel
                                         v-btn(flat='', color='primary', @click='$refs.dialog2.save(finishDate)') OK
                             //v-flex(xs12)
-                            v-btn.mb-2(round='', small, color='error', @click='startDate = finishDate = null', v-if='!dateCheckbox') Clear
+                            v-btn.mb-2(flat, color='error', @click='startDate = finishDate = null', v-if='!dateCheckbox') Clear
                             v-switch(color='orange', label='All-day', hide-details, v-model='dateCheckbox')
 
 
@@ -196,14 +199,15 @@ block content
                                         v-spacer
                                         v-btn(flat='', color='primary', @click='rgtDateModal2 = false') Cancel
                                         v-btn(flat='', color='primary', @click='$refs.rgtDialog2.save(rgtFinishDate)') OK
-                            v-btn.mb-2(round='', small, color='error', @click='rgtStartDate = rgtFinishDate = null', v-if='!rgtDateCheckbox') Clear
+                            v-btn.mb-2(flat, color='error', @click='rgtStartDate = rgtFinishDate = null', v-if='!rgtDateCheckbox') Clear
                             v-switch(color='orange', label='All-day', hide-details, v-model='rgtDateCheckbox')
 
             v-divider
             v-card-actions
                 v-spacer
+                v-btn(color='error', flat='', @click.native='clearFilter()') Clear
                 v-btn(color='blue darken-1', flat='', @click.native='filterDialog = false') Close
-                v-btn(color='blue darken-1', flat='', @click.native='filterDialog = false') Search
+                v-btn(color='blue darken-1', flat='', @click.native='searchWithFilter()') Search
 
     v-dialog(v-model='categoryDialog', max-width='500px')
         v-card
