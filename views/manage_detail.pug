@@ -92,8 +92,11 @@ block content
 
 
 
-                            v-flex.mt-5(xs12)
-                                v-btn.elevation-0(block, color='grey darken-1', dark, onclick="window.history.back();") Back
+                            v-layout.mt-5.grey.darken-1(xs12)
+                                v-flex(xs6)
+                                    v-btn.elevation-0.my-0(block, color='grey darken-1', dark, onclick="window.history.back();") Back
+                                v-flex(xs6)
+                                    v-btn.elevation-0.my-0(block, color='orange darken-1', dark, @click.native="sheet = true") Share
 
 
                 // ############ Mobile
@@ -177,11 +180,22 @@ block content
                                                 v-subheader There are no data.
 
 
-                            v-flex(xs12)
-                                v-btn.elevation-0(block, color='grey darken-1', dark, onclick="window.history.back();") Back
+                            v-layout.grey.darken-1.mb-4(xs12)
+                                v-flex(xs6)
+                                    v-btn.elevation-0.my-0(block, color='grey darken-1', dark, onclick="window.history.back();") Back
+                                v-flex(xs6)
+                                    v-btn.elevation-0.my-0(block, color='orange darken-1', dark, @click.native="sheet = true") Share
 
 
 
+                v-bottom-sheet(v-model='sheet', inset, max-width='500px')
+                    v-list
+                        v-subheader Share to ...
+                        v-list-tile(v-for='tile in shares', :key='tile', @click='shareTo(tile.title)')
+                            v-list-tile-avatar
+                                v-avatar(size='32px', tile='')
+                                    img(:src="'/images/' + tile.img")
+                            v-list-tile-title {{ tile.title }}
 
         include vue_footer
         include vue_menu_fab
