@@ -99,6 +99,74 @@ block content
                                                             v-btn(flat, small, color='orange', :href="'/manage/'+item.id") Detail
                                                     //v-divider
 
+                                v-tab-item(:id="'tab-Shopping'")
+                                    //div.hidden-xs-only
+                                    v-card-title.headline.pa-0.mx-4.mt-3 Shopping
+
+                                    v-flex(xs12)
+                                        v-divider.my-1.mr-4.ml-4
+
+                                    v-card-title
+                                        v-container(v-bind='{ [`grid-list-lg`]: true }')
+                                            v-layout(wrap)
+                                                v-flex(xs12)
+                                                    .title 1차 조건
+                                                v-flex(xs12)
+                                                    v-divider
+                                                v-flex(sm3, xs12)
+                                                    .subheading.grey--text 카테고리:
+                                                v-flex(sm9, xs12)
+                                                    v-breadcrumbs.pt-0(v-if="category != null")
+                                                        v-icon(slot='divider') chevron_right
+                                                        v-breadcrumbs-item(v-for='item in [category, subcategory]', :key='item')
+                                                            | {{ item }}
+                                                    v-flex(xs12)
+                                                        v-btn(flat, color='error', dark, @click.native='category = subcategory = null', v-if="category !== null || subcategory !== null") Clear
+                                                        v-btn(flat, color='orange darken-2', dark, @click.native='categoryDialog = true') Select Category
+
+
+                                                v-flex(sm3, xs12)
+                                                    .subheading.grey--text 습득일:
+                                                v-flex(sm9, xs12)
+                                                    //v-date-picker.elevation-10.mb-3.hidden-xs-only(v-model='date', :landscape='true', color="brown darken-1", name='date', full-width)
+                                                        //v-date-picker.mt-3(full-width landscape v-model='picker', color="green lighten-1")
+                                                    div(v-if='dateCheckbox')
+                                                        v-dialog(ref='dialog', persistent, v-model='dateModal', lazy, full-width, width='400px', :return-value.sync='date')
+                                                            v-text-field(color="orange darken-2", slot='activator', label='습득일', v-model='date', readonly)
+                                                            v-date-picker(v-model='date', scrollable, lazy, full-width, width='400px', color="brown darken-1", name='date')
+                                                                v-spacer
+                                                                v-btn(flat='', color='error', @click='date = null') Clear
+                                                                v-btn(flat='', color='primary', @click='dateModal = false') Cancel
+                                                                v-btn(flat='', color='primary', @click='$refs.dialog.save(date)') OK
+                                                    div(v-else)
+                                                        v-dialog(ref='dialog1', persistent, v-model='dateModal1', lazy, full-width, width='400px', :return-value.sync='startDate')
+                                                            v-text-field(color="orange darken-2", slot='activator', label='시작일', v-model='startDate', readonly)
+                                                            v-date-picker(v-model='startDate', scrollable, lazy, full-width, width='400px', color="brown darken-1", name='startDate')
+                                                                v-spacer
+                                                                v-btn(flat='', color='error', @click='startDate = null') Clear
+                                                                v-btn(flat='', color='primary', @click='dateModal1 = false') Cancel
+                                                                v-btn(flat='', color='primary', @click='$refs.dialog1.save(startDate)') OK
+                                                        v-dialog(ref='dialog2', persistent, v-model='dateModal2', lazy, full-width, width='400px', :return-value.sync='finishDate')
+                                                            v-text-field(color="orange darken-2", slot='activator', label='종료일', v-model='finishDate', readonly)
+                                                            v-date-picker(v-model='finishDate', scrollable, lazy, full-width, width='400px', color="brown darken-1", name='finishDate')
+                                                                v-spacer
+                                                                v-btn(flat='', color='error', @click='finishDate = null') Clear
+                                                                v-btn(flat='', color='primary', @click='dateModal2 = false') Cancel
+                                                                v-btn(flat='', color='primary', @click='$refs.dialog2.save(finishDate)') OK
+                                                    //v-flex(xs12)
+                                                    v-btn.mb-2(flat, color='error', @click='startDate = finishDate = null', v-if='!dateCheckbox') Clear
+                                                    v-switch(color='orange', label='All-day', hide-details, v-model='dateCheckbox')
+
+                                                v-flex(xs12)
+                                                    .title 2차 조건
+                                                v-flex(xs12)
+                                                    v-divider
+
+                                                v-flex(xs12)
+                                                    v-card-actions.right
+                                                        v-btn(color="error", flat) Reset
+                                                        v-btn(color="orange darken-2", flat) Search
+
 
 
                     v-bottom-sheet(v-model='sheet', inset, max-width='500px')
