@@ -130,42 +130,77 @@ block content
                                                 v-flex(sm9, xs12)
                                                     //v-date-picker.elevation-10.mb-3.hidden-xs-only(v-model='date', :landscape='true', color="brown darken-1", name='date', full-width)
                                                         //v-date-picker.mt-3(full-width landscape v-model='picker', color="green lighten-1")
-                                                    div(v-if='dateCheckbox')
-                                                        v-dialog(ref='dialog', persistent, v-model='dateModal', lazy, full-width, width='400px', :return-value.sync='date')
-                                                            v-text-field(color="orange darken-2", slot='activator', label='습득일', v-model='date', readonly)
-                                                            v-date-picker(v-model='date', scrollable, lazy, full-width, width='400px', color="brown darken-1", name='date')
+                                                    div(v-if='dateCheckbox_2')
+                                                        v-dialog(ref='dialog_2', persistent, v-model='dateModal_2', lazy, full-width, width='400px', :return-value.sync='date_2')
+                                                            v-text-field(color="orange darken-2", slot='activator', label='습득일', v-model='date_2', readonly)
+                                                            v-date-picker(v-model='date_2', scrollable, lazy, full-width, width='400px', color="brown darken-1", name='date')
                                                                 v-spacer
-                                                                v-btn(flat='', color='error', @click='date = null') Clear
-                                                                v-btn(flat='', color='primary', @click='dateModal = false') Cancel
-                                                                v-btn(flat='', color='primary', @click='$refs.dialog.save(date)') OK
+                                                                v-btn(flat='', color='error', @click='date_2 = null') Clear
+                                                                v-btn(flat='', color='primary', @click='dateModal_2 = false') Cancel
+                                                                v-btn(flat='', color='primary', @click='$refs.dialog_2.save(date_2)') OK
                                                     div(v-else)
-                                                        v-dialog(ref='dialog1', persistent, v-model='dateModal1', lazy, full-width, width='400px', :return-value.sync='startDate')
-                                                            v-text-field(color="orange darken-2", slot='activator', label='시작일', v-model='startDate', readonly)
-                                                            v-date-picker(v-model='startDate', scrollable, lazy, full-width, width='400px', color="brown darken-1", name='startDate')
+                                                        v-dialog(ref='dialog1_2', persistent, v-model='dateModal1_2', lazy, full-width, width='400px', :return-value.sync='startDate_2')
+                                                            v-text-field(color="orange darken-2", slot='activator', label='시작일', v-model='startDate_2', readonly)
+                                                            v-date-picker(v-model='startDate_2', scrollable, lazy, full-width, width='400px', color="brown darken-1", name='startDate_2')
                                                                 v-spacer
-                                                                v-btn(flat='', color='error', @click='startDate = null') Clear
-                                                                v-btn(flat='', color='primary', @click='dateModal1 = false') Cancel
-                                                                v-btn(flat='', color='primary', @click='$refs.dialog1.save(startDate)') OK
-                                                        v-dialog(ref='dialog2', persistent, v-model='dateModal2', lazy, full-width, width='400px', :return-value.sync='finishDate')
-                                                            v-text-field(color="orange darken-2", slot='activator', label='종료일', v-model='finishDate', readonly)
-                                                            v-date-picker(v-model='finishDate', scrollable, lazy, full-width, width='400px', color="brown darken-1", name='finishDate')
+                                                                v-btn(flat='', color='error', @click='startDate_2 = null') Clear
+                                                                v-btn(flat='', color='primary', @click='dateModal1_2 = false') Cancel
+                                                                v-btn(flat='', color='primary', @click='$refs.dialog1_2.save(startDate_2)') OK
+                                                        v-dialog(ref='dialog2_2', persistent, v-model='dateModal2_2', lazy, full-width, width='400px', :return-value.sync='finishDate_2')
+                                                            v-text-field(color="orange darken-2", slot='activator', label='종료일', v-model='finishDate_2', readonly)
+                                                            v-date-picker(v-model='finishDate_2', scrollable, lazy, full-width, width='400px', color="brown darken-1", name='finishDate_2')
                                                                 v-spacer
-                                                                v-btn(flat='', color='error', @click='finishDate = null') Clear
-                                                                v-btn(flat='', color='primary', @click='dateModal2 = false') Cancel
-                                                                v-btn(flat='', color='primary', @click='$refs.dialog2.save(finishDate)') OK
+                                                                v-btn(flat='', color='error', @click='finishDate_2 = null') Clear
+                                                                v-btn(flat='', color='primary', @click='dateModal2_2 = false') Cancel
+                                                                v-btn(flat='', color='primary', @click='$refs.dialog2_2.save(finishDate_2)') OK
                                                     //v-flex(xs12)
-                                                    v-btn.mb-2(flat, color='error', @click='startDate = finishDate = null', v-if='!dateCheckbox') Clear
-                                                    v-switch(color='orange', label='All-day', hide-details, v-model='dateCheckbox')
+                                                    v-btn.mb-2(flat, color='error', @click='startDate_2 = finishDate_2 = null', v-if='!dateCheckbox_2') Clear
+                                                    v-switch(color='orange', label='All-day', hide-details, v-model='dateCheckbox_2')
 
                                                 v-flex(xs12)
                                                     .title 2차 조건
                                                 v-flex(xs12)
                                                     v-divider
 
+                                                v-layout
+                                                    v-flex.hidden-xs-only(sm2)
+                                                        v-subheader Tags:
+                                                    v-flex(sm10, xs12)
+                                                        v-select(color="orange darken-2", label='Tags', chips='', tags='', clearable='', v-model='tags' )
+                                                            template(slot='selection', slot-scope='data')
+                                                                v-chip.elevation-2(close='', @input='removeLabel(data.item)', :selected='data.selected', color="orange darken-2", text-color="white")
+                                                                    strong.title.mr-1 #
+                                                                    strong {{ data.item }}
+
                                                 v-flex(xs12)
                                                     v-card-actions.right
-                                                        v-btn(color="error", flat) Reset
-                                                        v-btn(color="orange darken-2", flat) Search
+                                                        v-btn(color="error", flat, @click.native="clearSearchForm()") Reset
+                                                        v-btn(color="orange darken-2", flat, @click.native="searchWithConditions()") Search
+
+
+                                    v-flex(xs12)
+                                        v-divider.my-1
+
+                                    v-card-title(v-if="searchItems.length > 0")
+                                        //div
+                                        v-container(v-bind='{ [`grid-list-lg`]: true }')
+                                            v-layout(wrap)
+                                                v-flex(xs12, sm6, md4, v-for="item in searchItems", :key="item.id", v-model='searchItems')
+                                                    v-card.elevation-2(flat='', tile='')
+                                                        v-card-title.title.mb-0 {{item.id}}
+                                                        v-card-media(:src="item.photos", height='200px')
+                                                        v-card-text.pt-3.pb-0.subheading {{ item.category }}
+                                                        v-card-text.pt-3.pb-0 {{ msToDate(item.discovery_date) }}
+                                                        v-card-text.py-2
+                                                            span(v-for="tag in item.tags.split(';')").caption.brown--text {{"#" + tag}}&nbsp
+                                                        v-card-actions
+                                                            v-spacer
+                                                            //v-btn(flat, color='orange') Share
+                                                            v-btn(flat, small, slot='activator', color='orange', dark, @click.native="rgtShareItem(item)") Share
+                                                            v-btn(flat,small, color='orange', :href="'/manage/'+item.id") Detail
+
+                                    v-card-text.text-xs-center(v-else)
+                                        | There are no data.
 
 
 

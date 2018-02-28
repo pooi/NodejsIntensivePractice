@@ -60,7 +60,17 @@ function init() {
             rgtDateModal: false,
             rgtDateModal1: false,
             rgtDateModal2: false,
-            rgtDateCheckbox: true
+            rgtDateCheckbox: true,
+
+            tags: [],
+            date_2: null,
+            startDate_2: null,
+            finishDate_2: null,
+            dateModal_2: false,
+            dateModal1_2: false,
+            dateModal2_2: false,
+            dateCheckbox_2: true,
+            searchItems: []
         },
         methods: {
             dateToMs: function (date) {
@@ -246,7 +256,53 @@ function init() {
                 this.filterDialog = false;
 
                 this.searchWithFilter();
-            }
+            },
+            searchWithConditions: function(){
+
+                var data = {
+                    // category: this.category,
+                    // subcategory: this.subcategory,
+                    date: this.dateToMs(this.date_2),
+                    startDate: this.dateToMs(this.startDate_2),
+                    finishDate: this.dateToMs(this.finishDate_2),
+                    isAllDayDate: this.dateCheckbox_2,
+                    tags: this.tags
+                };
+
+                // isFilterProgress = true;
+
+                axios.post(
+                    '/manage/search',
+                    data
+                ).then(function (response) {
+                    var res = response;
+                    var data = res.data;
+                    vue.searchItems = [];
+                    vue.searchItems = vue.searchItems.concat(data);
+                    // vue.filterDialog = false;
+                    // vue.isFilterProgress = false;
+                }).catch(function (error) {
+                    alert(error);
+                    // vue.filterDialog = false;
+                    // vue.isFilterProgress = false;
+                });
+
+            },
+            clearSearchForm: function(){
+                this.tags= [];
+                this.date_2= null;
+                this.startDate_2= null;
+                this.finishDate_2= null;
+                this.dateModal_2= false;
+                this.dateModal1_2= false;
+                this.dateModal2_2= false;
+                this.dateCheckbox_2= true;
+                this.searchItems= [];
+            },
+            removeLabel: function (item) {
+                this.labels.splice(this.labels.indexOf(item), 1)
+                this.labels = [this.labels]
+            },
         },
         mounted: [
             function () {
