@@ -221,6 +221,10 @@ block content
 
     include vue_dialog
 
+    v-snackbar(timeout='2000', top, v-model='searchSnackbar')
+        | {{ searchItems.length }}개의 검색결과가 있습니다.
+        v-btn(flat='', color='pink', @click.native='searchSnackbar = false') Close
+
     v-dialog(v-model='filterDialog', max-width='500px')
         v-card
             v-card-title

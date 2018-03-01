@@ -2,6 +2,10 @@ var express = require('express');
 var conn = require('../config/db')();
 var router = express.Router();
 
+String.prototype.trim = function() {
+    return this.replace(/(^\s*)|(\s*$)/gi, "");
+}
+
 router.get('/', function (req, res, next) {
     res.render('manage', {userData: JSON.stringify(req.session.userData)});
 
@@ -111,6 +115,24 @@ router.post('/search', function(req, res){
             params.push(data.finishDate);
         }
     }
+
+    var tagCond = "";
+    var tags = req.body.tags;
+    for(var i=0; i<tags.length; i++){
+        var tag = tags[i];
+        tag = tag.trim();
+        tagCond += " tags LIKE ? OR description LIKE ?";
+        params.push("%" + tag + "%");
+        params.push("%" + tag + "%");
+        if(i+1 < tags.length){
+            tagCond += " OR ";
+        }
+    }
+    if(tagCond.length > 0){
+        tagCond = " (" + tagCond + ")";
+        conditions.push(tagCond);
+    }
+
 
     if(conditions.length > 0){
         sql += " WHERE";

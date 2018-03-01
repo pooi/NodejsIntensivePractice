@@ -70,7 +70,8 @@ function init() {
             dateModal1_2: false,
             dateModal2_2: false,
             dateCheckbox_2: true,
-            searchItems: []
+            searchItems: [],
+            searchSnackbar : false
         },
         methods: {
             dateToMs: function (date) {
@@ -258,7 +259,7 @@ function init() {
                 this.searchWithFilter();
             },
             searchWithConditions: function(){
-
+                vue.searchSnackbar = false;
                 var data = {
                     // category: this.category,
                     // subcategory: this.subcategory,
@@ -268,6 +269,7 @@ function init() {
                     isAllDayDate: this.dateCheckbox_2,
                     tags: this.tags
                 };
+                console.log("tags: ", this.tags);
 
                 // isFilterProgress = true;
 
@@ -279,6 +281,7 @@ function init() {
                     var data = res.data;
                     vue.searchItems = [];
                     vue.searchItems = vue.searchItems.concat(data);
+                    vue.searchSnackbar = true;
                     // vue.filterDialog = false;
                     // vue.isFilterProgress = false;
                 }).catch(function (error) {
@@ -300,8 +303,7 @@ function init() {
                 this.searchItems= [];
             },
             removeLabel: function (item) {
-                this.labels.splice(this.labels.indexOf(item), 1)
-                this.labels = [this.labels]
+                this.tags.splice(this.tags.indexOf(item), 1);
             },
         },
         mounted: [
@@ -383,7 +385,21 @@ function init() {
                     alert(error);
                 });
             }
-        ]
+        ],
+        watch: {
+            tags () {
+                vue.searchWithConditions();
+            },
+            date_2 () {
+                vue.searchWithConditions();
+            },
+            startDate_2 (){
+                vue.searchWithConditions();
+            },
+            finishDate_2 () {
+                vue.searchWithConditions();
+            }
+        }
     });
     return vue;
 }
