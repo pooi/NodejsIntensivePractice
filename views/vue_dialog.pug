@@ -64,7 +64,11 @@ v-dialog(v-model='loginData.dialog', :persistent='loginData.isProgress', max-wid
         //    v-btn(color='blue darken-1', flat, type='submit', onclick='loginSejong()', :disabled='loginData.isProgress') Login
 
 
-v-snackbar(:timeout='4000', :color='loginData.snackColor', v-model='loginData.snackbar', top, right)
+v-snackbar.hidden-xs-only(:timeout='4000', :color='loginData.snackColor', v-model='loginData.snackbar', top, right)
+    | {{ loginData.snackMsg }}
+    v-btn(dark='', flat='', @click.native='loginData.snackbar = false') Close
+
+v-snackbar.hidden-sm-and-up(:timeout='4000', :color='loginData.snackColor', v-model='loginData.snackbar', bottom)
     | {{ loginData.snackMsg }}
     v-btn(dark='', flat='', @click.native='loginData.snackbar = false') Close
 
