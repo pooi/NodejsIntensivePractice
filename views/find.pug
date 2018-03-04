@@ -5,15 +5,17 @@ block content
 
     div(style="margin-top: 48px;")
         v-app
-            v-content.brown.lighten-5
+            v-content.grey.lighten-5
                 v-container(v-bind='{ [`grid-list-lg`]: true }')
                     v-layout(wrap)
                         v-flex(xs12, sm6, md4, v-for="item in items", :key="item.id", v-model='items')
-                            v-card.elevation-2(flat='', tile='')
+                            //v-card.ma-2.dal-card(flat='', tile='')
+                            v-card.ma-2.dal-card(hover, raised, nuxt, href="/")
                                 v-card-media(:src="item.mainImage", height='200px')
-                                v-card-title.headline.mb-0 {{item.title}}
-                                v-card-text {{item.sContents}}
-                                v-card-actions
+                                v-card-title.headline.mb-0.blue-grey--text.text--darken-3 {{item.title}}
+                                v-card-text.grey--text.text--darken-2.pt-0 {{item.sContents}}
+                                //v-divider
+                                v-card-actions.py-1
                                     v-spacer
                                     v-btn(flat, color='orange') Share
                                     v-btn(flat, color='orange') Detail
