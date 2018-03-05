@@ -6,11 +6,11 @@ block content
     div(style="margin-top: 48px;")
         v-app
             v-content.grey.lighten-5
-                v-container(v-bind='{ [`grid-list-lg`]: true }')
-                    v-layout(wrap)
-                        v-flex(xs12, sm6, md4, v-for="item in items", :key="item.id", v-model='items')
+                v-container(grid-list-xs)
+                    v-layout.brick-container(wrap)
+                        v-flex.brick-flex(xs12, sm6, md4, v-for="item in items", :key="item.id", v-model='items', flexbox, style="height: fit-content;")
                             //v-card.ma-2.dal-card(flat='', tile='')
-                            v-card.ma-2.dal-card(hover, raised, nuxt, href="/")
+                            v-card.ma-2.dal-card.brick-card(hover, raised, id="brick-card")
                                 v-card-media(:src="item.mainImage", height='200px')
                                 v-card-title.headline.mb-0.blue-grey--text.text--darken-3 {{item.title}}
                                 v-card-text.grey--text.text--darken-2.pt-0 {{item.sContents}}
@@ -39,10 +39,9 @@ block content
 
     include vue_dialog
 
-
     script.
         var vue = new Vue({
-            el: '#app',
+            el: '#app'
             data: {
                 title: 'D&L',
                 scrollData: {
@@ -127,9 +126,88 @@ block content
                         }else{
                             vue.isBtnLoadMore = false;
                         }
+                        vue.gridpack();
                     }).catch(function (error) {
                         alert(error);
                     });
+                },
+                gridpack: function () {
+                    // setTimeout(function () {
+                    //     // return;
+                    //     // var container = document.querySelector('.brick-container')
+                    //     var brickFlexs = document.getElementsByClassName('brick-flex');
+                    //     var brickCards = document.getElementsByClassName('brick-card');
+                    //     console.log("brickCards: ", brickCards);
+                    //     var breakpoint = vue.__proto__.$vuetify.breakpoint;
+                    //     var size = 1;
+                    //     if(breakpoint.lg)
+                    //         size = 3;
+                    //     else if(breakpoint.md)
+                    //         size = 3;
+                    //     else if(breakpoint.sm)
+                    //         size = 2;
+                    //
+                    //     var offsetList = [];
+                    //
+                    //
+                    //     for(var i=1; i<brickCards.length/size; i++){
+                    //         for (var j = 0; j < size; j++) {
+                    //             var preCard = brickCards[(i-1)*size + j];
+                    //             var preRect = preCard.getBoundingClientRect();
+                    //             // console.log("preRect: ", preRect);
+                    //             var card = brickCards[i*size + j];
+                    //             var rect = card.getBoundingClientRect();
+                    //             // console.log("rect: ", rect);
+                    //
+                    //             var bPos = preRect.top + preRect.height + 20;
+                    //             var offset = bPos - rect.top;
+                    //             card.style.top = offset + 'px';
+                    //             offsetList.push(offset);
+                    //         }
+                    //     }
+                    //
+                    //     // for(var i=size; i<offsetList.length+size; i++){
+                    //     //     var offset = offsetList[i-size];
+                    //     //     var card = brickCards[i];
+                    //     //     card.style.setProperty( 'margin-top', offset.toString() + "px", 'important' );
+                    //     // }
+                    //
+                    //     // for(var i=0; i<brickFlexs.length; i+=size){
+                    //     //     var max = 0;
+                    //     //
+                    //     //     for (var j = 0; j < size; j++) {
+                    //     //         if(i-1 < 0)
+                    //     //             break;
+                    //     //
+                    //     //         var preCard = brickFlexs[()]
+                    //     //         var card = brickFlexs[i+j];
+                    //     //     }
+                    //     //
+                    //     //     for (var j = 0; j < size; j++) {
+                    //     //         var flex = brickFlexs[i + j];
+                    //     //         // flex.style.marginTop = offsetList[j].toString() + "px";
+                    //     //         var rect = flex.getBoundingClientRect();
+                    //     //         console.log("rect: ", rect);
+                    //     //         // var card = brickFlexs[i + j].firstChild;
+                    //     //         // card.style.setProperty( 'margin-top', offsetList[j].toString() + "px", 'important' );
+                    //     //     }
+                    //     //
+                    //     //     // for(var j=0; j<size; j++){
+                    //     //     //     var card = brickFlexs[i+j].firstChild;
+                    //     //     //     if(card.clientHeight > max)
+                    //     //     //         max = card.clientHeight;
+                    //     //     // }
+                    //     //     //
+                    //     //     // for(var j=0; j<size; j++){
+                    //     //     //     var card = brickFlexs[i + j].firstChild;
+                    //     //     //     var offset = card.clientHeight - max;
+                    //     //     //     offsetList[j] += offset;
+                    //     //     // }
+                    //     // }
+                    //     // console.log("brickCards: ", brickCards);
+                    //     // console.log(vue.__proto__.$vuetify.breakpoint);
+                    // }, 500);
+
                 }
             },
             mounted: [
@@ -141,6 +219,8 @@ block content
                     tagsJSON = tagsJSON.replace(/\n/g, "\\\\n").replace(/\r/g, "\\\\r").replace(/\t/g, "\\\\t");
                     var json = JSON.parse(tagsJSON);
                     this.items = json;
+
+                    this.gridpack();
                 },
                 function () {
                     $(window).scroll(
@@ -180,4 +260,5 @@ block content
                 }
             ]
         });
+        console.log(vue);
 
