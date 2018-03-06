@@ -6,7 +6,7 @@ var _storage = multer.diskStorage({
         cb(null, 'uploads/')
     },
     filename: function (req, file, cb) {
-        cb(null, Date.now() + makeRandomString(10));
+        cb(null, Date.now() + makeRandomString(10) + getExt(file));
         // console.log(file);
     }
 });
@@ -24,6 +24,19 @@ var jsonfile = __dirname + '/../config/NodePractice-2f88e00ddb65.json';
 
 //Initialize the api
 vision.init(jsonfile);
+
+function getExt(file){
+    var ext = ".jpg";
+    var mimetype = file.mimetype.toString();
+    if(mimetype.search("png") > 0){
+        ext = ".png";
+    }else if(mimetype.search("jpg") > 0 || mimetype.search("jpeg") > 0){
+        ext = ".jpg";
+    }else if(mimetype.search("gif") > 0){
+        ext = ".jpg";
+    }
+    return ext;
+}
 
 function makeRandomString(len) {
     if(len <= 0)
